@@ -28,3 +28,7 @@ jobs:
         run: python .github/scripts/generate_sgmodule.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Move surge folder
+        run: mv surge $GITHUB_WORKSPACE/surge
+
