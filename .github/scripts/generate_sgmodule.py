@@ -2,6 +2,10 @@ import os
 import re
 from github import Github
 
+def insert_append(content):
+    # Insert %APPEND% after the first '=' sign
+    return re.sub(r'=', '= %APPEND%', content, count=1)
+
 def js_to_sgmodule(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
@@ -19,7 +23,7 @@ def js_to_sgmodule(js_content):
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
     # Insert %APPEND% into mitm and hostname content
-    mitm_content_with_append = f"{mitm_content}"
+    mitm_content_with_append = insert_append(mitm_content)
 
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
