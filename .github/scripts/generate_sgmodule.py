@@ -53,7 +53,7 @@ def js_to_sgmodule(js_content):
     # Process each script type
     for script_type in script_types:
         # Extract pattern and script type from rewrite_local_content
-        pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', script_type, re.MULTILINE)
+        pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', script_type, re.MULTILINE)
         if not pattern_script_match:
             raise ValueError(f"Invalid script type format: {script_type}")
 
