@@ -19,8 +19,7 @@ def js_to_sgmodule(js_content):
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
     # Insert %APPEND% into mitm and hostname content
-    mitm_content_with_append = f"{mitm_content} %APPEND%"
-    hostname_content_with_append = f"{hostname_content} %APPEND%"
+    mitm_content_with_append = f"%APPEND% {mitm_content}"
 
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
@@ -31,9 +30,6 @@ def js_to_sgmodule(js_content):
 
 [MITM]
 {mitm_content_with_append}
-
-[Hostname]
-{hostname_content_with_append}
 """
 
     return sgmodule_content
