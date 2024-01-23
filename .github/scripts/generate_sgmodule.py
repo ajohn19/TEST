@@ -12,7 +12,7 @@ def js_to_sgmodule(js_content):
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
     rewrite_match = re.search(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
-    hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
+    hostname_match = re.search(r'hostname\s*=\s*([^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     
     if not (name_match and desc_match and mitm_match):
         raise ValueError("Invalid JS file format")
