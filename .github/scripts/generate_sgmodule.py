@@ -31,35 +31,23 @@ hostname= %APPEND% {mitm_hostname}
     return sgmodule_content
 
 def main():
-    # Replace with your GitHub repository details
-    repo_owner = "ajohn19"
-    repo_name = "TEST"
-
-    # Replace with your GitHub personal access token
-    github_token = "sgmoduleToken"
-
-    # Connect to GitHub repository
-    g = Github(github_token)
-    repo = g.get_user(repo_owner).get_repo(repo_name)
-
-    # Create 'surge' folder if it doesn't exist
-    surge_folder = "surge"
-    if not os.path.exists(surge_folder):
-        os.makedirs(surge_folder)
-
     # Process each file in the 'qx' folder
-    qx_folder_contents = repo.get_contents("qx")
-    for file in qx_folder_contents:
-        if file.type == "file" and file.name.endswith(".js"):
-            js_content = file.decoded_content.decode("utf-8")
-            sgmodule_content = js_to_sgmodule(js_content)
+    qx_folder_path = '.github/scripts/qx'
+    for file_name in os.listdir(qx_folder_path):
+        if file_name.endswith(".js"):
+            file_path = os.path.join(qx_folder_path, file_name)
+            with open(file_path, 'r', encoding='utf-8') as js_file:
+                js_content = js_file.read()
+                sgmodule_content = js_to_sgmodule(js_content)
 
-            # Write sgmodule content to surge folder
-            sgmodule_file_path = os.path.join(surge_folder, f"{file.name.split('.')[0]}.sgmodule")
-            with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
-                sgmodule_file.write(sgmodule_content)
+                # Write sgmodule content to surge folder
+                surge_folder_path = '.github/scripts/surge'
+                os.makedirs(surge_folder_path, exist_ok=True)
+                sgmodule_file_path = os.path.join(surge_folder_path, f"{file_name.split('.')[0]}.sgmodule")
+                with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
+                    sgmodule_file.write(sgmodule_content)
 
-            print(f"Generated {sgmodule_file_path}")
+                print(f"Generated {sgmodule_file_path}")
 
 if __name__ == "__main__":
     main()
