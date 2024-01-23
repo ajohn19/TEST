@@ -5,6 +5,23 @@ def insert_append(content):
     # Insert %APPEND% after the first '=' sign
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
+def determine_script_type(url):
+    # Determine the script type based on the URL
+    if 'response-body' in url:
+        return 'http-response'
+    elif 'request-body' in url:
+        return 'http-request'
+    elif 'response-header' in url:
+        return 'http-response-header'
+    elif 'request-header' in url:
+        return 'http-request-header'
+    elif 'echo-response' in url:
+        return 'http-echo-response'
+    elif 'analyze-echo-response' in url:
+        return 'http-analyze-echo-response'
+    else:
+        raise ValueError("Invalid script type")
+
 def js_to_sgmodule(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
