@@ -1,0 +1,38 @@
+#!name=
+
+let obj = JSON.parse($response.body);
+    
+   
+    obj.data.expire_time = "2099-12-06T00:56:04+0000";  
+
+    obj.data.pro = true;  
+
+    $done({
+        body: JSON
+#!desc=Generated from 
+
+let obj = JSON.parse($response.body);
+    
+   
+    obj.data.expire_time = "2099-12-06T00:56:04+0000";  
+
+    obj.data.pro = true;  
+
+    $done({
+        body: JSON
+
+[Script]
+
+
+let obj = JSON.parse($response.body);
+    
+   
+    obj.data.expire_time = "2099-12-06T00:56:04+0000";  
+
+    obj.data.pro = true;  
+
+    $done({
+        body: JSON = type=http-response-body,pattern=https://translator.felo.me/api/plan/current,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/czy13724/TEST/main/javascript/felotranslator.js
+
+[MITM]
+hostname = %APPEND% translator.felo.me
