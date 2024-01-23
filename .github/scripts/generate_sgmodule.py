@@ -17,14 +17,6 @@ def js_to_sgmodule(js_content):
     rewrite_local_content = rewrite_match.group(1).strip()
     mitm_hostname = rewrite_match.group(2).strip()
 
-    # Extract pattern and script from rewrite_local_content
-    pattern_script_match = re.search(r'^(.*?)\s*url\s+script-response-body\s+(.*)$', rewrite_local_content, re.MULTILINE)
-    if not pattern_script_match:
-        raise ValueError("Invalid rewrite_local format")
-
-    pattern = pattern_script_match.group(1).strip()
-    script = pattern_script_match.group(2).strip()
-
     # Add %APPEND% to the hostname
     mitm_hostname_appended = f"%APPEND% {mitm_hostname}"
 
@@ -36,7 +28,7 @@ def js_to_sgmodule(js_content):
     {project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/{project_name}.js
 
     [MITM]
-    hostname={mitm_hostname_appended}
+    hostname= {mitm_hostname_appended}
     """
 
     return sgmodule_content
