@@ -1,8 +1,8 @@
 #!name=felotranslator
 #!desc=Generated from felotranslator
 
-[Script]
-felotranslator = type=http-response,pattern=https://translator.felo.me/api/plan/current,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/czy13724/TEST/main/javascript/felotranslator.js
-
 [MITM]
 hostname = %APPEND% translator.felo.me
+
+[Script]
+felotranslator = type=http-response,pattern=https://translator.felo.me/api/plan/current,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/czy13724/TEST/main/javascript/felotranslator.js
