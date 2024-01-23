@@ -26,7 +26,7 @@ def js_to_sgmodule(js_content):
     script = pattern_script_match.group(2).strip()
 
     # Extract hostname content
-    hostname_match = re.search(r'hostname\s*=\s*(.*?)\s*', mitm_hostname)
+    hostname_match = re.search(r'hostname\s*=\s*(\S+)', mitm_hostname)
     if hostname_match:
         original_hostname_content = hostname_match.group(1).strip()
         # Generate sgmodule content
@@ -37,7 +37,7 @@ def js_to_sgmodule(js_content):
 {project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path={script}
 
 [MITM]
-hostname= %APPEND% {original_hostname_content if original_hostname_content else '%APPEND%'}
+hostname= %APPEND% {original_hostname_content}
 """
     else:
         raise ValueError("Invalid hostname format")
