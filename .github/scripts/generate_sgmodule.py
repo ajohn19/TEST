@@ -34,14 +34,14 @@ def js_to_sgmodule(js_content):
 
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
-#!desc={project_desc}
+    #!desc={project_desc}
 
-[Script]
-{project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path={script}
+    [Script]
+    {project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path={script}
 
-[MITM]
-hostname= {original_hostname} %APPEND%
-"""
+    [MITM]
+    hostname= %APPEND% {original_hostname}
+    """
 
     return sgmodule_content
 
