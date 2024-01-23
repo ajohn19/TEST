@@ -3,8 +3,7 @@ name: Generate sgmodule
 on:
   push:
     paths:
-      - 'qx/**' # Trigger on changes in qx folder
-  workflow_dispatch: 
+      - '.github/scripts/**' # Trigger on changes in .github/scripts folder
 
 jobs:
   generate_sgmodule:
@@ -25,6 +24,6 @@ jobs:
           pip install PyGithub
 
       - name: Run script
-        run: python .github/workflows/generate_sgmodule.py
+        run: python .github/scripts/generate_sgmodule.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
