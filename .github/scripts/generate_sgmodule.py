@@ -60,6 +60,10 @@ def js_to_sgmodule(js_content):
     pattern = pattern_script_match.group(1).strip()
     script_type = pattern_script_match.group(2).strip()
     script = pattern_script_match.group(3).strip()
+    
+    # Remove the '-body' or '-header' suffix from the script type
+    script = script.replace('-body', '').replace('-header', '')
+
 
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
