@@ -6,34 +6,35 @@ def js_to_sgmodule(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
-    script_match = re.search(r'(.*?)url script-response-body\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
     rewrite_match = re.search(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
 
-    if not (name_match and desc_match and script_match and rewrite_match):
+    if not (name_match and desc_match and rewrite_match):
         raise ValueError("Invalid JS file format")
 
     project_name = name_match.group(1).strip()
     project_desc = desc_match.group(1).strip()
 
-    pattern = script_match.group(1).strip()
-    script_path = script_match.group(2).strip()
-
     rewrite_local_content = rewrite_match.group(1).strip()
     mitm_hostname = rewrite_match.group(2).strip()
 
-    # Add %APPEND% to the hostname
-    mitm_hostname_appended = f"%APPEND% {mitm_hostname}"
+    # Extract pattern and script from rewrite_local_content
+    pattern_script_match = re.search(r'^(.*?)\s*url\s+script-response-body\s+(.*)$', rewrite_local_content, re.MULTILINE)
+    if not pattern_script_match:
+        raise ValueError("Invalid rewrite_local format")
+
+    pattern = pattern_script_match.group(1).strip()
+    script = pattern_script_match.group(2).strip()
 
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
-    #!desc={project_desc}
+#!desc={project_desc}
 
-    [Script]
-    {project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path={script_path}
+[Script]
+{project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path={script}
 
-    [MITM]
-    hostname= {mitm_hostname_appended}
-    """
+[MITM]
+hostname= %APPEND% {mitm_hostname}
+"""
 
     return sgmodule_content
 
