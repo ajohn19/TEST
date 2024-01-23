@@ -3,7 +3,7 @@ name: Generate sgmodule
 on:
   push:
     paths:
-      - '.github/scripts/**' # Trigger on changes in .github/scripts folder
+      - 'qx/**' # Trigger on changes in .github/scripts folder
   workflow_dispatch:
 
 jobs:
