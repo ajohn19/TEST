@@ -6,13 +6,17 @@ def js_to_sgmodule(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
+    script_match = re.search(r'(.*?)url script-response-body\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
     rewrite_match = re.search(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
 
-    if not (name_match and desc_match and rewrite_match):
+    if not (name_match and desc_match and script_match and rewrite_match):
         raise ValueError("Invalid JS file format")
 
     project_name = name_match.group(1).strip()
     project_desc = desc_match.group(1).strip()
+
+    pattern = script_match.group(1).strip()
+    script_path = script_match.group(2).strip()
 
     rewrite_local_content = rewrite_match.group(1).strip()
     mitm_hostname = rewrite_match.group(2).strip()
@@ -25,7 +29,7 @@ def js_to_sgmodule(js_content):
     #!desc={project_desc}
 
     [Script]
-    {project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/{project_name}.js
+    {project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path={script_path}
 
     [MITM]
     hostname= {mitm_hostname_appended}
