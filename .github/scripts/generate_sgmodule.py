@@ -27,7 +27,7 @@ def js_to_sgmodule(js_content):
     mitm_content_with_append = insert_append(mitm_content)
 
     # Extract pattern and script type from rewrite_local_content
-    pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(.*)$', rewrite_local_content, re.MULTILINE)
+    pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(.*)$', rewrite_local_content, re.MULTILINE)
     if not pattern_script_match:
         raise ValueError("Invalid rewrite_local format")
 
