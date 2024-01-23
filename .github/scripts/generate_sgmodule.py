@@ -26,6 +26,8 @@ def js_to_sgmodule(js_content):
     script = pattern_script_match.group(2).strip()
 
     # Extract and modify hostname
+    print(f"mitm_hostname: {mitm_hostname}")
+    hostname_match = re.search(r'hostname\s*=\s*(.*?)\s*', mitm_hostname)
     hostname_match = re.search(r'hostname\s*=\s*(.*?)\s*', mitm_hostname)
     if not hostname_match:
         raise ValueError("Invalid hostname format")
