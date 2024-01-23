@@ -52,12 +52,12 @@ def js_to_sgmodule(js_content):
     # Insert %APPEND% into mitm and hostname content
     mitm_content_with_append = insert_append(mitm_content)
 
-    # Process each rewrite_local rule
-    for match in rewrite_match:
-        rule = match.group(1).strip()
+    # Process each rewrite rule
+    for rewrite_match_item in rewrite_match:
+        rewrite_local_content = rewrite_match_item.group(1).strip()
 
-        # Extract pattern and script type from rule
-        pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', rule, re.MULTILINE)
+        # Extract pattern and script type from rewrite_local_content
+        pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', rewrite_local_content, re.MULTILINE)
         if not pattern_script_match:
             raise ValueError("Invalid rewrite_local format")
 
