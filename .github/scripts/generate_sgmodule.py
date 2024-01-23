@@ -30,14 +30,14 @@ def js_to_sgmodule(js_content):
 
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
-#!desc={project_desc}
+    #!desc={project_desc}
 
-[Script]
-{project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/{project_name}.js
+    [Script]
+    {project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/{project_name}.js
 
-[MITM]
-hostname= {mitm_hostname_appended}
-"""
+    [MITM]
+    hostname={mitm_hostname_appended}
+    """
 
     return sgmodule_content
 
