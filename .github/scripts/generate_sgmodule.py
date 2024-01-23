@@ -12,13 +12,13 @@ def js_to_sgmodule(js_content):
     rewrite_match = re.search(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
-    
+
     # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
-        url_pattern = r'(url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+\S+\s+(.*))'
-        last_part_match = re.search(url_pattern, js_content, re.DOTALL | re.MULTILINE)
+        url_pattern = r'url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
+        last_part_match = re.search(url_pattern, js_content, re.MULTILINE)
         if last_part_match:
-            project_name = os.path.splitext(os.path.basename(last_part_match.group(2).strip()))[0]
+            project_name = os.path.splitext(os.path.basename(last_part_match.group(1).strip()))[0]
         else:
             raise ValueError("Invalid JS file format")
         
@@ -36,7 +36,7 @@ def js_to_sgmodule(js_content):
     mitm_content_with_append = insert_append(mitm_content)
 
     # Extract pattern and script type from rewrite_local_content
-    pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(.*)$', rewrite_local_content, re.MULTILINE)
+    pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', rewrite_local_content, re.MULTILINE)
     if not pattern_script_match:
         raise ValueError("Invalid rewrite_local format")
 
@@ -74,7 +74,7 @@ def main():
                 # Write sgmodule content to surge folder
                 surge_folder_path = 'surge'
                 os.makedirs(surge_folder_path, exist_ok=True)
-                sgmodule_file_path = os.path.join(surge_folder_path, f"{file_name.split('.')[0]}.sgmodule")
+                sgmodule_file_path = os.path.join(surge_folder_path, f"{os.path.splitext(file_name)[0]}.sgmodule")
                 with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
                     sgmodule_file.write(sgmodule_content)
 
