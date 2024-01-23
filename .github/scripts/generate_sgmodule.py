@@ -32,7 +32,11 @@ hostname= %APPEND% {mitm_hostname}
 
 def main():
     # Process each file in the 'qx' folder
-    qx_folder_path = '.github/scripts/qx'
+    qx_folder_path = 'qx'
+    if not os.path.exists(qx_folder_path):
+        print(f"Error: {qx_folder_path} does not exist.")
+        return
+
     for file_name in os.listdir(qx_folder_path):
         if file_name.endswith(".js"):
             file_path = os.path.join(qx_folder_path, file_name)
@@ -41,7 +45,7 @@ def main():
                 sgmodule_content = js_to_sgmodule(js_content)
 
                 # Write sgmodule content to surge folder
-                surge_folder_path = '.github/scripts/surge'
+                surge_folder_path = 'surge'
                 os.makedirs(surge_folder_path, exist_ok=True)
                 sgmodule_file_path = os.path.join(surge_folder_path, f"{file_name.split('.')[0]}.sgmodule")
                 with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
