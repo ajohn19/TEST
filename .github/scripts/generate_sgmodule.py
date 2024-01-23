@@ -25,6 +25,9 @@ def js_to_sgmodule(js_content):
     pattern = pattern_script_match.group(1).strip()
     script = pattern_script_match.group(2).strip()
 
+    # Add %APPEND% to the hostname
+    mitm_hostname_appended = f"%APPEND% {mitm_hostname}"
+
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
 #!desc={project_desc}
@@ -33,7 +36,7 @@ def js_to_sgmodule(js_content):
 {project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/{project_name}.js
 
 [MITM]
-{mitm_hostname}
+hostname= {mitm_hostname_appended}
 """
 
     return sgmodule_content
