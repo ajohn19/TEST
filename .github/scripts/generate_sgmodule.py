@@ -34,7 +34,6 @@ def js_to_sgmodule(js_content):
 
 [MITM]
 hostname= %APPEND% {mitm_hostname}
-        {mitm_hostname}
 """
 
     return sgmodule_content
