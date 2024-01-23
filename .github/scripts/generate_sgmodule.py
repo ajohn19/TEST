@@ -48,6 +48,8 @@ def js_to_sgmodule(js_content):
     if not rewrite_local_matches:
         raise ValueError("No [rewrite_local] rule found")
 
+    # Append to sgmodule content
+    sgmodule_content += "[Script]\n"
     for rewrite_match_item in rewrite_local_matches:
         rewrite_local_content = rewrite_match_item.group(1).strip()
 
@@ -66,10 +68,7 @@ def js_to_sgmodule(js_content):
             script_type = script_type.replace('-body', '').replace('-header', '')
 
             # Append to sgmodule content
-            sgmodule_content += f"""
-[Script]
-{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}
-"""
+            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
 
     return sgmodule_content
 
