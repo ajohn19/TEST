@@ -20,7 +20,7 @@ def js_to_sgmodule(js_content):
 
     # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
-        url_pattern = r'url\s+script-(?:response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
+        url_pattern = r'url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
         last_part_match = re.search(url_pattern, rewrite_local_content, re.MULTILINE)
         if last_part_match:
             project_name = os.path.splitext(os.path.basename(last_part_match.group(1).strip()))[0]
