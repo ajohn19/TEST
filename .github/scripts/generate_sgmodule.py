@@ -37,7 +37,7 @@ def js_to_sgmodule(js_content):
 {project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path={script}
 
 [MITM]
-hostname= %APPEND% {original_hostname_content}
+hostname= %APPEND% {original_hostname_content if original_hostname_content else '%APPEND%'}
 """
     else:
         raise ValueError("Invalid hostname format")
