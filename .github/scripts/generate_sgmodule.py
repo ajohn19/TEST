@@ -9,7 +9,6 @@ def js_to_sgmodule(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
-    rewrite_match = re.finditer(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
 
@@ -43,7 +42,8 @@ def js_to_sgmodule(js_content):
 """
 
     # Process each rewrite rule
-    for rewrite_match_item in list(rewrite_match):
+    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', re.DOTALL | re.MULTILINE)
+    for rewrite_match_item in rewrite_local_pattern.finditer(js_content):
         rewrite_local_content = rewrite_match_item.group(1).strip()
 
         # Extract pattern and script type from rewrite_local_content
