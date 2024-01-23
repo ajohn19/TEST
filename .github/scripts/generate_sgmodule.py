@@ -53,7 +53,7 @@ def js_to_sgmodule(js_content):
     mitm_content_with_append = insert_append(mitm_content)
 
     # Process each rewrite rule
-    for rewrite_match_item in rewrite_match:
+    for rewrite_match_item in list(rewrite_match):
         rewrite_local_content = rewrite_match_item.group(1).strip()
 
         # Extract pattern and script type from rewrite_local_content
