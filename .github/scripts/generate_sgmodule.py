@@ -15,7 +15,7 @@ def js_to_sgmodule(js_content):
 
     # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
-        url_pattern = r'(url\s+script-(?:response|request|echo-response|request-header|response-header|analyze-echo-response)\s+\S+\s+(.*))'
+        url_pattern = r'(url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+\S+\s+(.*))'
         last_part_match = re.search(url_pattern, js_content, re.DOTALL | re.MULTILINE)
         if last_part_match:
             project_name = os.path.splitext(os.path.basename(last_part_match.group(2).strip()))[0]
@@ -36,7 +36,7 @@ def js_to_sgmodule(js_content):
     mitm_content_with_append = insert_append(mitm_content)
 
     # Extract pattern and script type from rewrite_local_content
-    pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(.*)$', rewrite_local_content, re.MULTILINE)
+    pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(.*)$', rewrite_local_content, re.MULTILINE)
     if not pattern_script_match:
         raise ValueError("Invalid rewrite_local format")
 
