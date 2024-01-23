@@ -5,34 +5,17 @@ def insert_append(content):
     # Insert %APPEND% after the first '=' sign
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
-def determine_script_type(url):
-    # Determine the script type based on the URL
-    if 'response-body' in url:
-        return 'http-response'
-    elif 'request-body' in url:
-        return 'http-request'
-    elif 'response-header' in url:
-        return 'http-response-header'
-    elif 'request-header' in url:
-        return 'http-request-header'
-    elif 'echo-response' in url:
-        return 'http-echo-response'
-    elif 'analyze-echo-response' in url:
-        return 'http-analyze-echo-response'
-    else:
-        raise ValueError("Invalid script type")
-
 def js_to_sgmodule(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
-    rewrite_match = re.search(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
+    rewrite_match = re.finditer(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
 
     # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
-        url_pattern = r'url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
+        url_pattern = r'url\s+script-(?:response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
         last_part_match = re.search(url_pattern, js_content, re.MULTILINE)
         if last_part_match:
             project_name = os.path.splitext(os.path.basename(last_part_match.group(1).strip()))[0]
@@ -45,39 +28,40 @@ def js_to_sgmodule(js_content):
         project_name = name_match.group(1).strip()
         project_desc = desc_match.group(1).strip()
 
-    rewrite_local_content = rewrite_match.group(1).strip()
     mitm_content = mitm_match.group(1).strip() if mitm_match else ''
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
     # Insert %APPEND% into mitm and hostname content
     mitm_content_with_append = insert_append(mitm_content)
 
+    # Generate sgmodule content
+    sgmodule_content = f"""#!name={project_name}
+#!desc={project_desc}
+
+[MITM]
+{mitm_content_with_append}
+"""
+
     # Process each rewrite rule
     for rewrite_match_item in list(rewrite_match):
         rewrite_local_content = rewrite_match_item.group(1).strip()
 
         # Extract pattern and script type from rewrite_local_content
-        pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', rewrite_local_content, re.MULTILINE)
+        pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', rewrite_local_content, re.MULTILINE)
         if not pattern_script_match:
             raise ValueError("Invalid rewrite_local format")
 
-    pattern = pattern_script_match.group(1).strip()
-    script_type = pattern_script_match.group(2).strip()
-    script = pattern_script_match.group(3).strip()
-    
-    # Remove the '-body' or '-header' suffix from the script type
-    script_type = script_type.replace('-body', '').replace('-header', '')
+        pattern = pattern_script_match.group(1).strip()
+        script_type = pattern_script_match.group(2).strip()
+        script = pattern_script_match.group(3).strip()
 
+        # Remove the '-body' or '-header' suffix from the script type
+        script_type = script_type.replace('-body', '').replace('-header', '')
 
-    # Generate sgmodule content
-    sgmodule_content = f"""#!name={project_name}
-#!desc={project_desc}
-
+        # Append to sgmodule content
+        sgmodule_content += f"""
 [Script]
 {project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}
-
-[MITM]
-{mitm_content_with_append}
 """
 
     return sgmodule_content
