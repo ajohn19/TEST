@@ -61,7 +61,7 @@ def main():
 
                 print(f"Generated {sgmodule_file_path}")
 
-                 # Add a dummy change and commit
+                # Add a dummy change and commit
                 with open(file_path, 'a', encoding='utf-8') as js_file:
                     js_file.write("\n// Adding a dummy change to trigger git commit\n")
 
