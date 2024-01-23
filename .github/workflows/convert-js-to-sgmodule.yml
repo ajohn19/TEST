@@ -1,0 +1,27 @@
+name: Convert JS to SGModule
+
+on:
+  push:
+    paths:
+      - 'TEST/qx/*.js'
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create surge folder if not exists
+        run: mkdir -p TEST/surge
+      - uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+      - name: Convert JS to SGModule
+        run: python TEST/tools/js2sgmodule.py -f TEST/qx/ -o TEST/surge/
+      - name: Upload SGModule files to surge folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: surge-artifacts
+          path: TEST/surge/
