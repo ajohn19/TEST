@@ -11,9 +11,8 @@ def js_to_sgmodule(js_content):
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
-    hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
 
-    if not (name_match and desc_match):
+    if not (name_match and desc_match and mitm_match):
         raise ValueError("Invalid JS file format")
 
     project_name = name_match.group(1).strip()
@@ -25,12 +24,20 @@ def js_to_sgmodule(js_content):
     # Insert %APPEND% into mitm and hostname content
     mitm_content_with_append = insert_append(mitm_content)
 
+    # Extract pattern and script from rewrite_local_content
+    pattern_script_match = re.search(r'^(.*?)\s*url\s+script-response-body\s+(.*)$', rewrite_local_content, re.MULTILINE)
+    if not pattern_script_match:
+        raise ValueError("Invalid rewrite_local format")
+
+    pattern = pattern_script_match.group(1).strip()
+    script = pattern_script_match.group(2).strip()
+
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
 #!desc={project_desc}
 
 [Script]
-{project_name} = type=http-response,pattern=^https?:\/\/.*$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/{project_name}.js
+{project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path={script}
 
 [MITM]
 {mitm_content_with_append}
