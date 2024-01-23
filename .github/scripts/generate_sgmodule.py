@@ -33,7 +33,7 @@ def js_to_sgmodule(js_content):
 {project_name} = type=http-response,pattern={pattern},requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/{project_name}.js
 
 [MITM]
-hostname = {mitm_hostname}
+{mitm_hostname}
 """
 
     return sgmodule_content
