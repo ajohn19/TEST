@@ -48,7 +48,7 @@ def js_to_sgmodule(js_content):
 """
 
     # Extract and count occurrences of URL script types
-    script_types = re.findall(r'url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)', rewrite_local_content)
+    script_types = re.findall(r'url\s+script-(?:response|request|echo-response|request-header|response-header|analyze-echo-response)', rewrite_local_content)
 
     # Process each script type
     for script_type in script_types:
