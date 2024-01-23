@@ -19,7 +19,7 @@ jobs:
       - name: Install Dependencies
         run: pip install -r requirements.txt
       - name: Convert JS to SGModule
-        run: python TEST/tools/js2sgmodule.py -f TEST/qx/ -o TEST/surge/
+        run: python .github/scripts/js2sgmodule.py -f TEST/qx/ -o TEST/surge/
       - name: Upload SGModule files to surge folder
         uses: actions/upload-artifact@v3
         with:
