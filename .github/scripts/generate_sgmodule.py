@@ -5,48 +5,43 @@ def insert_append(content):
     # Insert %APPEND% after the first '=' sign
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
-def extract_name_desc(pattern, js_content):
-    # Extract the last segment of the URL pattern as name and desc
-    match = re.search(pattern, js_content)
-    if match and len(match.groups()) > 0:
-        last_segment = match.group(1).rsplit('/', 1)[-1]
-        return last_segment.strip()
+def extract_name_desc(js_content):
+    # Extract patterns and scripts from rewrite_local_content
+    patterns_and_scripts = re.findall(r'^(.*?)\s*(?:url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', js_content, re.MULTILINE)
+    
+    if not patterns_and_scripts:
+        raise ValueError("No [rewrite_local] rule found")
 
-    return None
+    last_pattern, script_type, script = patterns_and_scripts[-1]
+    return os.path.splitext(os.path.basename(script))[0]
 
 def js_to_sgmodule(js_content):
     # Extract information from the JS content
+    name = extract_name_desc(js_content)
+    desc = name  # Using the same value for desc for now, you can modify this as needed
+
     rewrite_match = re.search(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
 
-    if rewrite_match:
-        rewrite_local_content = rewrite_match.group(1).strip()
-        patterns_and_scripts = re.findall(r'^(.*?)\s*(?:url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', rewrite_local_content, re.MULTILINE)
+    if not (rewrite_match and mitm_match):
+        raise ValueError("Invalid JS file format")
 
-        if not patterns_and_scripts:
-            raise ValueError("No [rewrite_local] rule found")
+    project_name = name.strip()
+    project_desc = desc.strip()
 
-        # Extract name and desc from the first pattern
-        first_pattern, _, _ = patterns_and_scripts[0]
-        project_name = extract_name_desc(first_pattern, js_content)
-        project_desc = project_name  # Use the same name as desc in this case
-
-    elif mitm_match:
-        project_name = extract_name_desc(mitm_match.group(1).strip(), js_content)
-        project_desc = project_name
-
-    elif hostname_match:
-        project_name = extract_name_desc(hostname_match.group(1).strip(), js_content)
-        project_desc = project_name
-
-    else:
-        raise ValueError("No [rewrite_local] rule found")
+    rewrite_local_content = rewrite_match.group(1).strip()
+    mitm_content = mitm_match.group(1).strip() if mitm_match else ''
+    hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
     # Insert %APPEND% into mitm and hostname content
-    mitm_content = mitm_match.group(1).strip() if mitm_match else ''
     mitm_content_with_append = insert_append(mitm_content)
-    
+
+    # Extract patterns and scripts from rewrite_local_content
+    patterns_and_scripts = re.findall(r'^(.*?)\s*(?:url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', rewrite_local_content, re.MULTILINE)
+    if not patterns_and_scripts:
+        raise ValueError("Invalid rewrite_local format")
+
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
 #!desc={project_desc}
