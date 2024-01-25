@@ -8,7 +8,7 @@
 [rewrite_local]
 ^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$) url script-response-body https://raw.githubusercontent.com/czy13724/Quantumult-X/main/scripts/chatpdf.js
 
-[Mitm]
+[mitm]
 hostname = api.revenuecat.com
 */
 
