@@ -12,11 +12,6 @@ def js_to_sgmodule(js_content):
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
 
-    print("Debug: Name match:", name_match)
-    print("Debug: Desc match:", desc_match)
-    print("Debug: MITM match:", mitm_match)
-    print("Debug: Hostname match:", hostname_match)
-
     # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
         url_pattern = r'url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
@@ -47,7 +42,7 @@ def js_to_sgmodule(js_content):
 """
 
     # Process each rewrite rule
-    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', re.DOTALL | re.MULTILINE)
+    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*(?:\[mitm\]\s*hostname\s*=\s*(.*?)\s*|$)', re.DOTALL | re.MULTILINE)
     rewrite_local_matches = list(rewrite_local_pattern.finditer(js_content))
 
     if not rewrite_local_matches:
