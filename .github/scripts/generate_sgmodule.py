@@ -5,32 +5,47 @@ def insert_append(content):
     # Insert %APPEND% after the first '=' sign
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
+def extract_name_desc(pattern, js_content):
+    # Extract the last segment of the URL pattern as name and desc
+    match = re.search(pattern, js_content)
+    if match:
+        last_segment = match.group(1).rsplit('/', 1)[-1]
+        return last_segment.strip()
+
+    return None
+
 def js_to_sgmodule(js_content):
     # Extract information from the JS content
-    name_match = re.search(r'项目名称：(.*?)\n', js_content)
-    desc_match = re.search(r'使用说明：(.*?)\n', js_content)
     rewrite_match = re.search(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
 
-    project_name = name_match.group(1).strip() if name_match else None
-    project_desc = desc_match.group(1).strip() if desc_match else None
+    if not rewrite_match:
+        # If no [rewrite_local] rule found, try to match patterns in the content
+        patterns_match = re.search(r'(url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+\S+)', js_content, re.DOTALL | re.MULTILINE)
+        if not patterns_match:
+            raise ValueError("No [rewrite_local] rule found")
+        
+        pattern = patterns_match.group(1)
+        project_name = extract_name_desc(pattern, js_content)
+        project_desc = project_name  # Use the same name as desc in this case
 
-    rewrite_local_content = rewrite_match.group(1).strip() if rewrite_match else ''
-    mitm_content = mitm_match.group(1).strip() if mitm_match else ''
-    hostname_content = hostname_match.group(1).strip() if hostname_match else ''
+    else:
+        rewrite_local_content = rewrite_match.group(1).strip()
+        mitm_content = mitm_match.group(1).strip() if mitm_match else ''
+        hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
-    # Insert %APPEND% into mitm and hostname content
-    mitm_content_with_append = insert_append(mitm_content)
+        # Insert %APPEND% into mitm and hostname content
+        mitm_content_with_append = insert_append(mitm_content)
 
-    # Extract patterns and scripts from rewrite_local_content
-    patterns_and_scripts = re.findall(r'^(.*?)\s*(?:url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', rewrite_local_content, re.MULTILINE)
-    if not patterns_and_scripts:
-        raise ValueError("No [rewrite_local] rule found")
+        # Extract patterns and scripts from rewrite_local_content
+        patterns_and_scripts = re.findall(r'^(.*?)\s*(?:url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', rewrite_local_content, re.MULTILINE)
+        if not patterns_and_scripts:
+            raise ValueError("No [rewrite_local] rule found")
 
-    # Generate sgmodule content
-    sgmodule_content = f"""#!name={project_name if project_name else 'Unnamed Project'}
-#!desc={project_desc if project_desc else 'No description'}
+        # Generate sgmodule content
+        sgmodule_content = f"""#!name={project_name}
+#!desc={project_desc}
 
 [MITM]
 {mitm_content_with_append}
@@ -38,12 +53,12 @@ def js_to_sgmodule(js_content):
 [Script]
 """
 
-    for pattern, script_type, script in patterns_and_scripts:
-        # Remove the '-body' or '-header' suffix from the script type
-        script_type = script_type.replace('-body', '').replace('-header', '')
-        sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
+        for pattern, script_type, script in patterns_and_scripts:
+            # Remove the '-body' or '-header' suffix from the script type
+            script_type = script_type.replace('-body', '').replace('-header', '')
+            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
 
-    return sgmodule_content
+        return sgmodule_content
 
 def main():
     # Process each file in the 'qx' folder
