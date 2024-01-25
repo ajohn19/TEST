@@ -29,7 +29,7 @@ def js_to_sgmodule(js_content):
     # Extract patterns and scripts from rewrite_local_content
     patterns_and_scripts = re.findall(r'^(.*?)\s*(?:url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', rewrite_local_content, re.MULTILINE)
     if not patterns_and_scripts:
-        raise ValueError("Invalid rewrite_local format")
+        raise ValueError("No [rewrite_local] rule found")
 
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
