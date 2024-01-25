@@ -60,6 +60,7 @@ def js_to_sgmodule(js_content):
         if not pattern_script_matches:
             raise ValueError("Invalid rewrite_local format")
 
+        # Append to sgmodule content
         for pattern_script_match in pattern_script_matches:
             pattern = pattern_script_match.group(1).strip()
             script_type = pattern_script_match.group(2).strip()
