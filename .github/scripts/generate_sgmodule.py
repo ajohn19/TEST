@@ -77,7 +77,7 @@ def js_to_sgmodule(js_content):
 
 def main():
     # Process each file in the 'qx' folder
-    qx_folder_path = 'qxjs'
+    qx_folder_path = 'qx'
     if not os.path.exists(qx_folder_path):
         print(f"Error: {qx_folder_path} does not exist.")
         return
