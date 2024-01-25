@@ -43,63 +43,32 @@ def js_to_sgmodule(js_content):
 
     # Process each rewrite rule
     rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', re.DOTALL | re.MULTILINE)
-    rewrite_local_match = rewrite_local_pattern.search(js_content)
+    rewrite_local_matches = list(rewrite_local_pattern.finditer(js_content))
 
-    if not rewrite_local_match:
-        # If no [rewrite_local] rule found, try to match url script-response-body, etc.
-        url_script_pattern = re.compile(r'(url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', re.MULTILINE)
-        url_script_matches = list(url_script_pattern.finditer(js_content))
-
-        if url_script_matches:
-            # Append to sgmodule content
-            sgmodule_content += "[Script]\n"
-            for url_script_match in url_script_matches:
-                # Extract pattern and script type from url script-response-body, etc.
-                pattern_script_match = re.match(r'^url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', url_script_match.group(1).strip())
-                if not pattern_script_match:
-                    raise ValueError("Invalid url script format")
-
-                pattern = pattern_script_match.group(2).strip()
-                script_type = pattern_script_match.group(1).strip()
-
-                # Remove the '-body' or '-header' suffix from the script type
-                script_type = script_type.replace('-body', '').replace('-header', '')
-
-                # Append to sgmodule content
-                sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={url_script_match.group(2).strip()}\n"
-
-            return sgmodule_content
-        else:
-            print(f"Skipping {project_name}. No rewrite rule or url script found in the file.")
-            return None
+    if not rewrite_local_matches:
+        raise ValueError("No [rewrite_local] rule found")
 
     # Append to sgmodule content
     sgmodule_content += "[Script]\n"
-    rewrite_local_content = rewrite_local_match.group(1).strip()
+    for rewrite_match_item in rewrite_local_matches:
+        rewrite_local_content = rewrite_match_item.group(1).strip()
 
-    # Extract pattern and script type from rewrite_local_content
-    pattern_script_matches = re.finditer(r'^(.*?)\s*(?:url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', rewrite_local_content, re.MULTILINE)
+        # Extract pattern and script type from rewrite_local_content
+        pattern_script_matches = re.finditer(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', rewrite_local_content, re.MULTILINE)
 
-    if not pattern_script_matches:
-        raise ValueError("Invalid rewrite_local format")
+        if not pattern_script_matches:
+            raise ValueError("Invalid rewrite_local format")
 
-    # Set to True when the first [Script] line is added
-    script_section_added = False
+        for pattern_script_match in pattern_script_matches:
+            pattern = pattern_script_match.group(1).strip()
+            script_type = pattern_script_match.group(2).strip()
+            script = pattern_script_match.group(3).strip()
 
-    for pattern_script_match in pattern_script_matches:
-        pattern = pattern_script_match.group(1).strip()
-        script_type = pattern_script_match.group(2).strip()
+            # Remove the '-body' or '-header' suffix from the script type
+            script_type = script_type.replace('-body', '').replace('-header', '')
 
-        # Remove the '-body' or '-header' suffix from the script type
-        script_type = script_type.replace('-body', '').replace('-header', '')
-
-        # Add [Script] section if not added yet
-        if not script_section_added:
-            sgmodule_content += "[Script]\n"
-            script_section_added = True
-
-        # Append to sgmodule content
-        sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={pattern_script_match.group(3).strip()}\n"
+            # Append to sgmodule content
+            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
 
     return sgmodule_content
 
@@ -117,22 +86,21 @@ def main():
                 js_content = js_file.read()
                 sgmodule_content = js_to_sgmodule(js_content)
 
-                if sgmodule_content is not None:
-                    # Write sgmodule content to surge folder
-                    surge_folder_path = 'surge'
-                    os.makedirs(surge_folder_path, exist_ok=True)
-                    sgmodule_file_path = os.path.join(surge_folder_path, f"{os.path.splitext(file_name)[0]}.sgmodule")
-                    with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
-                        sgmodule_file.write(sgmodule_content)
+                # Write sgmodule content to surge folder
+                surge_folder_path = 'surge'
+                os.makedirs(surge_folder_path, exist_ok=True)
+                sgmodule_file_path = os.path.join(surge_folder_path, f"{os.path.splitext(file_name)[0]}.sgmodule")
+                with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
+                    sgmodule_file.write(sgmodule_content)
 
-                    print(f"Generated {sgmodule_file_path}")
+                print(f"Generated {sgmodule_file_path}")
 
-                    # Add a dummy change and commit
-                    with open(file_path, 'a', encoding='utf-8') as js_file:
-                        js_file.write("\n// Adding a dummy change to trigger git commit\n")
+                # Add a dummy change and commit
+                with open(file_path, 'a', encoding='utf-8') as js_file:
+                    js_file.write("\n// Adding a dummy change to trigger git commit\n")
 
-                    os.system(f'git add {file_path}')
-                    os.system('git commit -m "Trigger update"')
+                os.system(f'git add {file_path}')
+                os.system('git commit -m "Trigger update"')
 
 if __name__ == "__main__":
     main()
