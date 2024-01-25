@@ -27,7 +27,7 @@ def js_to_sgmodule(js_content):
         project_name = name_match.group(1).strip()
         project_desc = desc_match.group(1).strip()
 
-    mitm_content = mitm_match.group(2).strip() if mitm_match else ''
+    mitm_content = mitm_match.group(1).strip() if mitm_match else ''
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
     # Insert %APPEND% into mitm and hostname content
