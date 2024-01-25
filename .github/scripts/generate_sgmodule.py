@@ -45,6 +45,20 @@ def js_to_sgmodule(js_content):
     rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', re.DOTALL | re.MULTILINE)
     rewrite_local_match = rewrite_local_pattern.search(js_content)
 
+if rewrite_local_match:
+    rewrite_local_content = rewrite_local_match.group(1).strip()
+else:
+    # Try to match url script-response-body, etc.
+    url_script_pattern = re.compile(r'(url\s+script-(?:response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', re.MULTILINE)
+    url_script_matches = list(url_script_pattern.finditer(js_content))
+
+    if url_script_matches:
+        rewrite_local_content = "\n".join(match.group(1).strip() for match in url_script_matches)
+    else:
+        print(f"Skipping {project_name}. No rewrite rule or url script found in the file.")
+        return None
+
+
     if not rewrite_local_match:
         # If no [rewrite_local] rule found, try to match url script-response-body, etc.
         url_script_pattern = re.compile(r'(url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', re.MULTILINE)
