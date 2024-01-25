@@ -48,6 +48,9 @@ def js_to_sgmodule(js_content):
     if not rewrite_local_matches:
         raise ValueError("No [rewrite_local] rule found")
 
+    if not rewrite_local_matches:
+        raise ValueError("No [rewrite_local] rule found")
+
     # Append to sgmodule content
     sgmodule_content += "[Script]\n"
     for rewrite_match_item in rewrite_local_matches:
