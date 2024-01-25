@@ -20,31 +20,35 @@ def js_to_sgmodule(js_content):
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
 
-    if not rewrite_match:
-        # If no [rewrite_local] rule found, try to match patterns in the content
-        patterns_match = re.search(r'(url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+\S+)', js_content, re.DOTALL | re.MULTILINE)
-        if not patterns_match:
-            raise ValueError("No [rewrite_local] rule found")
-        
-        pattern = patterns_match.group(1)
-        project_name = extract_name_desc(pattern, js_content)
-        project_desc = project_name  # Use the same name as desc in this case
-
-    else:
+    if rewrite_match:
         rewrite_local_content = rewrite_match.group(1).strip()
-        mitm_content = mitm_match.group(1).strip() if mitm_match else ''
-        hostname_content = hostname_match.group(1).strip() if hostname_match else ''
-
-        # Insert %APPEND% into mitm and hostname content
-        mitm_content_with_append = insert_append(mitm_content)
-
-        # Extract patterns and scripts from rewrite_local_content
         patterns_and_scripts = re.findall(r'^(.*?)\s*(?:url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', rewrite_local_content, re.MULTILINE)
+
         if not patterns_and_scripts:
             raise ValueError("No [rewrite_local] rule found")
 
-        # Generate sgmodule content
-        sgmodule_content = f"""#!name={project_name}
+        # Extract name and desc from the first pattern
+        first_pattern, _, _ = patterns_and_scripts[0]
+        project_name = extract_name_desc(first_pattern, js_content)
+        project_desc = project_name  # Use the same name as desc in this case
+
+    elif mitm_match:
+        project_name = extract_name_desc(mitm_match.group(1).strip(), js_content)
+        project_desc = project_name
+
+    elif hostname_match:
+        project_name = extract_name_desc(hostname_match.group(1).strip(), js_content)
+        project_desc = project_name
+
+    else:
+        raise ValueError("No [rewrite_local] rule found")
+
+    # Insert %APPEND% into mitm and hostname content
+    mitm_content = mitm_match.group(1).strip() if mitm_match else ''
+    mitm_content_with_append = insert_append(mitm_content)
+    
+    # Generate sgmodule content
+    sgmodule_content = f"""#!name={project_name}
 #!desc={project_desc}
 
 [MITM]
@@ -53,12 +57,12 @@ def js_to_sgmodule(js_content):
 [Script]
 """
 
-        for pattern, script_type, script in patterns_and_scripts:
-            # Remove the '-body' or '-header' suffix from the script type
-            script_type = script_type.replace('-body', '').replace('-header', '')
-            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
+    for pattern, script_type, script in patterns_and_scripts:
+        # Remove the '-body' or '-header' suffix from the script type
+        script_type = script_type.replace('-body', '').replace('-header', '')
+        sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
 
-        return sgmodule_content
+    return sgmodule_content
 
 def main():
     # Process each file in the 'qx' folder
