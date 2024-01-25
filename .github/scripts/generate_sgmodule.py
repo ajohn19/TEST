@@ -1,3 +1,6 @@
+# author:Levi
+# 搭配convert js to sgmodule.yml使用。可将qx的js文件转换为sgmodule文件。使用方法见博客。
+
 import os
 import re
 
@@ -9,7 +12,7 @@ def js_to_sgmodule(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
-    mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
+    mitm_match = re.search(r'\[([Mm])itm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE | re.IGNORECASE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
 
     # If there is no project name and description, use the last part of the matched URL as the project name
@@ -21,7 +24,7 @@ def js_to_sgmodule(js_content):
         else:
             raise ValueError("Invalid JS file format")
         
-        project_desc = f"Generated from {project_name}"
+        project_desc = f"{project_name} is automatically converted by levi script. If not available, please use script-hub."
 
     else:
         project_name = name_match.group(1).strip()
@@ -42,7 +45,7 @@ def js_to_sgmodule(js_content):
 """
 
     # Process each rewrite rule
-    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*(?:\[mitm\]\s*hostname\s*=\s*(.*?)\s*|$)', re.DOTALL | re.MULTILINE)
+    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', re.DOTALL | re.MULTILINE)
     rewrite_local_matches = list(rewrite_local_pattern.finditer(js_content))
 
     if not rewrite_local_matches:
@@ -74,7 +77,7 @@ def js_to_sgmodule(js_content):
 
 def main():
     # Process each file in the 'qx' folder
-    qx_folder_path = 'qx'
+    qx_folder_path = 'qxjs'
     if not os.path.exists(qx_folder_path):
         print(f"Error: {qx_folder_path} does not exist.")
         return
