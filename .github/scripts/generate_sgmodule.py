@@ -15,7 +15,7 @@ def js_to_sgmodule(js_content):
 
     if not (name_match and desc_match and rewrite_local_match):
         # If no [rewrite_local] rule found, try to match url script-response-body, etc.
-        url_script_pattern = re.compile(r'(url\s+script-(?:response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', re.MULTILINE)
+        url_script_pattern = re.compile(r'(url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', re.MULTILINE)
         url_script_matches = list(url_script_pattern.finditer(js_content))
 
         if url_script_matches:
@@ -23,7 +23,7 @@ def js_to_sgmodule(js_content):
             sgmodule_content = ""
             for url_script_match in url_script_matches:
                 # Extract pattern and script type from url script-response-body, etc.
-                pattern_script_match = re.match(r'^url\s+script-(response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', url_script_match.group(1).strip())
+                pattern_script_match = re.match(r'^url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', url_script_match.group(1).strip())
                 if not pattern_script_match:
                     raise ValueError("Invalid url script format")
 
@@ -63,7 +63,7 @@ def js_to_sgmodule(js_content):
     sgmodule_content += "[Script]\n"
 
     # Extract pattern and script type from rewrite_local_content
-    pattern_script_matches = re.finditer(r'^(.*?)\s*(?:url\s+script-(response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', rewrite_local_content, re.MULTILINE)
+    pattern_script_matches = re.finditer(r'^(.*?)\s*(?:url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', rewrite_local_content, re.MULTILINE)
 
     if not pattern_script_matches:
         raise ValueError("Invalid rewrite_local format")
