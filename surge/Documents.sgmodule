@@ -1,8 +1,8 @@
-#!name=Documents
-#!desc=恢复的时候 商店ID和软件处于同一账户下
+#!name=None
+#!desc=None
 
 [MITM]
 hostname = %APPEND% license.pdfexpert.com
 
 [Script]
-Documents = type=http-request,pattern=^https:\/\/license\.pdfexpert\.com\/api\/2\.0\/documents\/subscription\/refresh,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/Documents.js
+None = type=http-request,pattern=^https:\/\/license\.pdfexpert\.com\/api\/2\.0\/documents\/subscription\/refresh,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/Documents.js

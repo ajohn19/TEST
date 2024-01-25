@@ -1,5 +1,5 @@
-#!name=Unnamed Project
-#!desc=No description
+#!name=None
+#!desc=None
 
 [MITM]
 hostname = %APPEND% translator.felo.me
