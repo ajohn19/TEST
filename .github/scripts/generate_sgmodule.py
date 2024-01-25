@@ -50,9 +50,7 @@ def js_to_sgmodule(js_content):
     if not rewrite_local_matches:
         raise ValueError("No [rewrite_local] rule found")
 
-    # Count the occurrences of each script type
-    script_counts = {'response-body': 0, 'request-body': 0, 'response-header': 0, 'request-header': 0, 'echo-response': 0, 'analyze-echo-response': 0}
-
+    # Append to sgmodule content
     for rewrite_match_item in rewrite_local_matches:
         rewrite_local_content = rewrite_match_item.group(1).strip()
 
@@ -63,17 +61,14 @@ def js_to_sgmodule(js_content):
             raise ValueError("Invalid rewrite_local format")
 
         for pattern_script_match in pattern_script_matches:
+            pattern = pattern_script_match.group(1).strip()
             script_type = pattern_script_match.group(2).strip()
+            script = pattern_script_match.group(3).strip()
 
             # Remove the '-body' or '-header' suffix from the script type
             script_type = script_type.replace('-body', '').replace('-header', '')
 
-            # Increment the script type count
-            script_counts[script_type] += 1
-
-    # Generate Script rules based on script type counts
-    for script_type, count in script_counts.items():
-        for i in range(1, count + 1):
+            # Append to sgmodule content
             sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
 
     return sgmodule_content
@@ -95,7 +90,7 @@ def main():
                 # Write sgmodule content to surge folder
                 surge_folder_path = 'surge'
                 os.makedirs(surge_folder_path, exist_ok=True)
-                sgmodule_file_path = os.path.join(surge_folder_path, f"{file_name.split('.')[0]}.sgmodule")
+                sgmodule_file_path = os.path.join(surge_folder_path, f"{os.path.splitext(file_name)[0]}.sgmodule")
                 with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
                     sgmodule_file.write(sgmodule_content)
 
