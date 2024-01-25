@@ -14,7 +14,7 @@ def js_to_sgmodule(js_content):
 
     # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
-        url_pattern = r'url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
+        url_pattern = r'url\s+script-(?:response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
         last_part_match = re.search(url_pattern, js_content, re.MULTILINE)
         if last_part_match:
             project_name = os.path.splitext(os.path.basename(last_part_match.group(1).strip()))[0]
@@ -45,21 +45,10 @@ def js_to_sgmodule(js_content):
     rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', re.DOTALL | re.MULTILINE)
     rewrite_local_matches = list(rewrite_local_pattern.finditer(js_content))
 
-    # If there are no [rewrite_local] rules, try to extract URL with parameters
+    # If there are no [rewrite_local] rules, skip the file
     if not rewrite_local_matches:
-        url_pattern = r'url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
-        last_part_match = re.search(url_pattern, js_content, re.MULTILINE)
-        if last_part_match:
-            pattern = last_part_match.group(1).strip()
-            script_type = 'response'  # Assuming it's response type, change if needed
-            script = last_part_match.group(1).strip() + '.js'
-            sgmodule_content += f"""
-[Script]
-{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}
-"""
-        else:
-            print(f"Warning: No [rewrite_local] rule found in {project_name}. Skipping...")
-            return ""
+        print(f"Skipping {project_name}: No [rewrite_local] rule found")
+        return None
 
     # Append to sgmodule content
     sgmodule_content += "[Script]\n"
@@ -99,8 +88,8 @@ def main():
                 js_content = js_file.read()
                 sgmodule_content = js_to_sgmodule(js_content)
 
-                # Skip if sgmodule content is empty
-                if not sgmodule_content:
+                # Skip if sgmodule_content is None
+                if sgmodule_content is None:
                     continue
 
                 # Write sgmodule content to surge folder
