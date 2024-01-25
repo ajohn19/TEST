@@ -1,0 +1,72 @@
+#!name=Anki
+#!desc=Generated from Anki
+
+[MITM]
+hostname = %APPEND% api.ankichinas.com
+
+[Script]
+Anki = type=http-response,pattern=^https:\/\/api\.ankichinas\.com\/api\/v1\/users\/vipInfo,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/Anki.js
+#!name=saomiaobao
+#!desc=Generated from saomiaobao
+
+[MITM]
+hostname = %APPEND% app.yinxiang.com
+
+[Script]
+saomiaobao = type=http-response,pattern=https://app.yinxiang.com/third/profile/public/restful/public-user-profile?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/saomiaobao.js
+#!name=Timus
+#!desc=无
+
+[MITM]
+hostname = %APPEND% api.revenuecat.com
+
+[Script]
+Timus = type=http-response,pattern=^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/czy13724/Quantumult-X/main/scripts/Timus.js
+#!name=Documents
+#!desc=恢复的时候 商店ID和软件处于同一账户下
+
+[MITM]
+hostname = %APPEND% license.pdfexpert.com
+
+[Script]
+Documents = type=http-request,pattern=^https:\/\/license\.pdfexpert\.com\/api\/2\.0\/documents\/subscription\/refresh,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/Documents.js
+#!name=微信小程序考研数学欧几里得
+#!desc=脚本作者ios15 9.22更新，感谢@苍井灰灰 AES源代码
+
+[MITM]
+hostname = %APPEND% api.tumukaoyan.com
+
+[Script]
+微信小程序考研数学欧几里得 = type=http-response,pattern=#^https?:\/\/api\.tumukaoyan\.com\/api\/headimg_list\/GetListByAll,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/kaoyanxcx.js
+#!name=168轻断食
+#!desc=需要先试用才有数据
+
+[MITM]
+hostname = %APPEND% buy.itunes.apple.com
+
+[Script]
+168轻断食 = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/168qingduanshi.js
+#!name=chatpdf
+#!desc=无
+
+[MITM]
+hostname = %APPEND% api.revenuecat.com
+
+[Script]
+chatpdf = type=http-response,pattern=^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/czy13724/Quantumult-X/main/scripts/chatpdf.js
+#!name=felotranslator
+#!desc=Generated from felotranslator
+
+[MITM]
+hostname = %APPEND% translator.felo.me
+
+[Script]
+felotranslator = type=http-response,pattern=https://translator.felo.me/api/plan/current,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/czy13724/TEST/main/javascript/felotranslator.js
+#!name=aliyun
+#!desc=Generated from aliyun
+
+[MITM]
+hostname = %APPEND% auth.alipan.com,auth.aliyundrive.com
+
+[Script]
+aliyun = type=http-request,pattern=^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token,requires-body=1,max-size=0,script-path=https://gist.githubusercontent.com/Sliverkiss/33800a98dcd029ba09f8b6fc6f0f5162/raw/aliyun.js
