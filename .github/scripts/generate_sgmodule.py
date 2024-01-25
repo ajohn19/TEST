@@ -51,7 +51,10 @@ def js_to_sgmodule(js_content):
     # Initialize sgmodule content for [Script]
     sgmodule_content += "[Script]\n"
 
-    # Append to sgmodule content
+    # Initialize dictionary to store scripts for each rewrite_local
+    scripts_dict = {}
+
+    # Process each rewrite rule
     for rewrite_match_item in rewrite_local_matches:
         rewrite_local_content = rewrite_match_item.group(1).strip()
 
@@ -61,6 +64,7 @@ def js_to_sgmodule(js_content):
         if not pattern_script_matches:
             raise ValueError("Invalid rewrite_local format")
 
+        # Process each pattern_script_match
         for pattern_script_match in pattern_script_matches:
             pattern = pattern_script_match.group(1).strip()
             script_type = pattern_script_match.group(2).strip()
@@ -69,8 +73,15 @@ def js_to_sgmodule(js_content):
             # Remove the '-body' or '-header' suffix from the script type
             script_type = script_type.replace('-body', '').replace('-header', '')
 
-            # Append to sgmodule content
-            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
+            # Append to scripts_dict
+            if project_name not in scripts_dict:
+                scripts_dict[project_name] = []
+
+            scripts_dict[project_name].append(f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}")
+
+    # Append scripts to sgmodule_content
+    for project_name, scripts_list in scripts_dict.items():
+        sgmodule_content += "\n".join(scripts_list) + "\n"
 
     return sgmodule_content
 
