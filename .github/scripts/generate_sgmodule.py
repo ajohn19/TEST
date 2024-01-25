@@ -14,7 +14,7 @@ def js_to_sgmodule(js_content):
 
     # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
-        url_pattern = r'url\s+script-(?:response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
+        url_pattern = r'url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
         last_part_match = re.search(url_pattern, js_content, re.MULTILINE)
         if last_part_match:
             project_name = os.path.splitext(os.path.basename(last_part_match.group(1).strip()))[0]
@@ -47,7 +47,7 @@ def js_to_sgmodule(js_content):
 
     if not rewrite_local_matches:
         # If no [rewrite_local] rule found, try to match url script-response-body, etc.
-        url_script_pattern = re.compile(r'(url\s+script-(?:response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', re.MULTILINE)
+        url_script_pattern = re.compile(r'(url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', re.MULTILINE)
         url_script_matches = list(url_script_pattern.finditer(js_content))
 
         if url_script_matches:
