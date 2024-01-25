@@ -8,7 +8,7 @@ def insert_append(content):
 def extract_name_desc(pattern, js_content):
     # Extract the last segment of the URL pattern as name and desc
     match = re.search(pattern, js_content)
-    if match:
+    if match and len(match.groups()) > 0:
         last_segment = match.group(1).rsplit('/', 1)[-1]
         return last_segment.strip()
 
