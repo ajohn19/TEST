@@ -27,7 +27,7 @@ def js_to_sgmodule(js_content):
         project_name = name_match.group(1).strip()
         project_desc = desc_match.group(1).strip()
 
-    mitm_content = mitm_match.group(1).strip() if mitm_match else ''
+    mitm_content = mitm_match.group(2).strip() if mitm_match else ''
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
     # Insert %APPEND% into mitm and hostname content
@@ -42,11 +42,14 @@ def js_to_sgmodule(js_content):
 """
 
     # Process each rewrite rule
-    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*\[([Mm])itm\]\s*hostname\s*=\s*(.*?)\s*', re.DOTALL | re.MULTILINE)
+    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*(?:\[([Mm])itm\]\s*hostname\s*=\s*(.*?)\s*|$)', re.DOTALL | re.MULTILINE)
     rewrite_local_matches = list(rewrite_local_pattern.finditer(js_content))
 
     if not rewrite_local_matches:
         raise ValueError("No [rewrite_local] rule found")
+
+    # Initialize a set to store used script names
+    used_script_names = set()
 
     # Append to sgmodule content
     sgmodule_content += "[Script]\n"
@@ -67,8 +70,18 @@ def js_to_sgmodule(js_content):
             # Remove the '-body' or '-header' suffix from the script type
             script_type = script_type.replace('-body', '').replace('-header', '')
 
+            # Generate a unique script name
+            unique_script_name = f"{project_name}_{len(used_script_names) + 1}"
+
+            # Check if the script name is already used, and generate a new one if needed
+            while unique_script_name in used_script_names:
+                unique_script_name += "_"
+
+            # Add the script name to the set of used script names
+            used_script_names.add(unique_script_name)
+
             # Append to sgmodule content
-            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
+            sgmodule_content += f"{unique_script_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
 
     return sgmodule_content
 
