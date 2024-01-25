@@ -50,7 +50,9 @@ def js_to_sgmodule(js_content):
     if not rewrite_local_matches:
         raise ValueError("No [rewrite_local] rule found")
 
-    # Append to sgmodule content
+    # Count the occurrences of each script type
+    script_counts = {'response-body': 0, 'request-body': 0, 'response-header': 0, 'request-header': 0, 'echo-response': 0, 'analyze-echo-response': 0}
+
     for rewrite_match_item in rewrite_local_matches:
         rewrite_local_content = rewrite_match_item.group(1).strip()
 
@@ -60,16 +62,18 @@ def js_to_sgmodule(js_content):
         if not pattern_script_matches:
             raise ValueError("Invalid rewrite_local format")
 
-        # Append to sgmodule content
         for pattern_script_match in pattern_script_matches:
-            pattern = pattern_script_match.group(1).strip()
             script_type = pattern_script_match.group(2).strip()
-            script = pattern_script_match.group(3).strip()
 
             # Remove the '-body' or '-header' suffix from the script type
             script_type = script_type.replace('-body', '').replace('-header', '')
 
-            # Append to sgmodule content
+            # Increment the script type count
+            script_counts[script_type] += 1
+
+    # Generate Script rules based on script type counts
+    for script_type, count in script_counts.items():
+        for i in range(1, count + 1):
             sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
 
     return sgmodule_content
@@ -81,32 +85,28 @@ def main():
         print(f"Error: {qx_folder_path} does not exist.")
         return
 
-    sgmodule_content = ""
-
     for file_name in os.listdir(qx_folder_path):
         if file_name.endswith(".js"):
             file_path = os.path.join(qx_folder_path, file_name)
             with open(file_path, 'r', encoding='utf-8') as js_file:
                 js_content = js_file.read()
-                sgmodule_content += js_to_sgmodule(js_content)
+                sgmodule_content = js_to_sgmodule(js_content)
+
+                # Write sgmodule content to surge folder
+                surge_folder_path = 'surge'
+                os.makedirs(surge_folder_path, exist_ok=True)
+                sgmodule_file_path = os.path.join(surge_folder_path, f"{file_name.split('.')[0]}.sgmodule")
+                with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
+                    sgmodule_file.write(sgmodule_content)
+
+                print(f"Generated {sgmodule_file_path}")
 
                 # Add a dummy change and commit
                 with open(file_path, 'a', encoding='utf-8') as js_file:
                     js_file.write("\n// Adding a dummy change to trigger git commit\n")
 
                 os.system(f'git add {file_path}')
-
-    if sgmodule_content:
-        # Write sgmodule content to surge folder
-        surge_folder_path = 'surge'
-        os.makedirs(surge_folder_path, exist_ok=True)
-        sgmodule_file_path = os.path.join(surge_folder_path, "merged.sgmodule")
-        with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
-            sgmodule_file.write(sgmodule_content)
-
-        print(f"Generated {sgmodule_file_path}")
-
-        os.system('git commit -m "Trigger update"')
+                os.system('git commit -m "Trigger update"')
 
 if __name__ == "__main__":
     main()
