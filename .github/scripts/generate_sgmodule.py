@@ -13,13 +13,10 @@ def js_to_sgmodule(js_content):
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
 
-    if not (name_match and desc_match and rewrite_match):
-        raise ValueError("Invalid JS file format")
+    project_name = name_match.group(1).strip() if name_match else None
+    project_desc = desc_match.group(1).strip() if desc_match else None
 
-    project_name = name_match.group(1).strip()
-    project_desc = desc_match.group(1).strip()
-
-    rewrite_local_content = rewrite_match.group(1).strip()
+    rewrite_local_content = rewrite_match.group(1).strip() if rewrite_match else ''
     mitm_content = mitm_match.group(1).strip() if mitm_match else ''
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
@@ -32,8 +29,8 @@ def js_to_sgmodule(js_content):
         raise ValueError("No [rewrite_local] rule found")
 
     # Generate sgmodule content
-    sgmodule_content = f"""#!name={project_name}
-#!desc={project_desc}
+    sgmodule_content = f"""#!name={project_name if project_name else 'Unnamed Project'}
+#!desc={project_desc if project_desc else 'No description'}
 
 [MITM]
 {mitm_content_with_append}
