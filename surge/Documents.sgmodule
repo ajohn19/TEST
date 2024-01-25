@@ -1,0 +1,6 @@
+#!name=Documents
+#!desc=恢复的时候 商店ID和软件处于同一账户下
+
+[MITM]
+
+[Script]
