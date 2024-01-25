@@ -1,6 +1,3 @@
-# author:Levi
-# 搭配convert js to sgmodule.yml使用。可将qx的js文件转换为sgmodule文件。使用方法见博客。
-
 import os
 import re
 
@@ -24,13 +21,13 @@ def js_to_sgmodule(js_content):
         else:
             raise ValueError("Invalid JS file format")
         
-        project_desc = f"{project_name} is automatically converted by levi script. If not available, please use script-hub."
+        project_desc = f"Generated from {project_name}"
 
     else:
         project_name = name_match.group(1).strip()
         project_desc = desc_match.group(1).strip()
 
-    mitm_content = mitm_match.group(1).strip() if mitm_match else ''
+    mitm_content = mitm_match.group(2).strip() if mitm_match else ''
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
     # Insert %APPEND% into mitm and hostname content
@@ -45,14 +42,16 @@ def js_to_sgmodule(js_content):
 """
 
     # Process each rewrite rule
-    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', re.DOTALL | re.MULTILINE)
+    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*(?:\[([Mm])itm\]\s*hostname\s*=\s*(.*?)\s*|$)', re.DOTALL | re.MULTILINE)
     rewrite_local_matches = list(rewrite_local_pattern.finditer(js_content))
 
     if not rewrite_local_matches:
         raise ValueError("No [rewrite_local] rule found")
 
-    # Append to sgmodule content
+    # Initialize sgmodule content for [Script]
     sgmodule_content += "[Script]\n"
+
+    # Append to sgmodule content
     for rewrite_match_item in rewrite_local_matches:
         rewrite_local_content = rewrite_match_item.group(1).strip()
 
