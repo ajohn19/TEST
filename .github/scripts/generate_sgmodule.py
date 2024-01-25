@@ -45,10 +45,32 @@ def js_to_sgmodule(js_content):
     rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', re.DOTALL | re.MULTILINE)
     rewrite_local_matches = list(rewrite_local_pattern.finditer(js_content))
 
-    # If there are no [rewrite_local] rules, skip the file
     if not rewrite_local_matches:
-        print(f"Skipping {project_name}: No [rewrite_local] rule found")
-        return None
+        # If no [rewrite_local] rule found, try to match url script-response-body, etc.
+        url_script_pattern = re.compile(r'(url\s+script-(?:response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$)', re.MULTILINE)
+        url_script_match = url_script_pattern.search(js_content)
+
+        if url_script_match:
+            # Extract pattern and script type from url script-response-body, etc.
+            pattern_script_match = re.match(r'^url\s+script-(response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', url_script_match.group(1).strip())
+            if not pattern_script_match:
+                raise ValueError("Invalid url script format")
+
+            pattern = pattern_script_match.group(2).strip()
+            script_type = pattern_script_match.group(1).strip()
+
+            # Remove the '-body' or '-header' suffix from the script type
+            script_type = script_type.replace('-body', '').replace('-header', '')
+
+            # Append to sgmodule content
+            sgmodule_content += f"""
+[Script]
+{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}
+"""
+            return sgmodule_content
+        else:
+            print(f"Skipping {project_name}. No rewrite rule or url script found in the file.")
+            return None
 
     # Append to sgmodule content
     sgmodule_content += "[Script]\n"
@@ -88,25 +110,22 @@ def main():
                 js_content = js_file.read()
                 sgmodule_content = js_to_sgmodule(js_content)
 
-                # Skip if sgmodule_content is None
-                if sgmodule_content is None:
-                    continue
+                if sgmodule_content is not None:
+                    # Write sgmodule content to surge folder
+                    surge_folder_path = 'surge'
+                    os.makedirs(surge_folder_path, exist_ok=True)
+                    sgmodule_file_path = os.path.join(surge_folder_path, f"{os.path.splitext(file_name)[0]}.sgmodule")
+                    with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
+                        sgmodule_file.write(sgmodule_content)
 
-                # Write sgmodule content to surge folder
-                surge_folder_path = 'surge'
-                os.makedirs(surge_folder_path, exist_ok=True)
-                sgmodule_file_path = os.path.join(surge_folder_path, f"{os.path.splitext(file_name)[0]}.sgmodule")
-                with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
-                    sgmodule_file.write(sgmodule_content)
+                    print(f"Generated {sgmodule_file_path}")
 
-                print(f"Generated {sgmodule_file_path}")
+                    # Add a dummy change and commit
+                    with open(file_path, 'a', encoding='utf-8') as js_file:
+                        js_file.write("\n// Adding a dummy change to trigger git commit\n")
 
-                # Add a dummy change and commit
-                with open(file_path, 'a', encoding='utf-8') as js_file:
-                    js_file.write("\n// Adding a dummy change to trigger git commit\n")
-
-                os.system(f'git add {file_path}')
-                os.system('git commit -m "Trigger update"')
+                    os.system(f'git add {file_path}')
+                    os.system('git commit -m "Trigger update"')
 
 if __name__ == "__main__":
     main()
