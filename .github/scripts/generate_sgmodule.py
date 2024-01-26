@@ -36,12 +36,11 @@ def js_to_sgmodule(js_content):
     for match in rewrite_local_matches:
         rewrite_local_content = match.group(1).strip()
 
-        # Extract pattern and script from rewrite_local_content
+        # Extract and process each pattern_script_match
         pattern_script_matches = re.finditer(r'^\s*(.*?)\s*url\s+script-(response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(.*?)$', rewrite_local_content, re.MULTILINE)
         if not pattern_script_matches:
             raise ValueError(f"Invalid rewrite_local format\nRewrite_local content:\n{rewrite_local_content}")
 
-        # Generate sgmodule content for each pattern_script_match
         for pattern_script_match in pattern_script_matches:
             pattern = pattern_script_match.group(1).strip()
             script_type = pattern_script_match.group(2).strip()
