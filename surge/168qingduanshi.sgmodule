@@ -1,5 +1,0 @@
-#!name=168轻断食
-#!desc=需要先试用才有数据
-[MITM]
-hostname = %APPEND% buy.itunes.apple.com
-[Script]

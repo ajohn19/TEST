@@ -1,5 +1,0 @@
-#!name=saomiaobao
-#!desc=Generated from saomiaobao
-[MITM]
-hostname = %APPEND% app.yinxiang.com
-[Script]

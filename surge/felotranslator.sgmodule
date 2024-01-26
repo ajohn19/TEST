@@ -1,5 +1,0 @@
-#!name=felotranslator
-#!desc=Generated from felotranslator
-[MITM]
-hostname = %APPEND% translator.felo.me
-[Script]
