@@ -60,7 +60,7 @@ def js_to_sgmodule(js_content):
             script_type = re.search(r'script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)', url_pattern, re.MULTILINE).group(1)
             
             # Append to sgmodule content
-            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={pattern}\n"
+            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/{pattern}\n"
 
     return sgmodule_content
 
