@@ -52,22 +52,17 @@ def js_to_sgmodule(js_content):
     for rewrite_match_item in rewrite_local_matches:
         rewrite_local_content = rewrite_match_item.group(1).strip()
 
-        # Extract pattern and script type from rewrite_local_content
-        pattern_script_matches = re.finditer(r'^(.*?)\s*(url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+\S+.*?)$', rewrite_local_content, re.MULTILINE)
+        # Check for the existence of each script type
+        script_types = ['response-body', 'request-body', 'echo-response', 'request-header', 'response-header', 'analyze-echo-response']
+        for script_type in script_types:
+            script_match = re.search(fr'url\s+script-{script_type}\s+(\S+.*?)$', rewrite_local_content, re.MULTILINE)
+            if script_match:
+                pattern = script_match.group(1).strip()
+                script_path = fr"https://raw.githubusercontent.com/Yu9191/Rewrite/main/{os.path.splitext(os.path.basename(pattern))[0]}.js"
+                script_type = script_type.replace('-body', '').replace('-header', '')
 
-        if not pattern_script_matches:
-            raise ValueError("Invalid rewrite_local format")
-
-        for pattern_script_match in pattern_script_matches:
-            pattern_and_script = pattern_script_match.group(2).strip().split(' ', 2)
-            pattern = f"{pattern_script_match.group(1).strip()} {pattern_and_script[0]}"
-            script = pattern_and_script[1].strip()
-
-            # Remove the '-body' or '-header' suffix from the script type
-            script_type = pattern_and_script[0].replace('-body', '').replace('-header', '')
-
-            # Append to sgmodule content
-            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
+                # Append to sgmodule content
+                sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script_path}\n"
 
     return sgmodule_content
 
