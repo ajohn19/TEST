@@ -11,7 +11,7 @@ def js_to_sgmodule(js_content):
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
     mitm_match = re.search(r'\[mitm\]\s*hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
-
+    
     if not (name_match and desc_match):
         # If project name or description is not found, use the last part of the URL
         url_matches = re.findall(r'url\s+script-(?:response-body|request-body|response-header|request-header|echo-response|analyze-echo-response)\s+(.*?)$', js_content, re.MULTILINE)
