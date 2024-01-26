@@ -45,12 +45,12 @@ def js_to_sgmodule(js_content):
 
     # Process each rewrite rule
     url_patterns = [
-        r'^url\s+script-response-body\s+(\S+.*?)$',
-        r'^url\s+script-request-body\s+(\S+.*?)$',
-        r'^url\s+script-response-header\s+(\S+.*?)$',
-        r'^url\s+script-request-header\s+(\S+.*?)$',
-        r'^url\s+script-echo-response\s+(\S+.*?)$',
-        r'^url\s+script-analyze-echo-response\s+(\S+.*?)$',
+        r'url\s+script-response-body\s+(\S+.*?)$',
+        r'url\s+script-request-body\s+(\S+.*?)$',
+        r'url\s+script-response-header\s+(\S+.*?)$',
+        r'url\s+script-request-header\s+(\S+.*?)$',
+        r'url\s+script-echo-response\s+(\S+.*?)$',
+        r'url\s+script-analyze-echo-response\s+(\S+.*?)$',
     ]
 
     for url_pattern in url_patterns:
