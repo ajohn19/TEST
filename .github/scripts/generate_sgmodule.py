@@ -40,34 +40,33 @@ def js_to_sgmodule(js_content):
 {mitm_content_with_append}
 """
 
-    # Process each rewrite rule
+    # Process rewrite_local block
     rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*(?:\[mitm\]\s*hostname\s*=\s*(.*?)\s*)?$', re.DOTALL | re.MULTILINE)
-    rewrite_local_matches = list(rewrite_local_pattern.finditer(js_content))
+    rewrite_local_match = rewrite_local_pattern.search(js_content)
 
-    if not rewrite_local_matches:
+    if not rewrite_local_match:
         raise ValueError("No [rewrite_local] rule found")
+
+    rewrite_local_content = rewrite_local_match.group(1).strip()
+
+    # Extract pattern and script type from rewrite_local_content
+    pattern_script_matches = re.finditer(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', rewrite_local_content, re.MULTILINE)
+
+    if not pattern_script_matches:
+        raise ValueError("Invalid rewrite_local format")
 
     # Append to sgmodule content
     sgmodule_content += "[Script]\n"
-    for rewrite_match_item in rewrite_local_matches:
-        rewrite_local_content = rewrite_match_item.group(1).strip()
+    for pattern_script_match in pattern_script_matches:
+        pattern = pattern_script_match.group(1).strip()
+        script_type = pattern_script_match.group(2).strip()
+        script = pattern_script_match.group(3).strip()
 
-        # Extract pattern and script type from rewrite_local_content
-        pattern_script_matches = re.finditer(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', rewrite_local_content, re.MULTILINE)
+        # Remove the '-body' or '-header' suffix from the script type
+        script_type = script_type.replace('-body', '').replace('-header', '')
 
-        if not pattern_script_matches:
-            raise ValueError("Invalid rewrite_local format")
-
-        for pattern_script_match in pattern_script_matches:
-            pattern = pattern_script_match.group(1).strip()
-            script_type = pattern_script_match.group(2).strip()
-            script = pattern_script_match.group(3).strip()
-
-            # Remove the '-body' or '-header' suffix from the script type
-            script_type = script_type.replace('-body', '').replace('-header', '')
-
-            # Append to sgmodule content
-            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
+        # Append to sgmodule content
+        sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
 
     return sgmodule_content
 
