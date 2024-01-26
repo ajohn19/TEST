@@ -1,4 +1,7 @@
 #!name=aliyun
 #!desc=Generated from aliyun
-[MITM]
 
+[MITM]
+hostname = %APPEND% auth.alipan.com,auth.aliyundrive.com
+
+[Script]

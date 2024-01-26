@@ -1,6 +1,7 @@
 #!name=Timus
 #!desc=无
+
 [MITM]
 hostname = %APPEND% api.revenuecat.com
+
 [Script]
-Timus = type=http-response,pattern=url script-response-body https://raw.githubusercontent.com/czy13724/Quantumult-X/main/scripts/Timus.js,requires-body=1,max-size=0,script-path=url script-response-body https://raw.githubusercontent.com/czy13724/Quantumult-X/main/scripts/Timus.js
