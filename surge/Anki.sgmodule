@@ -1,0 +1,6 @@
+#!name=Anki
+#!desc=Generated from Anki
+[MITM]
+hostname = %APPEND% api.ankichinas.com
+[Script]
+Anki = type=http-response,pattern=url script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/main/Anki.js,requires-body=1,max-size=0,script-path=url script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/main/Anki.js
