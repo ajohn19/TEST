@@ -10,8 +10,7 @@ def js_to_sgmodule(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
-    mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
-    hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
+    mitm_match = re.search(r'\[mitm\]\s*hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     
     if not (name_match and desc_match):
         # If project name or description is not found, use the last part of the URL
@@ -23,17 +22,14 @@ def js_to_sgmodule(js_content):
         project_name = name_match.group(1).strip()
         project_desc = desc_match.group(1).strip()
 
-    # Extract and insert %APPEND% into mitm and hostname content
+    # Extract and insert %APPEND% into mitm content
     mitm_content = mitm_match.group(1).strip() if mitm_match else ''
     mitm_content_with_append = insert_append(mitm_content)
-
-    hostname_content = hostname_match.group(1).strip() if hostname_match else ''
-    hostname_content_with_append = insert_append(hostname_content)
 
     # Extract and process each rewrite_local rule
     rewrite_local_matches = re.finditer(r'\[rewrite_local\]\s*(.*?)\s*(?:(?=\[|$))', js_content, re.DOTALL | re.MULTILINE)
     if not rewrite_local_matches:
-        raise ValueError("No [rewrite_local] rule found")
+        raise ValueError(f"No [rewrite_local] rule found\nJS content:\n{js_content}")
 
     # Generate sgmodule content for each rewrite_local rule
     sgmodule_content = ""
@@ -41,16 +37,18 @@ def js_to_sgmodule(js_content):
         rewrite_local_content = match.group(1).strip()
 
         # Extract pattern and script from rewrite_local_content
-        pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(.*)$', rewrite_local_content, re.MULTILINE)
-        if not pattern_script_match:
-            raise ValueError("Invalid rewrite_local format")
+        pattern_script_matches = re.finditer(r'^\s*(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(.*?)$', rewrite_local_content, re.MULTILINE)
+        if not pattern_script_matches:
+            raise ValueError(f"Invalid rewrite_local format\nRewrite_local content:\n{rewrite_local_content}")
 
-        pattern = pattern_script_match.group(1).strip()
-        script_type = pattern_script_match.group(2).strip()
-        script = pattern_script_match.group(3).strip()
+        # Generate sgmodule content for each pattern_script_match
+        for pattern_script_match in pattern_script_matches:
+            pattern = pattern_script_match.group(1).strip()
+            script_type = pattern_script_match.group(2).strip()
+            script = pattern_script_match.group(3).strip()
 
-        # Generate sgmodule content
-        sgmodule_content += f"""#!name={project_name}
+            # Generate sgmodule content
+            sgmodule_content += f"""#!name={project_name}
 #!desc={project_desc}
 
 [Script]
