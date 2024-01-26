@@ -5,12 +5,28 @@ def insert_append(content):
     # Insert %APPEND% after the first '=' sign
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
+def process_rewrites(rewrite_content, project_name):
+    # Check for the existence of each script type
+    script_types = ['response-body', 'request-body', 'echo-response', 'request-header', 'response-header', 'analyze-echo-response']
+    result = ""
+    for script_type in script_types:
+        script_match = re.search(fr'url\s+script-{script_type}\s+(\S+.*?)$', rewrite_content, re.MULTILINE | re.IGNORECASE)
+        if script_match:
+            pattern = script_match.group(1).strip()
+            script_path = fr"https://raw.githubusercontent.com/Yu9191/Rewrite/main/{os.path.splitext(os.path.basename(pattern))[0]}.js"
+            script_type = script_type.replace('-body', '').replace('-header', '')
+
+            # Append to result
+            result += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script_path}\n"
+
+    return result
+
 def js_to_sgmodule(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
-    mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
-    hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
+    mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.IGNORECASE)
+    hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.IGNORECASE)
 
     # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
@@ -41,7 +57,7 @@ def js_to_sgmodule(js_content):
 """
 
     # Process each rewrite rule
-    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*(?:\[mitm\]\s*hostname\s*=\s*(.*?)\s*)?$', re.DOTALL | re.MULTILINE)
+    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*(?:\[mitm\]\s*hostname\s*=\s*(.*?)\s*)?$', re.DOTALL | re.MULTILINE | re.IGNORECASE)
     rewrite_local_matches = list(rewrite_local_pattern.finditer(js_content))
 
     if not rewrite_local_matches:
@@ -51,18 +67,8 @@ def js_to_sgmodule(js_content):
     sgmodule_content += "[Script]\n"
     for rewrite_match_item in rewrite_local_matches:
         rewrite_local_content = rewrite_match_item.group(1).strip()
-
-        # Check for the existence of each script type
-        script_types = ['response-body', 'request-body', 'echo-response', 'request-header', 'response-header', 'analyze-echo-response']
-        for script_type in script_types:
-            script_match = re.search(fr'url\s+script-{script_type}\s+(\S+.*?)$', rewrite_local_content, re.MULTILINE)
-            if script_match:
-                pattern = script_match.group(1).strip()
-                script_path = fr"https://raw.githubusercontent.com/Yu9191/Rewrite/main/{os.path.splitext(os.path.basename(pattern))[0]}.js"
-                script_type = script_type.replace('-body', '').replace('-header', '')
-
-                # Append to sgmodule content
-                sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script_path}\n"
+        project_rules = process_rewrites(rewrite_local_content, project_name)
+        sgmodule_content += project_rules
 
     return sgmodule_content
 
