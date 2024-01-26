@@ -11,6 +11,7 @@ def js_to_sgmodule(js_content):
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
     mitm_match = re.search(r'\[mitm\]\s*hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
+    hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     
     if not (name_match and desc_match):
         # If project name or description is not found, use the last part of the URL
@@ -22,9 +23,12 @@ def js_to_sgmodule(js_content):
         project_name = name_match.group(1).strip()
         project_desc = desc_match.group(1).strip()
 
-    # Extract and insert %APPEND% into mitm content
+    # Extract and insert %APPEND% into mitm and hostname content
     mitm_content = mitm_match.group(1).strip() if mitm_match else ''
     mitm_content_with_append = insert_append(mitm_content)
+
+    hostname_content = hostname_match.group(1).strip() if hostname_match else ''
+    hostname_content_with_append = insert_append(hostname_content)
 
     # Extract and process each rewrite_local rule
     rewrite_local_matches = re.finditer(r'\[rewrite_local\]\s*(.*?)\s*(?:(?=\[|$))', js_content, re.DOTALL | re.MULTILINE)
@@ -36,11 +40,12 @@ def js_to_sgmodule(js_content):
     for match in rewrite_local_matches:
         rewrite_local_content = match.group(1).strip()
 
-        # Extract and process each pattern_script_match
-        pattern_script_matches = re.finditer(r'^\s*(.*?)\s*url\s+script-(response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(.*?)$', rewrite_local_content, re.MULTILINE)
+        # Extract pattern and script from rewrite_local_content
+        pattern_script_matches = re.finditer(r'^(.*?)\s*url\s+script-(response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(.*)$', rewrite_local_content, re.MULTILINE)
         if not pattern_script_matches:
             raise ValueError(f"Invalid rewrite_local format\nRewrite_local content:\n{rewrite_local_content}")
 
+        # Generate sgmodule content for each pattern_script match
         for pattern_script_match in pattern_script_matches:
             pattern = pattern_script_match.group(1).strip()
             script_type = pattern_script_match.group(2).strip()
