@@ -53,26 +53,21 @@ def js_to_sgmodule(js_content):
         rewrite_local_content = rewrite_match_item.group(1).strip()
 
         # Extract pattern and script type from rewrite_local_content
-        pattern_script_matches = re.finditer(r'^.*?\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', rewrite_local_content, re.MULTILINE)
+        pattern_script_matches = re.finditer(r'^(.*?)\s*(url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+\S+.*?)$', rewrite_local_content, re.MULTILINE)
 
         if not pattern_script_matches:
             raise ValueError("Invalid rewrite_local format")
 
         for pattern_script_match in pattern_script_matches:
-            script_type = pattern_script_match.group(1).strip()
-            script = pattern_script_match.group(2).strip()
+            pattern_and_script = pattern_script_match.group(2).strip().split(' ', 2)
+            pattern = f"{pattern_script_match.group(1).strip()} {pattern_and_script[0]}"
+            script = pattern_and_script[1].strip()
 
             # Remove the '-body' or '-header' suffix from the script type
-            script_type = script_type.replace('-body', '').replace('-header', '')
+            script_type = pattern_and_script[0].replace('-body', '').replace('-header', '')
 
-            # Split the script into pattern and script-path
-            script_parts = script.split()
-            if len(script_parts) >= 2:
-                pattern = script_parts[0]
-                script_path = script_parts[1]
-
-                # Append to sgmodule content
-                sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script_path}\n"
+            # Append to sgmodule content
+            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
 
     return sgmodule_content
 
