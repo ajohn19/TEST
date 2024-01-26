@@ -2,13 +2,17 @@ import os
 import re
 
 def insert_append(content):
+    # Insert %APPEND% after the first '=' sign
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
 def js_to_sgmodule(js_content):
+    # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
-    hostname_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
+    mitm_match = re.search(r'\[([Mm])itm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE | re.IGNORECASE)
+    hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
 
+    # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
         url_pattern = r'url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
         last_part_match = re.search(url_pattern, js_content, re.MULTILINE)
@@ -16,47 +20,52 @@ def js_to_sgmodule(js_content):
             project_name = os.path.splitext(os.path.basename(last_part_match.group(1).strip()))[0]
         else:
             raise ValueError("Invalid JS file format")
-
+        
         project_desc = f"Generated from {project_name}"
 
     else:
         project_name = name_match.group(1).strip()
         project_desc = desc_match.group(1).strip()
 
+    mitm_content = mitm_match.group(2).strip() if mitm_match else ''
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
-    hostname_content_with_append = insert_append(hostname_content)
+    # Insert %APPEND% into mitm and hostname content
+    mitm_content_with_append = insert_append(mitm_content)
 
+    # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
 #!desc={project_desc}
+
 [MITM]
-{hostname_content_with_append}
+{mitm_content_with_append}
+
+[Script]
 """
 
-    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', re.DOTALL | re.MULTILINE)
-    rewrite_local_match = rewrite_local_pattern.search(js_content)
+    # Process each rewrite rule
+    url_patterns = [
+        r'^url\s+script-response-body\s+(\S+.*?)$',
+        r'^url\s+script-request-body\s+(\S+.*?)$',
+        r'^url\s+script-response-header\s+(\S+.*?)$',
+        r'^url\s+script-request-header\s+(\S+.*?)$',
+        r'^url\s+script-echo-response\s+(\S+.*?)$',
+        r'^url\s+script-analyze-echo-response\s+(\S+.*?)$',
+    ]
 
-    if rewrite_local_match:
-        rewrite_local_content = rewrite_local_match.group(1).strip()
-
-        pattern_script_matches = re.finditer(r'(url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+\S+.*?)$', rewrite_local_content, re.MULTILINE)
-
-        if not pattern_script_matches:
-            print("Warning: No valid rewrite_local rules found")
-
-        sgmodule_content += "[Script]\n"
-        for pattern_script_match in pattern_script_matches:
-            pattern_script = pattern_script_match.group(1).strip()
-            script_type = re.search(r'url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', pattern_script, re.MULTILINE).group(1)
-            script_type = script_type.replace('-body', '').replace('-header', '')
-            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern_script},requires-body=1,max-size=0,script-path={pattern_script}\n"
-
-    else:
-        print("Warning: No [rewrite_local] rule found")
+    for url_pattern in url_patterns:
+        matches = re.finditer(url_pattern, js_content, re.MULTILINE)
+        for match in matches:
+            pattern = match.group(1).strip()
+            script_type = re.search(r'script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)', url_pattern, re.MULTILINE).group(1)
+            
+            # Append to sgmodule content
+            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={pattern}\n"
 
     return sgmodule_content
 
 def main():
+    # Process each file in the 'qx' folder
     qx_folder_path = 'qx'
     if not os.path.exists(qx_folder_path):
         print(f"Error: {qx_folder_path} does not exist.")
@@ -69,6 +78,7 @@ def main():
                 js_content = js_file.read()
                 sgmodule_content = js_to_sgmodule(js_content)
 
+                # Write sgmodule content to surge folder
                 surge_folder_path = 'surge'
                 os.makedirs(surge_folder_path, exist_ok=True)
                 sgmodule_file_path = os.path.join(surge_folder_path, f"{os.path.splitext(file_name)[0]}.sgmodule")
@@ -77,6 +87,7 @@ def main():
 
                 print(f"Generated {sgmodule_file_path}")
 
+                # Add a dummy change and commit
                 with open(file_path, 'a', encoding='utf-8') as js_file:
                     js_file.write("\n// Adding a dummy change to trigger git commit\n")
 
