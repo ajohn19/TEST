@@ -40,8 +40,8 @@ def js_to_sgmodule(js_content):
 {mitm_content_with_append}
 """
 
-    # Process rewrite_local block
-    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*(?:\[mitm\]\s*hostname\s*=\s*(.*?)\s*)?$', re.DOTALL | re.MULTILINE)
+    # Process each rewrite rule
+    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*(?:\[mitm\]\s*hostname\s*=\s*(.*?)\s*)?', re.DOTALL | re.MULTILINE)
     rewrite_local_match = rewrite_local_pattern.search(js_content)
 
     if not rewrite_local_match:
