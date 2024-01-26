@@ -59,9 +59,6 @@ def js_to_sgmodule(js_content):
             pattern = match.group(1).strip()
             script_type = re.search(r'script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)', url_pattern, re.MULTILINE).group(1)
             
-            # Remove the '-body' or '-header' suffix from the script type
-            script_type = script_type.replace('-body', '').replace('-header', '')
-
             # Append to sgmodule content
             sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={pattern}\n"
 
