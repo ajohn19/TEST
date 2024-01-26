@@ -39,15 +39,17 @@ def js_to_sgmodule(js_content):
     if rewrite_local_match:
         rewrite_local_content = rewrite_local_match.group(1).strip()
 
-        pattern_script_matches = re.finditer(r'^\s*(url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+\S+.*?)$', rewrite_local_content, re.MULTILINE)
+        pattern_script_matches = re.finditer(r'\burl\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', rewrite_local_content, re.MULTILINE)
 
         if not pattern_script_matches:
             print("Warning: No valid rewrite_local rules found")
 
         sgmodule_content += "[Script]\n"
         for pattern_script_match in pattern_script_matches:
-            pattern_script = pattern_script_match.group(1).strip()
-            sgmodule_content += f"{project_name} = {pattern_script}\n"
+            pattern_script = pattern_script_match.group(2).strip()
+            script_type = pattern_script_match.group(1).strip()
+            script_type = script_type.replace('-body', '').replace('-header', '')
+            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern_script},requires-body=1,max-size=0,script-path={pattern_script}\n"
 
     else:
         print("Warning: No [rewrite_local] rule found")
