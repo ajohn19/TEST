@@ -3,4 +3,4 @@
 [MITM]
 hostname = %APPEND% translator.felo.me
 [Script]
-felotranslator = type=http-url,pattern=https://translator.felo.me/api/plan/current url,requires-body=1,max-size=0,script-path=script-response-body
+felotranslator = type=http-response,pattern=https://raw.githubusercontent.com/czy13724/TEST/main/javascript/felotranslator.js,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/felotranslator.js

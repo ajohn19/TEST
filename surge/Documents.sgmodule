@@ -3,4 +3,4 @@
 [MITM]
 hostname = %APPEND% license.pdfexpert.com
 [Script]
-Documents = type=http-url,pattern=^https:\/\/license\.pdfexpert\.com\/api\/2\.0\/documents\/subscription\/refresh url,requires-body=1,max-size=0,script-path=script-request-body
+Documents = type=http-request,pattern=https://raw.githubusercontent.com/Yu9191/Rewrite/main/Documents.js,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/Documents.js
