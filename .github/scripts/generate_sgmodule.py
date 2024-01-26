@@ -10,57 +10,46 @@ def js_to_sgmodule(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
-    mitm_match = re.search(r'\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
-    hostname_content = mitm_match.group(1).strip() if mitm_match else ''
-    rewrite_local_content = ''
+    rewrite_match = re.findall(r'\[rewrite_local\]\s*(.*?)\s*(?=\[|\n|$)', js_content, re.DOTALL | re.MULTILINE)
+    mitm_match = re.search(r'\[mitm\]\s*hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
 
-    if not (name_match and desc_match):
-        # If "项目名称" or "使用说明" is not found, try to extract from rewrite_local
-        rewrite_local_match = re.search(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
-        if rewrite_local_match:
-            rewrite_local_content = rewrite_local_match.group(1).strip()
-
-    if not rewrite_local_content:
+    if not rewrite_match:
         raise ValueError("No [rewrite_local] rule found")
 
-    # Extract pattern and script from rewrite_local_content
-    pattern_script_matches = re.finditer(r'^(.*?)\s*url\s+script-(response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(.*)$', rewrite_local_content, re.MULTILINE)
-    if not pattern_script_matches:
-        raise ValueError("Invalid rewrite_local format")
+    project_name = name_match.group(1).strip() if name_match else "rewrite_match[0].split()[-1].split('/')[-1].split('.')[0]
+    project_desc = desc_match.group(1).strip() if desc_match else f"Generated from {rewrite_match[0].split()[-1].split('/')[-1].split('.')[0]}"
 
-    sgmodule_content = []
-    for pattern_script_match in pattern_script_matches:
+    mitm_content = mitm_match.group(1).strip() if mitm_match else ''
+
+    # Insert %APPEND% into mitm content
+    mitm_content_with_append = insert_append(mitm_content)
+
+    # Generate sgmodule content
+    sgmodule_content = f"""#!name={project_name}
+#!desc={project_desc}
+
+[MITM]
+{mitm_content_with_append}
+
+[Script]
+"""
+
+    # Process each rewrite_local rule
+    for rule in rewrite_match:
+        pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(.*)$', rule, re.MULTILINE)
+        if not pattern_script_match:
+            raise ValueError("Invalid rewrite_local format")
+
         pattern = pattern_script_match.group(1).strip()
-        script_type = pattern_script_match.group(2).strip()
-        script = pattern_script_match.group(3).strip()
+        script = pattern_script_match.group(2).strip()
 
         # Insert %APPEND% into pattern
         pattern_with_append = insert_append(pattern)
 
-        # Generate sgmodule content for each rule
-        sgmodule_content.append(f"""[Script]
-{pattern_with_append} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}
+        # Append to sgmodule content
+        sgmodule_content += f"{project_name} = type=http-{script},pattern={pattern_with_append},requires-body=1,max-size=0,script-path={script}\n"
 
-""")
-
-    # Combine sgmodule content
-    sgmodule_combined_content = "".join(sgmodule_content)
-
-    if name_match and desc_match:
-        # If "项目名称" and "使用说明" are found, use them
-        project_name = name_match.group(1).strip()
-        project_desc = desc_match.group(1).strip()
-
-        sgmodule_combined_content = f"""#!name={project_name}
-#!desc={project_desc}
-
-[MITM]
-hostname = %APPEND% {hostname_content}
-
-{sgmodule_combined_content}
-"""
-
-    return sgmodule_combined_content
+    return sgmodule_content
 
 def main():
     # Process each file in the 'qx' folder
