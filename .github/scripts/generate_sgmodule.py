@@ -1,6 +1,5 @@
 import os
 import re
-from github import Github
 
 def insert_append(content):
     # Insert %APPEND% after the first '=' sign
