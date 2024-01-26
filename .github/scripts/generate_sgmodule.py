@@ -44,7 +44,7 @@ def js_to_sgmodule(js_content):
 """
 
     # Process each rewrite rule
-    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*(?:\[([Mm])itm\]\s*hostname\s*=\s*(.*?)\s*|$)', re.DOTALL | re.MULTILINE)
+    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)\s*)', re.DOTALL | re.MULTILINE)
     rewrite_local_matches = list(rewrite_local_pattern.finditer(js_content))
 
     if not rewrite_local_matches:
@@ -55,22 +55,19 @@ def js_to_sgmodule(js_content):
         rewrite_local_content = rewrite_match_item.group(1).strip()
 
         # Extract pattern and script type from rewrite_local_content
-        pattern_script_matches = re.finditer(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', rewrite_local_content, re.MULTILINE)
+        pattern_script_match = re.search(r'url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$', rewrite_local_content, re.MULTILINE)
 
-        if not pattern_script_matches:
+        if not pattern_script_match:
             raise ValueError("Invalid rewrite_local format")
 
+        pattern = pattern_script_match.group(2).strip()
+        script_type = pattern_script_match.group(1).strip()
+
+        # Remove the '-body' or '-header' suffix from the script type
+        script_type = script_type.replace('-body', '').replace('-header', '')
+
         # Append to sgmodule content
-        for pattern_script_match in pattern_script_matches:
-            pattern = pattern_script_match.group(1).strip()
-            script_type = pattern_script_match.group(2).strip()
-            script = pattern_script_match.group(3).strip()
-
-            # Remove the '-body' or '-header' suffix from the script type
-            script_type = script_type.replace('-body', '').replace('-header', '')
-
-            # Append to sgmodule content
-            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}\n"
+        sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={pattern}\n"
 
     return sgmodule_content
 
