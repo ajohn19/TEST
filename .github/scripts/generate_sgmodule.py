@@ -45,19 +45,19 @@ def js_to_sgmodule(js_content):
 
     # Process each rewrite rule
     url_patterns = [
-        r'(\S+.*?)\s+url\s+script-response-body\s+',
-        r'(\S+.*?)\s+url\s+script-request-body\s+',
-        r'(\S+.*?)\s+url\s+script-response-header\s+',
-        r'(\S+.*?)\s+url\s+script-request-header\s+',
-        r'(\S+.*?)\s+url\s+script-echo-response\s+',
-        r'(\S+.*?)\s+url\s+script-analyze-echo-response\s+',
+        r'url\s+script-response-body\s+(\S+.*?)$',
+        r'url\s+script-request-body\s+(\S+.*?)$',
+        r'url\s+script-response-header\s+(\S+.*?)$',
+        r'url\s+script-request-header\s+(\S+.*?)$',
+        r'url\s+script-echo-response\s+(\S+.*?)$',
+        r'url\s+script-analyze-echo-response\s+(\S+.*?)$',
     ]
 
     for url_pattern in url_patterns:
-        matches = re.finditer(url_pattern, js_content)
+        matches = re.finditer(url_pattern, js_content, re.MULTILINE)
         for match in matches:
             pattern = match.group(1).strip()
-            script_type = re.search(r'script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)', url_pattern).group(1)
+            script_type = re.search(r'script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)', url_pattern, re.MULTILINE).group(1)
             
             # Append to sgmodule content
             sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={pattern}\n"
