@@ -7,13 +7,19 @@ def insert_append(content):
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
 def js_to_sgmodule(js_content):
+    print("Debug: JS Content:")
+    print(js_content)
+
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
+    mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     rewrite_match = re.finditer(r'(url\s+(script-response-body|script-request-body|script-response-header|script-request-header|script-echo-response|script-analyze-echo-response)\s+(.*?))$', js_content, re.MULTILINE)
 
     if not (name_match and desc_match):
+        print("Debug: Name match:", name_match)
+        print("Debug: Desc match:", desc_match)
         raise ValueError("Invalid JS file format")
 
     project_name = name_match.group(1).strip()
@@ -23,14 +29,14 @@ def js_to_sgmodule(js_content):
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
     # Insert %APPEND% into mitm and hostname content
-    hostname_content_with_append = insert_append(mitm_content)
+    mitm_content_with_append = insert_append(mitm_content)
 
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
 #!desc={project_desc}
 
 [MITM]
-{hostname_content_with_append}
+{mitm_content_with_append}
 
 [Script]
 """
@@ -46,6 +52,9 @@ def js_to_sgmodule(js_content):
 
         # Generate sgmodule entry
         sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern_with_append},requires-body=1,max-size=0,script-path={script}\n"
+
+    print("Debug: SGModule Content:")
+    print(sgmodule_content)
 
     return sgmodule_content
 
