@@ -7,54 +7,58 @@ def insert_append(content):
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
 def js_to_sgmodule(js_content):
-    print("Debug: JS Content:")
-    print(js_content)
-
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
-    rewrite_match = re.finditer(r'^(url\s+(script-response-body|script-request-body|script-response-header|script-request-header|script-echo-response|script-analyze-echo-response)\s+(.*?))$', js_content, re.MULTILINE)
-
+    
     if not (name_match and desc_match):
-        print("Debug: Name match:", name_match)
-        print("Debug: Desc match:", desc_match)
-        raise ValueError("Invalid JS file format")
+        # If project name or description is not found, use the last part of the URL
+        url_matches = re.findall(r'url\s+script-(?:response-body|request-body|response-header|request-header|echo-response|analyze-echo-response)\s+(.*?)$', js_content, re.MULTILINE)
+        if not url_matches:
+            raise ValueError("Invalid JS file format")
+        project_name = project_desc = os.path.splitext(os.path.basename(url_matches[-1]))[0]
+    else:
+        project_name = name_match.group(1).strip()
+        project_desc = desc_match.group(1).strip()
 
-    project_name = name_match.group(1).strip()
-    project_desc = desc_match.group(1).strip()
-
+    # Extract and insert %APPEND% into mitm and hostname content
     mitm_content = mitm_match.group(1).strip() if mitm_match else ''
-    hostname_content = hostname_match.group(1).strip() if hostname_match else ''
-
-    # Insert %APPEND% into mitm and hostname content
     mitm_content_with_append = insert_append(mitm_content)
 
-    # Generate sgmodule content
-    sgmodule_content = f"""#!name={project_name}
+    hostname_content = hostname_match.group(1).strip() if hostname_match else ''
+    hostname_content_with_append = insert_append(hostname_content)
+
+    # Extract and process each rewrite_local rule
+    rewrite_local_matches = re.finditer(r'\[rewrite_local\]\s*(.*?)\s*(?:(?=\[|$))', js_content, re.DOTALL | re.MULTILINE)
+    if not rewrite_local_matches:
+        raise ValueError("No [rewrite_local] rule found")
+
+    # Generate sgmodule content for each rewrite_local rule
+    sgmodule_content = ""
+    for match in rewrite_local_matches:
+        rewrite_local_content = match.group(1).strip()
+
+        # Extract pattern and script from rewrite_local_content
+        pattern_script_match = re.search(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(.*)$', rewrite_local_content, re.MULTILINE)
+        if not pattern_script_match:
+            raise ValueError("Invalid rewrite_local format")
+
+        pattern = pattern_script_match.group(1).strip()
+        script_type = pattern_script_match.group(2).strip()
+        script = pattern_script_match.group(3).strip()
+
+        # Generate sgmodule content
+        sgmodule_content += f"""#!name={project_name}
 #!desc={project_desc}
+
+[Script]
+{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}
 
 [MITM]
 {mitm_content_with_append}
-
-[Script]
 """
-
-    # Extract pattern and script for each rewrite rule
-    for match in rewrite_match:
-        pattern = match.group(3).strip()
-        script_type = match.group(2).strip()
-        script = match.group(1).strip()
-
-        # Insert %APPEND% into pattern if needed
-        pattern_with_append = insert_append(pattern)
-
-        # Generate sgmodule entry
-        sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern_with_append},requires-body=1,max-size=0,script-path={script}\n"
-
-    print("Debug: SGModule Content:")
-    print(sgmodule_content)
 
     return sgmodule_content
 
