@@ -3,3 +3,4 @@
 [MITM]
 hostname = %APPEND% app.yinxiang.com
 [Script]
+saomiaobao = type=http-url,pattern=https://app.yinxiang.com/third/profile/public/restful/public-user-profile? url,requires-body=1,max-size=0,script-path=script-response-body

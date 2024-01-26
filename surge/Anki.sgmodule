@@ -3,3 +3,4 @@
 [MITM]
 hostname = %APPEND% api.ankichinas.com
 [Script]
+Anki = type=http-url,pattern=^https:\/\/api\.ankichinas\.com\/api\/v1\/users\/vipInfo url,requires-body=1,max-size=0,script-path=script-response-body
