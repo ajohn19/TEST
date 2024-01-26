@@ -5,3 +5,5 @@
 hostname = %APPEND% app.yinxiang.com
 
 [Script]
+saomiaobao = type=http-response-body,pattern=https://raw.githubusercontent.com/Yu9191/Rewrite/main/saomiaobao.js,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/saomiaobao.js
+saomiaobao = type=http-response-body,pattern=https://raw.githubusercontent.com/Yu9191/Rewrite/main/saomiaobao2.js,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/saomiaobao2.js
