@@ -15,7 +15,7 @@ def js_to_sgmodule(js_content):
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
-    rewrite_match = re.finditer(r'(url\s+(script-response-body|script-request-body|script-response-header|script-request-header|script-echo-response|script-analyze-echo-response)\s+(.*?))$', js_content, re.MULTILINE)
+    rewrite_match = re.finditer(r'^(url\s+(script-response-body|script-request-body|script-response-header|script-request-header|script-echo-response|script-analyze-echo-response)\s+(.*?))$', js_content, re.MULTILINE)
 
     if not (name_match and desc_match):
         print("Debug: Name match:", name_match)
