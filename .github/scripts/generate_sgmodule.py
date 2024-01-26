@@ -12,38 +12,41 @@ def js_to_sgmodule(js_content):
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
     mitm_match = re.search(r'\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
     hostname_content = mitm_match.group(1).strip() if mitm_match else ''
+    rewrite_local_content = ''
 
     if not (name_match and desc_match):
         # If "项目名称" or "使用说明" is not found, try to extract from rewrite_local
-        rewrite_local_content = re.search(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
-        if not rewrite_local_content:
-            raise ValueError("No [rewrite_local] or [mitm] rule found")
-        rewrite_local_content = rewrite_local_content.group(1).strip()
+        rewrite_local_match = re.search(r'\[rewrite_local\]\s*(.*?)\s*\[mitm\]\s*hostname\s*=\s*(.*?)\s*', js_content, re.DOTALL | re.MULTILINE)
+        if rewrite_local_match:
+            rewrite_local_content = rewrite_local_match.group(1).strip()
 
-        # Extract pattern and script from rewrite_local_content
-        pattern_script_matches = re.finditer(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(.*)$', rewrite_local_content, re.MULTILINE)
-        if not pattern_script_matches:
-            raise ValueError("Invalid rewrite_local format")
+    if not rewrite_local_content:
+        raise ValueError("No [rewrite_local] rule found")
 
-        sgmodule_content = []
-        for pattern_script_match in pattern_script_matches:
-            pattern = pattern_script_match.group(1).strip()
-            script_type = pattern_script_match.group(2).strip()
-            script = pattern_script_match.group(3).strip()
+    # Extract pattern and script from rewrite_local_content
+    pattern_script_matches = re.finditer(r'^(.*?)\s*url\s+script-(response|request|echo-response|request-header|response-header|analyze-echo-response)\s+(.*)$', rewrite_local_content, re.MULTILINE)
+    if not pattern_script_matches:
+        raise ValueError("Invalid rewrite_local format")
 
-            # Insert %APPEND% into pattern
-            pattern_with_append = insert_append(pattern)
+    sgmodule_content = []
+    for pattern_script_match in pattern_script_matches:
+        pattern = pattern_script_match.group(1).strip()
+        script_type = pattern_script_match.group(2).strip()
+        script = pattern_script_match.group(3).strip()
 
-            # Generate sgmodule content for each rule
-            sgmodule_content.append(f"""[Script]
+        # Insert %APPEND% into pattern
+        pattern_with_append = insert_append(pattern)
+
+        # Generate sgmodule content for each rule
+        sgmodule_content.append(f"""[Script]
 {pattern_with_append} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script}
 
 """)
 
-        # Combine sgmodule content
-        sgmodule_combined_content = "".join(sgmodule_content)
+    # Combine sgmodule content
+    sgmodule_combined_content = "".join(sgmodule_content)
 
-    else:
+    if name_match and desc_match:
         # If "项目名称" and "使用说明" are found, use them
         project_name = name_match.group(1).strip()
         project_desc = desc_match.group(1).strip()
@@ -54,7 +57,7 @@ def js_to_sgmodule(js_content):
 [MITM]
 hostname = %APPEND% {hostname_content}
 
-{rewrite_local_content}
+{sgmodule_combined_content}
 """
 
     return sgmodule_combined_content
