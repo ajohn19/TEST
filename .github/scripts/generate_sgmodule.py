@@ -1,5 +1,6 @@
 import os
 import re
+from github import Github
 
 def insert_append(content):
     # Insert %APPEND% after the first '=' sign
@@ -9,58 +10,42 @@ def js_to_sgmodule(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
-    mitm_match = re.search(r'\[([Mm])itm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE | re.IGNORECASE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.MULTILINE)
+    rewrite_match = re.finditer(r'(url\s+(script-response-body|script-request-body|script-response-header|script-request-header|script-echo-response|script-analyze-echo-response)\s+(.*?))$', js_content, re.MULTILINE)
 
-    # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
-        url_pattern = r'url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
-        last_part_match = re.search(url_pattern, js_content, re.MULTILINE)
-        if last_part_match:
-            project_name = os.path.splitext(os.path.basename(last_part_match.group(1).strip()))[0]
-        else:
-            raise ValueError("Invalid JS file format")
-        
-        project_desc = f"Generated from {project_name}"
+        raise ValueError("Invalid JS file format")
 
-    else:
-        project_name = name_match.group(1).strip()
-        project_desc = desc_match.group(1).strip()
+    project_name = name_match.group(1).strip()
+    project_desc = desc_match.group(1).strip()
 
-    mitm_content = mitm_match.group(2).strip() if mitm_match else ''
+    mitm_content = mitm_match.group(1).strip() if mitm_match else ''
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
     # Insert %APPEND% into mitm and hostname content
-    mitm_content_with_append = insert_append(mitm_content)
+    hostname_content_with_append = insert_append(mitm_content)
 
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
 #!desc={project_desc}
 
 [MITM]
-{mitm_content_with_append}
+{hostname_content_with_append}
 
 [Script]
 """
 
-    # Process each rewrite rule
-    url_patterns = [
-        r'url\s+script-response-body\s+(\S+.*?)$',
-        r'url\s+script-request-body\s+(\S+.*?)$',
-        r'url\s+script-response-header\s+(\S+.*?)$',
-        r'url\s+script-request-header\s+(\S+.*?)$',
-        r'url\s+script-echo-response\s+(\S+.*?)$',
-        r'url\s+script-analyze-echo-response\s+(\S+.*?)$',
-    ]
+    # Extract pattern and script for each rewrite rule
+    for match in rewrite_match:
+        pattern = match.group(3).strip()
+        script_type = match.group(2).strip()
+        script = match.group(1).strip()
 
-    for url_pattern in url_patterns:
-        matches = re.finditer(url_pattern, js_content, re.MULTILINE)
-        for match in matches:
-            pattern = match.group(1).strip()
-            script_type = re.search(r'script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)', url_pattern, re.MULTILINE).group(1)
-            
-            # Append to sgmodule content
-            sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/{pattern}\n"
+        # Insert %APPEND% into pattern if needed
+        pattern_with_append = insert_append(pattern)
+
+        # Generate sgmodule entry
+        sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern_with_append},requires-body=1,max-size=0,script-path={script}\n"
 
     return sgmodule_content
 
@@ -81,7 +66,7 @@ def main():
                 # Write sgmodule content to surge folder
                 surge_folder_path = 'surge'
                 os.makedirs(surge_folder_path, exist_ok=True)
-                sgmodule_file_path = os.path.join(surge_folder_path, f"{os.path.splitext(file_name)[0]}.sgmodule")
+                sgmodule_file_path = os.path.join(surge_folder_path, f"{file_name.split('.')[0]}.sgmodule")
                 with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
                     sgmodule_file.write(sgmodule_content)
 
