@@ -1,0 +1,5 @@
+#!name=Timus
+#!desc=无
+[MITM]
+hostname = %APPEND% api.revenuecat.com
+[Script]

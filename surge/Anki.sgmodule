@@ -1,0 +1,5 @@
+#!name=Anki
+#!desc=Generated from Anki
+[MITM]
+hostname = %APPEND% api.ankichinas.com
+[Script]
