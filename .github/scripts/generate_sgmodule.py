@@ -25,7 +25,6 @@ def js_to_sgmodule(js_content):
 
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
-    # Insert %APPEND% into hostname content
     hostname_content_with_append = insert_append(hostname_content)
 
     sgmodule_content = f"""#!name={project_name}
@@ -41,6 +40,7 @@ def js_to_sgmodule(js_content):
         raise ValueError("No [rewrite_local] rule found")
 
     sgmodule_content += "[Script]\n"
+
     for rewrite_match_item in rewrite_local_matches:
         rewrite_local_content = rewrite_match_item.group(1).strip()
 
@@ -60,7 +60,6 @@ def js_to_sgmodule(js_content):
 
     return sgmodule_content
 
-# 主函数不需要修改
 def main():
     qx_folder_path = 'qx'
     if not os.path.exists(qx_folder_path):
