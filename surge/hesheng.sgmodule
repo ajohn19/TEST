@@ -1,0 +1,5 @@
+#!name=hesheng
+#!desc=Generated from hesheng
+[MITM]
+hostname = %APPEND% buy.itunes.apple.com
+hesheng = type=http-response,pattern=^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/hesheng.js

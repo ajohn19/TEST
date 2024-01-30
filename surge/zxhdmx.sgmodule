@@ -1,0 +1,5 @@
+#!name=zxhdmx
+#!desc=Generated from zxhdmx
+[MITM]
+hostname = %APPEND% api.revenuecat.com
+zxhdmx = type=http-response,pattern=^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$),script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/zxhdmx.js
