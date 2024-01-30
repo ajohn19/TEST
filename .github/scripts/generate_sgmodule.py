@@ -5,22 +5,6 @@ def insert_append(content):
     # Insert %APPEND% after the first '=' sign
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
-def process_rewrites(rewrite_content, project_name):
-    # Check for the existence of each script type
-    script_types = ['response-body', 'request-body', 'echo-response', 'request-header', 'response-header', 'analyze-echo-response']
-    result = ""
-    for script_type in script_types:
-        script_match = re.search(fr'url\s+script-{script_type}\s+(\S+.*?)$', rewrite_content, re.MULTILINE | re.IGNORECASE)
-        if script_match:
-            pattern = script_match.group(1).strip()
-            script_path = fr"https://raw.githubusercontent.com/Yu9191/Rewrite/main/{os.path.splitext(os.path.basename(pattern))[0]}.js"
-            script_type = script_type.replace('-body', '').replace('-header', '')
-
-            # Append to result
-            result += f"{project_name} = type=http-{script_type},pattern={pattern},requires-body=1,max-size=0,script-path={script_path}\n"
-
-    return result
-
 def js_to_sgmodule(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
