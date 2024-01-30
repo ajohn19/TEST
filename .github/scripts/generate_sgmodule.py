@@ -56,19 +56,17 @@ def js_to_sgmodule(js_content):
 {mitm_content_with_append}
 """
 
-    # Process each rewrite rule
-    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*(?:\[mitm\]\s*hostname\s*=\s*(.*?)\s*)?$', re.DOTALL | re.MULTILINE | re.IGNORECASE)
-    rewrite_local_matches = list(rewrite_local_pattern.finditer(js_content))
+    # Regex pattern to find rewrite_local
+    rewrite_local_pattern = r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)'
+    rewrite_local_matches = re.finditer(rewrite_local_pattern, js_content, re.MULTILINE)
 
-    if not rewrite_local_matches:
-        raise ValueError("No [rewrite_local] rule found")
+    for match in rewrite_local_matches:
+        pattern = match.group(1).strip()
+        script_type = match.group(2).replace('-body', '').replace('-header', '').strip()
+        script_path = match.group(3).strip()
 
-    # Append to sgmodule content
-    sgmodule_content += "[Script]\n"
-    for rewrite_match_item in rewrite_local_matches:
-        rewrite_local_content = rewrite_match_item.group(1).strip()
-        project_rules = process_rewrites(rewrite_local_content, project_name)
-        sgmodule_content += project_rules
+        # Append the rewrite rule to the SGModule content
+        sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},script-path={script_path}\n"
 
     return sgmodule_content
 
