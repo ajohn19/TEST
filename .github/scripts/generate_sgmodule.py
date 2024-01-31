@@ -55,10 +55,6 @@ def js_to_sgmodule(js_content):
     # Insert %APPEND% into mitm and hostname content
     mitm_content_with_append = insert_append(mitm_content)
 
-    # convert and add [task_local] section
-    task_local_sgmodule_content = task_local_to_sgmodule(js_content)
-    sgmodule_content += task_local_sgmodule_content
-
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
 #!desc={project_desc}
@@ -67,6 +63,10 @@ def js_to_sgmodule(js_content):
 [Script]
 """
 
+    # convert and add [task_local] section
+    task_local_sgmodule_content = task_local_to_sgmodule(js_content)
+    sgmodule_content += task_local_sgmodule_content
+    
     # Regex pattern to find rewrite_local
     rewrite_local_pattern = r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)'
     rewrite_local_matches = re.finditer(rewrite_local_pattern, js_content, re.MULTILINE)
