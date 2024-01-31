@@ -11,7 +11,7 @@ def task_local_to_sgmodule(js_content):
     task_local_pattern = re.compile(r'\[task_local\]\s*')
     if task_local_pattern.search(js_content):
         # match different file extensions
-        task_local_matches = re.findall(r"(0\s\d{1,2},\d{1,2},\d{1,2}\s\*.*?https?://(.*?), tag=(.*?),", js_content)
+        task_local_matches = re.findall(r"(0\s\d{1,2},\d{1,2},\d{1,2}\s\*.*?https?://([^,]+?), tag=([^,]+?),", js_content)
         for match in task_local_matches:
             # Extract the cron expression, the script URL without the .js suffix, and the tag
             cronexp, script_url_no_ext, tag = match
