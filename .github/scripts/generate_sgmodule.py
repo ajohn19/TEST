@@ -6,10 +6,10 @@ def insert_append(content):
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
 def js_to_sgmodule(js_content):
-
-    # Add logic to check for the presence of the [rewrite_local] and [mitm]/[MITM] sections
-    if not (re.search(r'\[rewrite_local\]', file_content, re.IGNORECASE) and
-            re.search(r'\[mitm\]', file_content, re.IGNORECASE)):
+    # Check for the presence of the [rewrite_local] and [mitm]/[MITM] sections
+    if not (re.search(r'\[rewrite_local\]', js_content, re.IGNORECASE) or
+            re.search(r'\[mitm\]', js_content, re.IGNORECASE) or
+            re.search(r'\[MITM\]', js_content, re.IGNORECASE)):
         return None
     
     # Extract information from the JS content
@@ -60,19 +60,33 @@ def js_to_sgmodule(js_content):
 
     return sgmodule_content
 
+import os
+import re
+
+# ... (其余函数不变)
+
 def main():
-    # Process each file in the 'qx' folder
+    # Process files in the 'qx' folder
     qx_folder_path = 'qx'
     if not os.path.exists(qx_folder_path):
         print(f"Error: {qx_folder_path} does not exist.")
         return
 
+    # Define the supported file extensions
+    supported_extensions = ('.js', '.conf', '.snippet')
+
     for file_name in os.listdir(qx_folder_path):
-        if file_name.endswith((".js", ".conf", ".snippet")):
+        if file_name.endswith(supported_extensions):
+            # File extension check for .js, .conf, or .snippet
             file_path = os.path.join(qx_folder_path, file_name)
-            with open(file_path, 'r', encoding='utf-8') as js_file:
-                js_content = js_file.read()
-                sgmodule_content = js_to_sgmodule(js_content)
+            with open(file_path, 'r', encoding='utf-8') as file:
+                content = file.read()
+                sgmodule_content = js_to_sgmodule(content)
+                
+                if sgmodule_content is None:
+                    # Skip files without the required sections
+                    print(f"Skipping {file_name} due to missing required sections.")
+                    continue
 
                 # Write sgmodule content to surge folder
                 surge_folder_path = 'surge'
@@ -83,10 +97,12 @@ def main():
 
                 print(f"Generated {sgmodule_file_path}")
 
-        if sgmodule_content is None:
-        # If the sgmodule_content is None, skip this file
-            print(f"Skipping {file_name} due to missing required sections.")
-            continue
+                # Since we're simulating a git operation, we'll do this for all file types
+                with open(file_path, 'a', encoding='utf-8') as file:
+                    file.write("\n// Adding a dummy change to trigger git commit\n")
+
+                os.system(f'git add {file_path}')
+                os.system('git commit -m "Trigger update"')
 
 if __name__ == "__main__":
     main()
