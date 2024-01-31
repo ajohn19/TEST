@@ -45,3 +45,5 @@ body = body.replace(/"isFreeMag":0/g, '"isFreeMag":1');
 $done({ body });
 
 // Adding a dummy plugin change to trigger git commit
+
+// Adding a dummy plugin change to trigger git commit
