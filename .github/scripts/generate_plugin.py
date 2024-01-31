@@ -56,20 +56,19 @@ def js_to_plugin(js_content):
     mitm_content = mitm_match.group(1).strip() if mitm_match else ''
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
-    # Insert %APPEND% into mitm and hostname content
     mitm_content_with_append = (mitm_content)
 
     # Generate plugin content
     plugin_content = f"""#!name={project_name}
 #!desc={project_desc}
+    # Add the icon url to the plugin content if it exists
+    if img_url:
+        plugin_content += f"#!icon={img_url}\n"
+
 [MITM]
 {mitm_content_with_append}
 [Script]
 """
-
-    # Add the icon url to the plugin content if it exists
-    if img_url:
-        plugin_content += f"#!icon={img_url}\n"
 
     # convert and add [task_local] section
     task_local_plugin_content = task_local_to_plugin(js_content)
