@@ -40,7 +40,7 @@ def extract_rules(js_content):
     scripts = "[Script]\n"
     for rule in rewrite_rules:
         pattern, type, section, script_path, tag = rule
-       scripts += f"http-{type} {section} {pattern} script-path={script_path}, tag={tag}\n"
+        scripts += f"http-{type} {section} {pattern} script-path={script_path}, tag={tag}\n"
 
     return mitm + scripts
 
