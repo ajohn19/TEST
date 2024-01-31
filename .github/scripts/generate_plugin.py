@@ -63,15 +63,16 @@ def extract_rules(js_content):
 
     rewrite_local_content = rewrite_local_match.group(1).strip()
     url_script_matches = re.finditer(
-        r'^([^#\n].*?)\s+url\s+script-(response|request)-(?:body|header)\s+(https?://[^\s]+)\s*,\s*tag\s*=\s*(\S+)',
+        r'^([^#\n].*?)\s+url\s+(script-response-body|script-request-body|script-response-header|script-request-header|script-echo-response|script-analyze-echo-response)\s+(https?://[^\s]+)\s*,\s*tag\s*=\s*(\S+)',
         rewrite_local_content, re.MULTILINE
     )
 
     scripts = "[Script]\n"
     for match in url_script_matches:
         pattern, type, script_path, tag = match.groups()
+        type = type.replace('script-', 'http-')
         last_url_segment = os.path.splitext(os.path.basename(script_path))[0]
-        scripts += f"http-{type} {pattern} script-path={script_path}, tag={tag}, enabled=true\n"
+        scripts += f"{type} {pattern} script-path={script_path}, tag={tag}, enabled=true\n"
 
     return scripts
 
