@@ -1,0 +1,5 @@
+#!name=TransmissionHub
+#!desc=Generated from TransmissionHub
+[MITM]
+hostname = %APPEND% api.revenuecat.com
+TransmissionHub = type=http-response,pattern=https://api.revenuecat.com/v1/(receipts|subscribers)/*,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/TransmissionHub.js
