@@ -88,10 +88,6 @@ def main():
             print(f"Skipping {file_name} due to missing required sections.")
             continue
 
-                # Add a dummy change and commit
-                with open(file_path, 'a', encoding='utf-8') as js_file:
-                    js_file.write("\n// Adding a dummy change to trigger git commit\n")
-
                 os.system(f'git add {file_path}')
                 os.system('git commit -m "Trigger update"')
 
