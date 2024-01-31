@@ -3,4 +3,4 @@
 [MITM]
 hostname = api.300624.com
 [Script]
-http-response https://api.300624.com/v3/plan/feature-code/auth,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/wanxingmiaoying.js, tag=
+http-response https://api.300624.com/v3/plan/feature-code/auth,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/wanxingmiaoying.js, tag=wanxingmiaoying
