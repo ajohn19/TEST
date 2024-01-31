@@ -16,7 +16,7 @@ def task_local_to_plugin(js_content):
             # Extract the file name from the link to use as the tag
             tag = os.path.splitext(os.path.basename(script_url))[0]
             # Construct the plugin cron task section
-            task_local_content = f"cron, cron=\"{cronexp}\", script-path={script_url}, tag=\n"
+            task_local_content = f"cron \"{cronexp}\" script-path={script_url}, tag=\n"
     # Return the task_local section content, if any
     return task_local_content
 
