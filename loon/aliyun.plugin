@@ -1,6 +1,3 @@
-#!name=DefaultProjectName
-#!desc=DefaultProjectName
-#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/AliYunDrive.png
-[MITM]
-hostname = auth.alipan.com,auth.aliyundrive.com
+#!name=aliyun
+#!desc=aliyun
 [Script]
