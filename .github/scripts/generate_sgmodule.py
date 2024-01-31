@@ -5,6 +5,22 @@ def insert_append(content):
     # Insert %APPEND% after the first '=' sign
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
+# check [task_local] section and add cron
+def task_local_to_sgmodule(js_content):
+    task_local_content = ''
+    task_local_pattern = re.compile(r'\[task_local\]\s*')
+    if task_local_pattern.search(js_content):
+        # match different file extensions
+        task_local_matches = re.findall(r"(0\s\d{1,2},\d{1,2},\d{1,2}\s\*.*?https?://(.*?), tag=(.*?),", js_content)
+        for match in task_local_matches:
+            # Extract the cron expression, the script URL without the .js suffix, and the tag
+            cronexp, script_url_no_ext, tag = match
+            # Ensure compatibility with different file types
+            script_url, _ = os.path.splitext(script_url_no_ext)
+            # Generate the cron task to add to the SGModule content
+            task_local_content += f"{tag} = type=cron, cronexp=\"{cronexp}\", script-path={script_url}\n"
+    return task_local_content
+
 def js_to_sgmodule(js_content):
     # Check for the presence of the [rewrite_local] and [mitm]/[MITM] sections
     if not (re.search(r'\[rewrite_local\]', js_content, re.IGNORECASE) or
@@ -39,6 +55,10 @@ def js_to_sgmodule(js_content):
     # Insert %APPEND% into mitm and hostname content
     mitm_content_with_append = insert_append(mitm_content)
 
+    # convert and add [task_local] section
+    task_local_sgmodule_content = task_local_to_sgmodule(js_content)
+    sgmodule_content += task_local_sgmodule_content
+
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
 #!desc={project_desc}
@@ -61,10 +81,6 @@ def js_to_sgmodule(js_content):
 
     return sgmodule_content
 
-import os
-import re
-
-# ... (其余函数不变)
 
 def main():
     # Process files in the 'qx' folder
