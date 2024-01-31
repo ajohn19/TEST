@@ -1,5 +1,0 @@
-#!name=aliyun
-#!desc=aliyun
-[MITM]
-hostname = auth.alipan.com,auth.aliyundrive.com
-[Script]

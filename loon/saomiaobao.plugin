@@ -1,5 +1,0 @@
-#!name=saomiaobao
-#!desc=saomiaobao
-[MITM]
-hostname = app.yinxiang.com
-[Script]
