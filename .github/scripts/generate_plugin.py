@@ -62,19 +62,31 @@ def extract_rules(js_content):
         return ''
 
     rewrite_local_content = rewrite_local_match.group(1).strip()
-    url_script_matches = re.finditer(
-        r'^([^#\n].*?)\s+url\s+(script-response-body|script-request-body|script-response-header|script-request-header|script-echo-response|script-analyze-echo-response)\s+(https?://[^\s]+)\s*,\s*tag\s*=\s*(\S+)',
-        rewrite_local_content, re.MULTILINE
-    )
+    
+    # Define keywords for matching
+    keywords = [
+        'url script-response-body',
+        'url script-request-body',
+        'url script-response-header',
+        'url script-request-header',
+        'url script-echo-response',
+        'url script-analyze-echo-response'
+    ]
 
     scripts = "[Script]\n"
-    for match in url_script_matches:
-        pattern, type, script_path, tag = match.groups()
-        type = type.replace('script-', 'http-')
-        last_url_segment = os.path.splitext(os.path.basename(script_path))[0]
-        scripts += f"{type} {pattern} script-path={script_path}, tag={tag}, enabled=true\n"
+    for keyword in keywords:
+        keyword_pattern = re.compile(fr'^([^#\n].*?)\s+{re.escape(keyword)}\s+(https?://[^\s]+)\s*,\s*tag\s*=\s*(\S+)',
+                                     re.MULTILINE)
+        keyword_matches = keyword_pattern.finditer(rewrite_local_content)
+
+        for match in keyword_matches:
+            pattern, script_path, tag = match.groups()
+            last_url_segment = os.path.splitext(os.path.basename(script_path))[0]
+            http_type = 'http-' + keyword.split()[-1]  # Extracting 'response' or 'request'
+            scripts += f"{http_type} {pattern} script-path={script_path}, tag={tag}, enabled=true\n"
 
     return scripts
+
 
 # Repository structure and file conversion
 base_path = os.getcwd()
