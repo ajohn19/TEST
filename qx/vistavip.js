@@ -43,3 +43,5 @@ body = body.replace(/"isBuyArticle":0/g, '"isBuyArticle":1');
 body = body.replace(/"isFreeMag":0/g, '"isFreeMag":1');
 
 $done({ body });
+
+// Adding a dummy plugin change to trigger git commit
