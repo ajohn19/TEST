@@ -1,5 +1,10 @@
 #!name=znzdw
 #!desc=Generated from znzdw
+    # Add the icon url to the plugin content if it exists
+    if img_url:
+        plugin_content += f"#!icon=
+"
+
 [MITM]
 hostname = buy.itunes.apple.com
 [Script]

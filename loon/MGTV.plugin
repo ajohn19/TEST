@@ -1,5 +1,10 @@
 #!name=mgtv1
 #!desc=Generated from mgtv1
+    # Add the icon url to the plugin content if it exists
+    if img_url:
+        plugin_content += f"#!icon=
+"
+
 [MITM]
 hostname = *.mgtv.com
 [Script]

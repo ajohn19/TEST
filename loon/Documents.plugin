@@ -1,5 +1,10 @@
 #!name=Documents
 #!desc=恢复的时候 商店ID和软件处于同一账户下
+    # Add the icon url to the plugin content if it exists
+    if img_url:
+        plugin_content += f"#!icon=
+"
+
 [MITM]
 hostname = license.pdfexpert.com
 [Script]

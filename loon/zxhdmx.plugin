@@ -1,5 +1,10 @@
 #!name=zxhdmx
 #!desc=Generated from zxhdmx
+    # Add the icon url to the plugin content if it exists
+    if img_url:
+        plugin_content += f"#!icon=
+"
+
 [MITM]
 hostname = api.revenuecat.com
 [Script]
