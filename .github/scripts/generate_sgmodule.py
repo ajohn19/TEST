@@ -6,6 +6,12 @@ def insert_append(content):
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
 def js_to_sgmodule(js_content):
+
+    # Add logic to check for the presence of the [rewrite_local] and [mitm]/[MITM] sections
+    if not (re.search(r'\[rewrite_local\]', file_content, re.IGNORECASE) and
+            re.search(r'\[mitm\]', file_content, re.IGNORECASE)):
+        return None
+    
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
@@ -62,7 +68,7 @@ def main():
         return
 
     for file_name in os.listdir(qx_folder_path):
-        if file_name.endswith(".js"):
+        if file_name.endswith((".js", ".conf", ".snippet")):
             file_path = os.path.join(qx_folder_path, file_name)
             with open(file_path, 'r', encoding='utf-8') as js_file:
                 js_content = js_file.read()
@@ -76,6 +82,11 @@ def main():
                     sgmodule_file.write(sgmodule_content)
 
                 print(f"Generated {sgmodule_file_path}")
+
+        if sgmodule_content is None:
+        # If the sgmodule_content is None, skip this file
+            print(f"Skipping {file_name} due to missing required sections.")
+            continue
 
                 # Add a dummy change and commit
                 with open(file_path, 'a', encoding='utf-8') as js_file:
