@@ -40,7 +40,7 @@ def extract_rules(js_content):
     scripts = "[Script]\n"
     for rule in rewrite_rules:
         pattern, type, section, script_path, tag = rule
-        scripts += f"http-{type} {section} {pattern} script-path={script_path}, tag={tag}\n"
+       scripts += f"http-{type} {section} {pattern} script-path={script_path}, tag={tag}\n"
 
     return mitm + scripts
 
@@ -70,7 +70,7 @@ for root, dirs, files in os.walk(qx_path):
     for file_name in files:
         if file_name.lower().endswith(('.js', '.conf', '.snippet')):
             file_path = os.path.join(root, file_name)
-            with open(file_path, 'r', encoding='utf-8') as file:
+            with open(file_path, 'r') as file:
                 js_content = file.read()
 
             if not contains_required_sections(js_content):
@@ -80,6 +80,6 @@ for root, dirs, files in os.walk(qx_path):
             loon_plugin_content = convert_js_to_loon(js_content)
             output_file_name = f"{os.path.splitext(file_name)[0]}.plugin"
             output_file_path = os.path.join(loon_path, output_file_name)
-            with open(output_file_path, 'w', encoding='utf-8') as file:
+            with open(output_file_path, 'w') as file:
                 file.write(loon_plugin_content)
             print(f"Converted: {file_name} -> {output_file_name}")
