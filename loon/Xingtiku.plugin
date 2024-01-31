@@ -1,3 +1,5 @@
 #!name=Xingtiku
 #!desc=Xingtiku
+[MITM]
+hostname = cm15-c110-3.play.bokecc.com,  mb.xinghengedu.com
 [Script]

@@ -1,3 +1,5 @@
 #!name=wangyy
 #!desc=wangyy
+[MITM]
+hostname = *.music.163.com
 [Script]

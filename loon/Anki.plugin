@@ -1,3 +1,5 @@
 #!name=Anki
 #!desc=Anki
+[MITM]
+hostname = api.ankichinas.com
 [Script]

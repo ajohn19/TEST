@@ -1,3 +1,5 @@
 #!name=有谱么
 #!desc=清除缓存(卸载重下)再开脚本
+[MITM]
+hostname = yopu.co
 [Script]

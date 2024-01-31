@@ -1,3 +1,5 @@
 #!name=xdm
 #!desc=xdm
+[MITM]
+hostname = dm.yeemiao.com
 [Script]

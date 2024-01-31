@@ -1,3 +1,5 @@
 #!name=qidian.cookie
 #!desc=qidian.cookie
+[MITM]
+hostname = h5.if.qidian.com
 [Script]

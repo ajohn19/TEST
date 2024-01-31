@@ -1,3 +1,5 @@
 #!name=微信小程序考研数学欧几里得
 #!desc=脚本作者ios15 9.22更新，感谢@苍井灰灰 AES源代码
+[MITM]
+hostname = api.tumukaoyan.com
 [Script]
