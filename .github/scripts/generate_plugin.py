@@ -54,9 +54,9 @@ def convert_js_to_loon(js_content):
     return loon_plugin_content
 
 def extract_rules(js_content):
-    # Extract Rewrites from [rewrite_local] section
-    rewrite_local_pattern = r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)'
-    rewrite_local_matches = re.finditer(rewrite_local_pattern, js_content, re.MULTILINE)
+    # Extract Rewrite rules from [rewrite_local] section
+    rewrite_local_pattern = re.compile(r'^\[rewrite_local\]([\s\S]*?)(?:\[|$)', re.MULTILINE)
+    rewrite_local_match = rewrite_local_pattern.search(js_content)
 
     if not rewrite_local_match:
         return ''
@@ -71,15 +71,7 @@ def extract_rules(js_content):
     for match in url_script_matches:
         pattern, type, script_path, tag = match.groups()
         last_url_segment = os.path.splitext(os.path.basename(script_path))[0]
-        
-        # Read the content of the script file
-        with open(script_path, 'r') as script_file:
-            script_content = script_file.read()
-
-        # Escape special characters in the script content
-        script_content = script_content.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n')
-
-        scripts += f"http-{type} {last_url_segment} {pattern} script={script_content} tag={tag}\n"
+        scripts += f"http-{type} {pattern} script-path={script_path}, tag={tag}, enabled=true\n"
 
     return scripts
 
