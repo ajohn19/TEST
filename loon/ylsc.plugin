@@ -3,4 +3,7 @@
 [MITM]
 hostname = music-knowledge-api.quthing.com
 [Script]
+[MITM]
+hostname = music-knowledge-api.quthing.com
+[Script]
 http-response ^https:\/\/music-knowledge-api\.quthing\.com\/vip\/state,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/ylsc.js, tag=ylsc

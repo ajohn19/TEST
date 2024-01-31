@@ -3,4 +3,7 @@
 [MITM]
 hostname = license.pdfexpert.com
 [Script]
+[MITM]
+hostname = license.pdfexpert.com
+[Script]
 http-request ^https:\/\/license\.pdfexpert\.com\/api\/2\.0\/documents\/subscription\/refresh,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/Documents.js, tag=Documents
