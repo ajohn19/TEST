@@ -1,5 +1,0 @@
-#!name=mgtv1
-#!desc=mgtv1
-[MITM]
-hostname = *.mgtv.com
-[Script]

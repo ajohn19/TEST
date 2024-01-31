@@ -1,5 +1,0 @@
-#!name=ylsc
-#!desc=ylsc
-[MITM]
-hostname = music-knowledge-api.quthing.com
-[Script]
