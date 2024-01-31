@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  generate_sgmodule:
+  generate_plugin:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,7 +35,7 @@ jobs:
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: sgmodule-artifacts
+          name: plugin-artifacts
           path: ${{ github.workspace }}/loon
         
       - name: Push to TEST Repository
