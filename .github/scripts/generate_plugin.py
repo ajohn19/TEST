@@ -70,8 +70,6 @@ def js_to_plugin(js_content):
     # Add the icon url to the plugin content if it exists
     if img_url:
         plugin_content += f"#!icon={img_url}\n"
-    
-    plugin_content += f"[MITM]\n{mitm_content_with_append}\n[Script]\n"
 
     # convert and add [task_local] section
     task_local_plugin_content = task_local_to_plugin(js_content)
