@@ -1,5 +1,0 @@
-#!name=hesheng
-#!desc=hesheng
-[MITM]
-hostname = buy.itunes.apple.com
-[Script]
