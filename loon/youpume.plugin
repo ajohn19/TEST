@@ -3,7 +3,4 @@
 [MITM]
 hostname = yopu.co
 [Script]
-[MITM]
-hostname = yopu.co
-[Script]
 http-response ^https:\/\/yopu\.co\/api\/user\/info,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/youpume.js, tag=有谱么
