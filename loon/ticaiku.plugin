@@ -1,6 +1,0 @@
-#!name=ticaiku
-#!desc=Generated from ticaiku
-[MITM]
-hostname = miniapp.guniuniu.com
-[Script]
-http-response ^https:\/\/miniapp\.guniuniu\.com\/api\/mini-app\/user$,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/ticaiku.js, tag=ticaiku

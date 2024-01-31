@@ -1,6 +1,0 @@
-#!name=Anki
-#!desc=Generated from Anki
-[MITM]
-hostname = api.ankichinas.com
-[Script]
-http-response ^https:\/\/api\.ankichinas\.com\/api\/v1\/users\/vipInfo,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/Anki.js, tag=Anki
