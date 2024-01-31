@@ -112,9 +112,3 @@ for root, dirs, files in os.walk(qx_path):
                 file.write(loon_plugin_content)
             print(f"Converted: {file_name} -> {output_file_name}")
 
-                # Since we're simulating a git operation, we'll do this for all file types
-                with open(file_path, 'a', encoding='utf-8') as file:
-                    file.write("\n// Adding a dummy plugin change to trigger git commit\n")
-                os.system(f'git add {file_path}')
-                os.system('git commit -m "Trigger update"')
-
