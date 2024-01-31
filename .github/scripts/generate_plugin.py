@@ -35,6 +35,9 @@ def js_to_plugin(js_content):
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.IGNORECASE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.IGNORECASE)
 
+    img_url_match = re.search(r'img-url\s*=\s*(https?://[^\s]+)', js_content)
+    img_url = img_url_match.group(1) if img_url_match else ""
+    
     # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
         url_pattern = r'url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
@@ -63,6 +66,12 @@ def js_to_plugin(js_content):
 {mitm_content_with_append}
 [Script]
 """
+
+    # Add the icon url to the plugin content if it exists
+    if img_url:
+        plugin_content += f"#!icon={img_url}\n"
+    
+    plugin_content += f"[MITM]\n{mitm_content_with_append}\n[Script]\n"
 
     # convert and add [task_local] section
     task_local_plugin_content = task_local_to_plugin(js_content)
