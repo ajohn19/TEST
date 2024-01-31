@@ -66,9 +66,11 @@ def js_to_plugin(js_content):
     plugin_content = f"""#!name={project_name}
 #!desc={project_desc}
 
-[MITM]
-{mitm_content_with_append}
-[Script]
+# Add the icon url to the plugin content if it exists
+    if img_url:
+        plugin_content += f"#!icon={img_url}\n"
+    
+    plugin_content += f"[MITM]\n{mitm_content_with_append}\n[Script]\n"
 """
 
     # convert and add [task_local] section
