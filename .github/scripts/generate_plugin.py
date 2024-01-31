@@ -58,17 +58,14 @@ def js_to_plugin(js_content):
 
     mitm_content_with_append = (mitm_content)
 
-    # Add the icon url to the plugin content if it exists
-    if img_url:
-        plugin_content += f"#!icon={img_url}\n"
-
     # Generate plugin content
     plugin_content = f"""#!name={project_name}
 #!desc={project_desc}
-"""
+
 # Add the icon url to the plugin content if it exists
     if img_url:
         plugin_content += f"#!icon={img_url}\n"
+"""
     
     plugin_content += f"[MITM]\n{mitm_content_with_append}\n[Script]\n"
 
