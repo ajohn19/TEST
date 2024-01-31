@@ -22,34 +22,52 @@ def extract_header_info(js_content):
 
     return project_name, project_desc
 
-def extract_rules(js_content):
-    # Extract Rewrites from [rewrite_local] section
-    rewrite_rules = re.findall(
-        r'\[rewrite_local\]\n(.*?)\n(?:\[|\n|$)',
-        js_content, re.DOTALL
-    )
-    scripts = "[Script]\n"
-    for rewrite_rule in rewrite_rules:
-        url_script_matches = re.finditer(
-            r'url\s+script-(response|request)-(?:body|header)\s+(https?://[^\s]+)\s*,\s*tag\s*=\s*(\S+)',
-            rewrite_rule
-        )
-        for match in url_script_matches:
-            type, script_path, tag = match.groups()
-            last_url_segment = os.path.splitext(os.path.basename(script_path))[0]
-            scripts += f"http-{type} {last_url_segment} {script_path} tag={tag}\n"
+def extract_mitm_info(js_content):
+    # Extract MITM information from [MITM]/[mitm] section
+    mitm_match = re.search(r'\[MITM\]\s*hostname\s*=\s*(.*)', js_content, re.IGNORECASE)
+    if not mitm_match:
+        mitm_match = re.search(r'\[mitm\]\s*hostname\s*=\s*(.*)', js_content, re.IGNORECASE)
 
-    return scripts
+    hostname = mitm_match.group(1).strip() if mitm_match else ''
+    return hostname
 
 def convert_js_to_loon(js_content):
     # Convert JS content to Loon Plugin format
     project_name, project_desc = extract_header_info(js_content)
-    rules = extract_rules(js_content)
+    mitm_hostname = extract_mitm_info(js_content)
     
     loon_plugin_content = f"#!name={project_name}\n#!desc={project_desc}\n"
+    
+    if mitm_hostname:
+        loon_plugin_content += f"[MITM]\nhostname = {mitm_hostname}\n"
+    
+    # Extract rules and append to loon_plugin_content
+    rules = extract_rules(js_content)
     loon_plugin_content += rules
     
     return loon_plugin_content
+
+def extract_rules(js_content):
+    # Extract Rewrites from [rewrite_local] section
+    rewrite_local_pattern = re.compile(r'\[rewrite_local\]\s*(.*?)\s*(?:\[|\n|$)', re.DOTALL)
+    rewrite_local_match = rewrite_local_pattern.search(js_content)
+
+    if not rewrite_local_match:
+        return ''
+
+    rewrite_local_content = rewrite_local_match.group(1).strip()
+    url_script_matches = re.finditer(
+        r'url\s+script-(response|request)-(?:body|header)\s+(https?://[^\s]+)\s*,\s*tag\s*=\s*(\S+)',
+        rewrite_local_content
+    )
+
+    scripts = "[Script]\n"
+    for match in url_script_matches:
+        type, script_path, tag = match.groups()
+        last_url_segment = os.path.splitext(os.path.basename(script_path))[0]
+        scripts += f"http-{type} {last_url_segment} {script_path} tag={tag}\n"
+
+    return scripts
 
 # Repository structure and file conversion
 base_path = os.getcwd()
