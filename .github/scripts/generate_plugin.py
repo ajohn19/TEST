@@ -2,6 +2,8 @@ import os
 import re
 
 def task_local_to_plugin(js_content):
+    from typing import Optional  # Import the Optional type
+
     task_local_content = ''
     # Check if [task_local] section exists
     task_local_block_match = re.search(r'\[task_local\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
@@ -16,7 +18,7 @@ def task_local_to_plugin(js_content):
             # Extract the file name from the link to use as the tag
             tag = os.path.splitext(os.path.basename(script_url))[0]
             # Construct the plugin cron task section
-            task_local_content = f"cron \"{cronexp}\" script-path={script_url}, tag=\n"
+            task_local_content = f"cron \"{cronexp}\" script-path={script_url}, tag={tag}\n"
     # Return the task_local section content, if any
     return task_local_content
 
@@ -76,7 +78,7 @@ def js_to_plugin(js_content):
         script_path = match.group(3).strip()
 
         # Append the rewrite rule to the plugin content
-        plugin_content += f"http-{script_type} {pattern},script-path={script_path}, tag=\n"
+        plugin_content += f"http-{script_type} {pattern},script-path={script_path}, tag={project_name}\n"
 
     return plugin_content
 
