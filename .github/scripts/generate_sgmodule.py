@@ -88,7 +88,6 @@ def main():
             print(f"Skipping {file_name} due to missing required sections.")
             continue
 
-                os.system(f'git add {file_path}')
                 os.system('git commit -m "Trigger update"')
 
 if __name__ == "__main__":
