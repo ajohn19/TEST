@@ -1,5 +1,6 @@
 #!name=znzdw
-#!desc=znzdw
+#!desc=Generated from znzdw
 [MITM]
 hostname = buy.itunes.apple.com
 [Script]
+http-response ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/znzdw.js, tag=

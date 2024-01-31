@@ -1,5 +1,6 @@
 #!name=zxhdmx
-#!desc=zxhdmx
+#!desc=Generated from zxhdmx
 [MITM]
 hostname = api.revenuecat.com
 [Script]
+http-response ^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$),script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/zxhdmx.js, tag=

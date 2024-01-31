@@ -1,5 +1,6 @@
 #!name=hesheng
-#!desc=hesheng
+#!desc=Generated from hesheng
 [MITM]
 hostname = buy.itunes.apple.com
 [Script]
+http-response ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$,script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/hesheng.js, tag=
