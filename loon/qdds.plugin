@@ -1,10 +1,5 @@
 #!name=qidian.cookie
 #!desc=Generated from qidian.cookie
-
-# Add the icon url to the plugin content if it exists
-    if img_url:
-        plugin_content += f"#!icon=
-"
 [MITM]
 hostname = h5.if.qidian.com
 [Script]

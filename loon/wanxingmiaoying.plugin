@@ -1,10 +1,5 @@
 #!name=wanxingmiaoying
 #!desc=Generated from wanxingmiaoying
-
-# Add the icon url to the plugin content if it exists
-    if img_url:
-        plugin_content += f"#!icon=
-"
 [MITM]
 hostname = api.300624.com
 [Script]

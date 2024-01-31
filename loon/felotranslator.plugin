@@ -1,10 +1,5 @@
 #!name=felotranslator
 #!desc=Generated from felotranslator
-
-# Add the icon url to the plugin content if it exists
-    if img_url:
-        plugin_content += f"#!icon=
-"
 [MITM]
 hostname = translator.felo.me
 [Script]

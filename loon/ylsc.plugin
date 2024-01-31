@@ -1,10 +1,5 @@
 #!name=ylsc
 #!desc=Generated from ylsc
-
-# Add the icon url to the plugin content if it exists
-    if img_url:
-        plugin_content += f"#!icon=
-"
 [MITM]
 hostname = music-knowledge-api.quthing.com
 [Script]

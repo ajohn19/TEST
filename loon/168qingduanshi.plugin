@@ -1,10 +1,5 @@
 #!name=168轻断食
 #!desc=需要先试用才有数据
-
-# Add the icon url to the plugin content if it exists
-    if img_url:
-        plugin_content += f"#!icon=
-"
 [MITM]
 hostname = buy.itunes.apple.com
 [Script]
