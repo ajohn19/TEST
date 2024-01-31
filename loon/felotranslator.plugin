@@ -1,0 +1,5 @@
+#!name=felotranslator
+#!desc=felotranslator
+[MITM]
+hostname = translator.felo.me
+[Script]

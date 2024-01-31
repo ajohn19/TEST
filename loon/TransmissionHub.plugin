@@ -1,0 +1,5 @@
+#!name=TransmissionHub
+#!desc=TransmissionHub
+[MITM]
+hostname = api.revenuecat.com
+[Script]
