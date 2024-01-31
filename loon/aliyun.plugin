@@ -1,10 +1,10 @@
 #!name=aliyun
 #!desc=Generated from aliyun
-    # Add the icon url to the plugin content if it exists
+
+# Add the icon url to the plugin content if it exists
     if img_url:
         plugin_content += f"#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/AliYunDrive.png,
 "
-
 [MITM]
 hostname = auth.alipan.com,auth.aliyundrive.com
 [Script]

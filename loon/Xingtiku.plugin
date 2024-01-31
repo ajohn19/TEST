@@ -1,10 +1,10 @@
 #!name=Xingtiku
 #!desc=Generated from Xingtiku
-    # Add the icon url to the plugin content if it exists
+
+# Add the icon url to the plugin content if it exists
     if img_url:
         plugin_content += f"#!icon=
 "
-
 [MITM]
 hostname = cm15-c110-3.play.bokecc.com,  mb.xinghengedu.com
 [Script]

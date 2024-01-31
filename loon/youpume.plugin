@@ -1,10 +1,10 @@
 #!name=有谱么
 #!desc=清除缓存(卸载重下)再开脚本
-    # Add the icon url to the plugin content if it exists
+
+# Add the icon url to the plugin content if it exists
     if img_url:
         plugin_content += f"#!icon=
 "
-
 [MITM]
 hostname = yopu.co
 [Script]

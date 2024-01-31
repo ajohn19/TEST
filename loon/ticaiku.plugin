@@ -1,10 +1,10 @@
 #!name=ticaiku
 #!desc=Generated from ticaiku
-    # Add the icon url to the plugin content if it exists
+
+# Add the icon url to the plugin content if it exists
     if img_url:
         plugin_content += f"#!icon=
 "
-
 [MITM]
 hostname = miniapp.guniuniu.com
 [Script]
