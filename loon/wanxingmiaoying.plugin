@@ -1,0 +1,5 @@
+#!name=wanxingmiaoying
+#!desc=wanxingmiaoying
+[MITM]
+hostname = api.300624.com
+[Script]
