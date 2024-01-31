@@ -55,8 +55,8 @@ def convert_js_to_loon(js_content):
 
 def extract_rules(js_content):
     # Extract Rewrites from [rewrite_local] section
-    rewrite_local_pattern = re.compile(r'^\[rewrite_local\]([\s\S]*?)(?:\[|$)', re.MULTILINE)
-    rewrite_local_match = rewrite_local_pattern.search(js_content)
+    rewrite_local_pattern = r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)'
+    rewrite_local_matches = re.finditer(rewrite_local_pattern, js_content, re.MULTILINE)
 
     if not rewrite_local_match:
         return ''
