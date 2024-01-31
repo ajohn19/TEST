@@ -71,7 +71,15 @@ def extract_rules(js_content):
     for match in url_script_matches:
         pattern, type, script_path, tag = match.groups()
         last_url_segment = os.path.splitext(os.path.basename(script_path))[0]
-        scripts += f"http-{type} {last_url_segment} {pattern} script-path={script_path} tag={tag}\n"
+        
+        # Read the content of the script file
+        with open(script_path, 'r') as script_file:
+            script_content = script_file.read()
+
+        # Escape special characters in the script content
+        script_content = script_content.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n')
+
+        scripts += f"http-{type} {last_url_segment} {pattern} script={script_content} tag={tag}\n"
 
     return scripts
 
