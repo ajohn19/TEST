@@ -20,7 +20,10 @@ def extract_header_info(js_content):
         else:
             project_name = project_desc = "DefaultProjectName"
 
-    return project_name, project_desc
+    img_url_match = re.search(r'\[task_local\]\nimg-url\s*=\s*(https?://[^\s]+)', js_content)
+    img_url = img_url_match.group(1).strip() if img_url_match else ""
+
+    return project_name, project_desc, img_url
 
 def extract_mitm_info(js_content):
     # Extract MITM information from [MITM]/[mitm] section
@@ -33,11 +36,14 @@ def extract_mitm_info(js_content):
 
 def convert_js_to_loon(js_content):
     # Convert JS content to Loon Plugin format
-    project_name, project_desc = extract_header_info(js_content)
+    project_name, project_desc, img_url = extract_header_info(js_content)
     mitm_hostname = extract_mitm_info(js_content)
     
     loon_plugin_content = f"#!name={project_name}\n#!desc={project_desc}\n"
     
+    if img_url:
+        loon_plugin_content += f"#!icon={img_url}\n"
+
     if mitm_hostname:
         loon_plugin_content += f"[MITM]\nhostname = {mitm_hostname}\n"
     
