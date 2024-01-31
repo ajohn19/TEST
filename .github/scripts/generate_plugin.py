@@ -98,27 +98,25 @@ def main():
             # File extension check for .js, .conf, or .snippet
             file_path = os.path.join(qx_folder_path, file_name)
             with open(file_path, 'r', encoding='utf-8') as file:
-                content = file.read()
-                plugin_content = js_to_plugin(content)
+                js_content = file.read()
+                plugin_content = js_to_plugin(js_content)
                 
-                if plugin_content is None:
+                if plugin_content is not None:
+                    # Write plugin content to 'loon' folder if plugin_content is not None
+                    loon_folder_path = 'loon'
+                    os.makedirs(loon_folder_path, exist_ok=True)
+                    plugin_file_path = os.path.join(loon_folder_path, f"{os.path.splitext(file_name)[0]}.plugin")
+                    
+                    with open(plugin_file_path, "w", encoding="utf-8") as plugin_file:
+                        plugin_file.write(plugin_content)
+                    print(f"Generated {plugin_file_path}")
+                else:
                     # Skip files without the required sections
                     print(f"Skipping {file_name} due to missing required sections.")
-                    continue
-
-                # Write plugin content to 'loon' folder
-                loon_folder_path = 'loon'
-                os.makedirs(loon_folder_path, exist_ok=True)
-                plugin_file_path = os.path.join(loon_folder_path, f"{os.path.splitext(file_name)[0]}.plugin")
-                with open(plugin_file_path, "w", encoding="utf-8") as plugin_file:
-                    plugin_file.write(plugin_content)
-
-                print(f"Generated {plugin_file_path}")
 
                 # Since we're simulating a git operation, we'll do this for all file types
                 with open(file_path, 'a', encoding='utf-8') as file:
                     file.write("\n// Adding a dummy plugin change to trigger git commit\n")
-
                 os.system(f'git add {file_path}')
                 os.system('git commit -m "Trigger update"')
 
