@@ -37,9 +37,6 @@ def js_to_plugin(js_content):
 
     img_url_match = re.search(r'img-url\s*=\s*(https?://[^\s]+)', js_content)
     img_url = img_url_match.group(1) if img_url_match else ""
-    # Add the icon url to the plugin content if it exists
-    if img_url:
-        plugin_content += f"#!icon={img_url}\n"
     
     # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
@@ -60,6 +57,10 @@ def js_to_plugin(js_content):
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
     mitm_content_with_append = (mitm_content)
+
+    # Add the icon url to the plugin content if it exists
+    if img_url:
+        plugin_content += f"#!icon={img_url}\n"
 
     # Generate plugin content
     plugin_content = f"""#!name={project_name}
