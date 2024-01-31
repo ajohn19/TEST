@@ -1,0 +1,5 @@
+#!name=ticaiku
+#!desc=ticaiku
+[MITM]
+hostname = miniapp.guniuniu.com
+[Script]

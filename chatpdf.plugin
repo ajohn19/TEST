@@ -1,0 +1,5 @@
+#!name=chatpdf
+#!desc=无
+[MITM]
+hostname = api.revenuecat.com
+[Script]

@@ -1,0 +1,5 @@
+#!name=znzdw
+#!desc=znzdw
+[MITM]
+hostname = buy.itunes.apple.com
+[Script]
