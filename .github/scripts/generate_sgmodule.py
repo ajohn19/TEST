@@ -5,20 +5,23 @@ def insert_append(content):
     # Insert %APPEND% after the first '=' sign
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
-# check [task_local] section and add cron
 def task_local_to_sgmodule(js_content):
     task_local_content = ''
-    task_local_pattern = re.compile(r'\[task_local\]\s*')
-    if task_local_pattern.search(js_content):
-        # match different file extensions
-        task_local_matches = re.findall(r"(0\s\d{1,2},\d{1,2},\d{1,2}\s\*.*?https?://([^,]+?), tag=([^,]+?),", js_content)
-        for match in task_local_matches:
-            # Extract the cron expression, the script URL without the .js suffix, and the tag
-            cronexp, script_url_no_ext, tag = match
-            # Ensure compatibility with different file types
-            script_url, _ = os.path.splitext(script_url_no_ext)
-            # Generate the cron task to add to the SGModule content
-            task_local_content += f"{tag} = type=cron, cronexp=\"{cronexp}\", script-path={script_url}\n"
+    # Check if [task_local] section exists
+    task_local_block_match = re.search(r'\[task_local\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
+    if task_local_block_match:
+        task_local_block = task_local_block_match.group(1)
+        # Match the first link in the [task_local] section and its preceding cron expression
+        task_local_match = re.search(r'((?:0\s+\d{1,2},\d{1,2},\d{1,2}\s+.*?)+)\s+(https?://\S+)', task_local_block)
+        if task_local_match:
+            cronexp, script_url = task_local_match.groups()
+            # Ensure script-path does not include anything after a comma in the URL
+            script_url = script_url.split(',')[0]
+            # Extract the file name from the link to use as the tag
+            tag = os.path.splitext(os.path.basename(script_url))[0]
+            # Construct the SGModule cron task section
+            task_local_content = f"{tag} = type=cron, cronexp=\"{cronexp}\", script-path={script_url}\n"
+    # Return the task_local section content, if any
     return task_local_content
 
 def js_to_sgmodule(js_content):
