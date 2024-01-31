@@ -1,0 +1,5 @@
+#!name=zxhdmx
+#!desc=zxhdmx
+[MITM]
+hostname = api.revenuecat.com
+[Script]
