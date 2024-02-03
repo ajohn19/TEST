@@ -67,14 +67,7 @@ desc: |-
 {project_desc}
 """
     
-    stoverride_content += f"
-http:
-
-  mitm:
-    - "{mitm_content_with_append}"
-
-  script:
-      - match: "
+    stoverride_content += f"http:\n   mitm:\n    - "{mitm_content_with_append}"\n   script:\n    - match: "
 
     # convert and add [task_local] section
     task_local_stoverride_content = task_local_to_stoverride(js_content)
