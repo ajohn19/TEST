@@ -1,4 +1,4 @@
-# author:Levi
+# author: Levi
 # 搭配convert_js_to_stoverride.yml使用。可将qx的js/conf/snippet文件转换为stoverride文件。
 
 import os
@@ -6,22 +6,23 @@ import re
 
 def task_local_to_stoverride(js_content):
     cron_content = ''
-    # 定义解析cron配置的正则表达式
-    cron_block_match = re.search(r'\[cron\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
-    if cron_block_match:
-        cron_block = cron_block_match.group(1)
-        # 单独提取每一个cron任务
-        cron_tasks = cron_block.strip().split('\n\n')
-        for task in cron_tasks:
-            # 从cron任务中提取信息
-            cron_match = re.search(r'([^\s]+)\s+(.*?)\s([\s\S]+)', task)
-            cron_entry = cron_match.groups() if cron_match else None
-            if cron_entry:
-                name, expression, specifics = cron_entry
-                cron_content += f'  script:\n    - name: "{name}"\n      cron: "{expression}"{specifics}'
-    # 如果有cron配置，则返回对应的stoverride格式的字符串
+    cron_match = re.search(r'\[task_local\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
+    if cron_match:
+        cron_block = cron_match.group(1)
+        cron_entries = re.finditer(r'((?:(?:\d+\s?\*|\*,?){5,6})\s+)(\S+)', cron_block)
+        for cron_entry in cron_entries:
+            cron, script = cron_entry.groups()
+            cron_content += f'\n    - name: "cron_{os.path.basename(script)}"\n      cron: "{cron.strip()}"\n      script-path: {script.strip()}\n      timeout: 60\n'
     return cron_content
 
+def mitm_to_stoverride(js_content):
+    mitm_content = ''
+    mitm_match = re.search(r'\[mitm\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
+    if mitm_match:
+        mitm_block = mitm_match.group(1)
+        mitm_hosts = mitm_block.strip().split(',')
+        mitm_content = '\n'.join([f'    - "{host.strip()}"' for host in mitm_hosts if host.strip()])
+    return mitm_content
 
 def js_to_stoverride(js_content):
     # Check for the presence of the [rewrite_local] and [mitm]/[MITM] sections
@@ -57,39 +58,36 @@ def js_to_stoverride(js_content):
 
     mitm_content_with_append = (mitm_content)
 
-    # Generate stoverride content
-    stoverride_content = f"""
-name: |-
-{project_name}
-desc: |-
-{project_desc}
-"""
+    # Create the final stoverride content string
+    stoverride_content = (
+        f"name: |-\n  {project_name}\ndesc: |-\n  {project_desc}\n\n"
+        "http:\n\n"
+    )
 
-    # 调用函数转换cron配置
-    cron_stoverride_content = task_local_to_stoverride(js_content)
-    if cron_stoverride_content:
-        stoverride_content += f"\ncron:{cron_stoverride_content}\n"
+    if mitm_content_with_append:
+        stoverride_content += f"  mitm:\n{mitm_content_with_append}\n"
 
-    # 将rewrite规则转换为stoverride格式的逻辑代码
-    script_content = ''
+    # convert and add [task_local] section
+    task_local_stoverride_content = task_local_to_stoverride(js_content)
+    stoverride_content += task_local_stoverride_content
+    
+    # Regex pattern to find rewrite_local
     rewrite_local_pattern = r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)'
     rewrite_local_matches = re.finditer(rewrite_local_pattern, js_content, re.MULTILINE)
+
     for match in rewrite_local_matches:
-        pattern, script_type, script_path = match.groups()
-        script_type_alt = 'http-request' if 'request-body' in script_type or 'request-header' in script_type else 'http-response'
-        specific_settings = match.group(4)  # 这部分要保持原样，对应具体脚本设置
-        script_content += f"\n    - match: \"{pattern}\"\n      type: \"{script_type_alt}\"\n      require-body: true\n      max-size: -1\n      timeout: 60{specific_settings}\n"
+        pattern = match.group(1).strip()
+        script_type = match.group(2).replace('-body', '').replace('-header', '').strip()
+        script_path = match.group(3).strip()
 
-    if script_content:
-        stoverride_content += f"  script:{script_content}"
-
-    # 省略其他内容...
+        # Append the rewrite rule to the stoverride content
+        stoverride_content += f"\ncron:\n{task_local_stoverride_content}\n"
 
     return stoverride_content
 
 def main():
-    # Process files in the 'scripts' folder
-    qx_folder_path = 'scripts'
+    # Process files in the 'qx' folder
+    qx_folder_path = 'qx'
     if not os.path.exists(qx_folder_path):
         print(f"Error: {qx_folder_path} does not exist.")
         return
