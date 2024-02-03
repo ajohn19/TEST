@@ -5,11 +5,9 @@ desc: |-
 
 http:
 
-  mitm:
-hostname = - magev6.if.qidian.com
 
 cron:
-<function task_local_to_stoverride at 0x7fa37cdb53a0>
+<function task_local_to_stoverride at 0x7f3438fb53a0>
 
 cron:
-<function task_local_to_stoverride at 0x7fa37cdb53a0>
+<function task_local_to_stoverride at 0x7f3438fb53a0>
