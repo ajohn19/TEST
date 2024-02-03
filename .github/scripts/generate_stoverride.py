@@ -8,21 +8,19 @@ import random
 # 在程序开始时生成一个随机数以保持在整个程序中使用的一致性
 random_number = random.randint(0, 99)
 
-def script_providers_to_stoverride(project_name, script_path):
-    # 使用相同的 random_number 以保证一致性
-    name = f"{project_name}_{random_number}"
-    # ...现有代码...
 
 def task_local_to_stoverride(js_content):
     cron_content = ''
-    cron_match = re.search(r'\[task_local\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
+    cron_match = re.search(r'\[task_local\]\n(.*?)(?:\n\[|$)', js_content, re.DOTALL | re.IGNORECASE)
     if cron_match:
         cron_block = cron_match.group(1)
         cron_entries = re.finditer(r'((?:(?:\d+\s?\*|\*,?){5,6})\s+)(\S+)', cron_block)
-    for cron_entry in cron_entries:
-        cron, script = cron_entry.groups()
-        cron_content += f'\n    - name: "cron_{os.path.basename(script)}_{random_number}"\n      cron: "{cron.strip()}"\n      timeout: 60\n'
-
+        for cron_entry in cron_entries:
+            cron, script = cron_entry.groups()
+            cron_content += f'\n    - name: "cron_{os.path.basename(script)}_{random_number}"\n      cron: "{cron.strip()}"\n      timeout: 60\n'
+        if cron_content:
+            cron_content = f'  cron:{cron_content}'
+    return cron_content
 
 
 def mitm_to_stoverride(js_content):
@@ -63,6 +61,8 @@ def script_to_stoverride(js_content):
     return script_content
 
 def script_providers_to_stoverride(project_name, script_path):
+    # 使用相同的 random_number 以保证一致性
+    name = f"{project_name}_{random_number}"
     # 使用正确的 script_path 作为 url
     url = script_path.strip()
     interval = 86400  # 间隔时间设置为一天
