@@ -5,25 +5,23 @@ import os
 import re
 
 def task_local_to_stoverride(js_content):
-    from typing import Optional  # Import the Optional type
+    cron_content = ''
+    # 定义解析cron配置的正则表达式
+    cron_block_match = re.search(r'\[cron\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
+    if cron_block_match:
+        cron_block = cron_block_match.group(1)
+        # 单独提取每一个cron任务
+        cron_tasks = cron_block.strip().split('\n\n')
+        for task in cron_tasks:
+            # 从cron任务中提取信息
+            cron_match = re.search(r'([^\s]+)\s+(.*?)\s([\s\S]+)', task)
+            cron_entry = cron_match.groups() if cron_match else None
+            if cron_entry:
+                name, expression, specifics = cron_entry
+                cron_content += f'  script:\n    - name: "{name}"\n      cron: "{expression}"{specifics}'
+    # 如果有cron配置，则返回对应的stoverride格式的字符串
+    return cron_content
 
-    task_local_content = ''
-    # Check if [task_local] section exists
-    task_local_block_match = re.search(r'\[task_local\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
-    if task_local_block_match:
-        task_local_block = task_local_block_match.group(1)
-        # Match the first link in the [task_local] section and its preceding cron expression
-        task_local_match = re.search(r'((?:0\s+\d{1,2},\d{1,2},\d{1,2}\s+.*?)+)\s+(https?://\S+)', task_local_block)
-        if task_local_match:
-            cronexp, script_url = task_local_match.groups()
-            # Ensure script-path does not include anything after a comma in the URL
-            script_url = script_url.split(',')[0]
-            # Extract the file name from the link to use as the tag
-            tag = os.path.splitext(os.path.basename(script_url))[0]
-            # Construct the stoverride cron task section
-            task_local_content = f"cron \"{cronexp}\" script-path={script_url}, timeout=60, tag={tag}\n"
-    # Return the task_local section content, if any
-    return task_local_content
 
 def js_to_stoverride(js_content):
     # Check for the presence of the [rewrite_local] and [mitm]/[MITM] sections
@@ -66,27 +64,28 @@ name: |-
 desc: |-
 {project_desc}
 """
-    
-    stoverride_content += f"http:\n   mitm:\n    - "{mitm_content_with_append}"\n   script:\n    - match: "
 
-    # convert and add [task_local] section
-    task_local_stoverride_content = task_local_to_stoverride(js_content)
-    stoverride_content += task_local_stoverride_content
-    
-    # Regex pattern to find rewrite_local
+    # 调用函数转换cron配置
+    cron_stoverride_content = task_local_to_stoverride(js_content)
+    if cron_stoverride_content:
+        stoverride_content += f"\ncron:{cron_stoverride_content}\n"
+
+    # 将rewrite规则转换为stoverride格式的逻辑代码
+    script_content = ''
     rewrite_local_pattern = r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)'
     rewrite_local_matches = re.finditer(rewrite_local_pattern, js_content, re.MULTILINE)
-
     for match in rewrite_local_matches:
-        pattern = match.group(1).strip()
-        script_type = match.group(2).replace('-body', '').replace('-header', '').strip()
-        script_path = match.group(3).strip()
+        pattern, script_type, script_path = match.groups()
+        script_type_alt = 'http-request' if 'request-body' in script_type or 'request-header' in script_type else 'http-response'
+        specific_settings = match.group(4)  # 这部分要保持原样，对应具体脚本设置
+        script_content += f"\n    - match: \"{pattern}\"\n      type: \"{script_type_alt}\"\n      require-body: true\n      max-size: -1\n      timeout: 60{specific_settings}\n"
 
-        # Append the rewrite rule to the stoverride content
-        stoverride_content += f" {pattern}\n type: {script_type}\n requires-body: true\n max-size: -1\n timeout: 60\n script-providers:\n  "{project_name}_24":\n   url: {script_path}  interval: 86400\n"
+    if script_content:
+        stoverride_content += f"  script:{script_content}"
+
+    # 省略其他内容...
 
     return stoverride_content
-
 
 def main():
     # Process files in the 'scripts' folder
@@ -107,10 +106,10 @@ def main():
                 stoverride_content = js_to_stoverride(js_content)
                 
                 if stoverride_content is not None:
-                    # Write stoverride content to 'Loon' folder if stoverride_content is not None
-                    loon_folder_path = 'Loon'
-                    os.makedirs(loon_folder_path, exist_ok=True)
-                    stoverride_file_path = os.path.join(loon_folder_path, f"{os.path.splitext(file_name)[0]}.stoverride")
+                    # Write stoverride content to 'stash' folder if stoverride_content is not None
+                    stash_folder_path = 'stash'
+                    os.makedirs(stash_folder_path, exist_ok=True)
+                    stoverride_file_path = os.path.join(stash_folder_path, f"{os.path.splitext(file_name)[0]}.stoverride")
                     
                     with open(stoverride_file_path, "w", encoding="utf-8") as stoverride_file:
                         stoverride_file.write(stoverride_content)
