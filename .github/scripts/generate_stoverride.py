@@ -57,8 +57,8 @@ def script_to_stoverride(js_content, project_name, random_number):
         pattern, method, kind, path = match.groups()
         stoverride_method = 'request' if method == 'request' else 'response'
         # kind 暂时未使用，实际过程中可能需要根据 'body' 和 'header' 修改脚本路径
-        script_content += f'  \n- match: {pattern.strip()}\n'
-        script_content += f'    {project_name}_{random_number}\n'
+        script_content += f'  \n    - match: {pattern.strip()}\n'
+        script_content += f'    name: {project_name}_{random_number}\n'
         script_content += f'    type: {stoverride_method}\n'
         script_content += f'    require-body: true\n'
         script_content += f'    max-size: -1\n'
