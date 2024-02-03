@@ -5,7 +5,7 @@ import os
 import re
 import random
 
-# 在程序开始时生成一个随机数以保持在整个程序中使用的一致性
+# Generate a random number at the beginning to maintain consistency in usage
 random_number = random.randint(0, 99)
 
 
@@ -31,23 +31,23 @@ def task_local_to_stoverride(js_content, project_name, random_number):
 
 def mitm_to_stoverride(js_content):
     mitm_content = ''
-    # 查找[Mitm]或[Mitm]标签内容
+    # search [MITM]/[mitm] section
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.IGNORECASE)
-    # 如果找到，则进一步处理
+    # if found
     if mitm_match:
         mitm_block = mitm_match.group(1)
-        # 移除"hostname ="和空白字符
+        # remove "hostname ="
         mitm_block = re.sub(r'hostname\s*=\s*', '', mitm_block)
-        # 分割主机名
+        # Split hostname
         mitm_hosts = mitm_block.strip().split(',')
-        # 为每个主机名添加"- "前缀，使其符合stoverride格式
+        # Add "-" prefix to each hostname so that it conforms to stoverride format
         mitm_content = '\n'.join([f'    - "{host.strip()}"' for host in mitm_hosts if host.strip()])
-    # 返回处理后的MITM字符串
+    # Returns the processed MITM string
     return mitm_content
 
 def script_to_stoverride(js_content, project_name, random_number):
     script_content = ''
-    # 正则表达式匹配 rewrite_local 部分
+    # match rewrite_local part
     rewrite_matches = re.finditer(
         r'^(.*?)(?:\s*url\s+script-(response|request)-(body|header)\s+(.*))$', 
         js_content, 
@@ -56,7 +56,7 @@ def script_to_stoverride(js_content, project_name, random_number):
     for match in rewrite_matches:
         pattern, method, kind, path = match.groups()
         stoverride_method = 'request' if method == 'request' else 'response'
-        # kind 暂时未使用，实际过程中可能需要根据 'body' 和 'header' 修改脚本路径
+      # kind is not used for the time being, the actual process may need to change the script path according to 'body' and 'header'.
         script_content += f'  \n  - match: {pattern.strip()}\n'
         script_content += f'    name: {project_name}_{random_number}\n'
         script_content += f'    type: {stoverride_method}\n'
@@ -67,11 +67,11 @@ def script_to_stoverride(js_content, project_name, random_number):
     return script_content
 
 def script_providers_to_stoverride(project_name, script_path):
-    # 使用相同的 random_number 以保证一致性
+    # Use the same random_number for consistency
     name = f"{project_name}_{random_number}"
-    # 使用正确的 script_path 作为 url
+    # Use the correct script_path as url
     url = script_path.strip()
-    interval = 86400  # 间隔时间设置为一天
+    interval = 86400  
     script_providers_content = (
         f'script-providers:\n'
         f'  "{project_name}_{random_number}":\n'
