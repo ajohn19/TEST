@@ -23,7 +23,7 @@ http:
 
 
 script-providers:
-  "微信小程序考研数学欧几里得_54":
-    url: undefined
+  "微信小程序考研数学欧几里得_87":
+    url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/kaoyanxcx.js
     interval: 86400
 

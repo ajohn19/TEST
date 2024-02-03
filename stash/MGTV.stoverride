@@ -35,7 +35,7 @@ http:
 
 
 script-providers:
-  "mgtv1_54":
-    url: undefined
+  "mgtv1_87":
+    url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/mgtv1.js
     interval: 86400
 

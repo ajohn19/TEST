@@ -17,7 +17,7 @@ http:
 
 
 script-providers:
-  "wangyy_54":
-    url: undefined
+  "wangyy_87":
+    url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/wangyy.js
     interval: 86400
 

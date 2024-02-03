@@ -17,7 +17,7 @@ http:
 
 
 script-providers:
-  "felotranslator_54":
-    url: undefined
+  "felotranslator_87":
+    url: https://raw.githubusercontent.com/czy13724/TEST/main/javascript/felotranslator.js
     interval: 86400
 

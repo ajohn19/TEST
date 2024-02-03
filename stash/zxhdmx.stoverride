@@ -17,7 +17,7 @@ http:
 
 
 script-providers:
-  "zxhdmx_54":
-    url: undefined
+  "zxhdmx_87":
+    url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/zxhdmx.js
     interval: 86400
 

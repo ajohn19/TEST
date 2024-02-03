@@ -17,7 +17,7 @@ http:
 
 
 script-providers:
-  "TransmissionHub_54":
-    url: undefined
+  "TransmissionHub_87":
+    url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/TransmissionHub.js
     interval: 86400
 

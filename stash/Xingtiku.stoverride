@@ -30,7 +30,7 @@ http:
 
 
 script-providers:
-  "Xingtiku_54":
-    url: undefined
+  "Xingtiku_87":
+    url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/Xingtiku.js
     interval: 86400
 

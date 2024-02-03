@@ -17,7 +17,7 @@ http:
 
 
 script-providers:
-  "xdm_54":
-    url: undefined
+  "xdm_87":
+    url: https://raw.githubusercontent.com/wf021325/qx/master/task/xdm.js
     interval: 86400
 

@@ -23,7 +23,7 @@ http:
 
 
 script-providers:
-  "qidian.cookie_54":
-    url: undefined
+  "qidian.cookie_87":
+    url: https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/qidian/qidian.cookie.js
     interval: 86400
 
