@@ -71,7 +71,7 @@ def js_to_stoverride(js_content):
     )
 
     if mitm_content_with_append:
-        stoverride_content += f"  mitm:\n{mitm_content_with_append}\n"
+        stoverride_content += f"  mitm:\n"{mitm_content_with_append}"\n  require-body: true\n  max-size: -1\n  timeout: 60"
 
     # convert and add [task_local] section
     task_local_stoverride_content = task_local_to_stoverride(js_content)
