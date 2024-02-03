@@ -73,8 +73,10 @@ def js_to_stoverride(js_content):
         "http:\n\n"
     )
 
-    if mitm_content_with_append:
-        stoverride_content += f"  mitm:\n"{mitm_content_with_append}"\n"
+# Process mitm content
+    mitm_section = mitm_to_stoverride(js_content)
+    if mitm_section:
+        stoverride_content += f"  mitm:\n{mitm_section}\n"
 
     # convert and add [task_local] section
     task_local_stoverride_content = task_local_to_stoverride(js_content)
