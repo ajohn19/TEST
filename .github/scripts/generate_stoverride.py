@@ -33,23 +33,27 @@ def mitm_to_stoverride(js_content):
 
 def script_to_stoverride(js_content):
     script_content = ''
-    # 这个正则表达式匹配Quantumult X配置文件中的[rewrite_local]部分
-    script_matches = re.finditer(
-        r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)', 
+    # 正则表达式匹配 rewrite_local 部分
+    rewrite_matches = re.finditer(
+        r'^(.*?)\s*url\s+script-(response|request)-(body|header)\s+(\S+)', 
         js_content, 
         re.MULTILINE)
-    for match in script_matches:
-        # 提取正则匹配的内容
-        pattern, script_type, script_path = match.groups()
-        # 根据script_type确定是request还是response类型的脚本
-        stoverride_type = 'http-request' if script_type == 'request' else 'http-response'
-        script_content += f'    - match: "{pattern.strip()}"\n'
-        script_content += f'      type: {stoverride_type}\n'
-        script_content += f'      script-path: {script_path.strip()}\n'
-        script_content += f'      require-body: true\n'
+
+    for match in rewrite_matches:
+        pattern, method, kind, script_path = match.groups()
+        type_string = "http-request" if method == "request" else "http-response"
+        kind_string = "script-" + kind
+
+        # 根据匹配信息构造 Stash 格式的 script 部分
+        script_content += f'  - match: "{pattern}"\n'
+        script_content += f'    type: {type_string}\n'
+        script_content += f'    {kind_string}-path: "{script_path}"\n'
         script_content += f'      max-size: -1\n'
         script_content += f'      timeout: 60\n'
+        script_content += f'    timeout: 30\n'
+    
     return script_content
+
 
 
 def js_to_stoverride(js_content):
@@ -93,6 +97,7 @@ def js_to_stoverride(js_content):
     script_section = script_to_stoverride(js_content)
     if script_section:
         stoverride_content += f"\n  script:{script_section}\n"
+
 
     # convert and add [task_local] section
     task_local_stoverride_content = task_local_to_stoverride(js_content)
