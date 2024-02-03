@@ -54,22 +54,21 @@ def script_to_stoverride(js_content):
     
     return script_content
 
-# 生成随机数字
+# 使用全局变量 random_number
 random_number = random.randint(0, 99)
 
 def script_providers_to_stoverride(project_name, script_path):
-    # 使用 project_name 和随机数字构造 name
-    name = f"{project_name}_{random_number}"
     # 使用正确的 script_path 作为 url
     url = script_path.strip()
     interval = 86400  # 间隔时间设置为一天
     script_providers_content = (
         f'script-providers:\n'
-        f'  "{name}":\n'
+        f'  "{project_name}_{random_number}":\n'
         f'    url: {url}\n'
         f'    interval: {interval}\n'
     )
     return script_providers_content
+
 
 def js_to_stoverride(js_content):
     # Check for the presence of the [rewrite_local] and [mitm]/[MITM] sections
@@ -113,10 +112,12 @@ def js_to_stoverride(js_content):
     if script_section:
         stoverride_content += f"\n  script:{script_section}\n"
 
-# Add script-providers section with the extracted script_path and project_name
+     # Extract the script path for use in the script-providers section
+    script_path_match = re.search(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)', js_content)
+    script_path = script_path_match.group(1) if script_path_match else "undefined"
+    # Add the script-providers section with the project name and the script path
     script_providers_section = script_providers_to_stoverride(project_name, script_path)
     stoverride_content += f"\n{script_providers_section}\n"
-
 
     # Process task_local section
     task_local_section = task_local_to_stoverride(js_content)
