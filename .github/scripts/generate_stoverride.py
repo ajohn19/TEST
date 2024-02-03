@@ -88,7 +88,7 @@ def js_to_stoverride(js_content):
         script_path = match.group(3).strip()
 
         # Append the rewrite rule to the stoverride content
-        stoverride_content += f"\ncron:\n{cron_content}\n"
+        stoverride_content += f"\ncron:\n{stoverride_content}\n"
 
     return stoverride_content
 
