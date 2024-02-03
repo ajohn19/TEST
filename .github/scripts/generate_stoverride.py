@@ -44,7 +44,7 @@ def script_to_stoverride(js_content):
     )
     for match in rewrite_matches:
         pattern, method, kind, path = match.groups()
-        stoverride_method = 'http-request' if method == 'request' else 'http-response'
+        stoverride_method = 'request' if method == 'request' else 'response'
         # kind 暂时未使用，实际过程中可能需要根据 'body' 和 'header' 修改脚本路径
         script_content += f'  \n- match: "{pattern.strip()}"\n'
         script_content += f'    type: {stoverride_method}\n'
