@@ -4,10 +4,6 @@
 import os
 import re
 
-def insert_append(content):
-    # Insert - after the first '=' sign
-    return re.sub(r'=', '= -', content, count=1)
-
 def task_local_to_stoverride(js_content):
     cron_content = ''
     cron_match = re.search(r'\[task_local\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
@@ -34,6 +30,21 @@ def mitm_to_stoverride(js_content):
         mitm_content = '\n'.join([f'    - "{host.strip()}"' for host in mitm_hosts if host.strip()])
     # 返回处理后的MITM字符串
     return mitm_content
+
+def script_to_stoverride(js_content):
+    script_content = ''
+    # 根据Quantumult X的配置格式来匹配script部分
+    script_matches = re.finditer(r'(?:^|\n)\/\*(?:[\s\S]*?)\*\/\n+(?:^|\n)(.*?)\nscript-(?:response|request)-header\s+(.*?)\n', js_content, re.MULTILINE)
+    for match in script_matches:
+        # 提取匹配的内容
+        pattern, script = match.groups()
+        # 根据实际的脚本配置需求调整此处匹配的信息和格式
+        script_content += f'    - match: "{pattern.strip()}"\n'
+        script_content += f'      script-path: {script.strip()}\n'
+        script_content += f'      require-body: true\n'
+        script_content += f'      max-size: -1\n'
+        script_content += f'      timeout: 60\n'
+    return script_content
 
 def js_to_stoverride(js_content):
     # Check for the presence of the [rewrite_local] and [mitm]/[MITM] sections
@@ -72,6 +83,11 @@ def js_to_stoverride(js_content):
     if mitm_section:
         stoverride_content += f"  mitm:\n{mitm_section}\n"
 
+# Extract the script section
+    script_section = script_to_stoverride(js_content)
+    if script_section:
+        stoverride_content += f"\n  script:{script_section}\n"
+
     # convert and add [task_local] section
     task_local_stoverride_content = task_local_to_stoverride(js_content)
     stoverride_content += task_local_stoverride_content
@@ -80,15 +96,6 @@ def js_to_stoverride(js_content):
     rewrite_local_pattern = r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)'
     rewrite_local_matches = re.finditer(rewrite_local_pattern, js_content, re.MULTILINE)
 
-    for match in rewrite_local_matches:
-        pattern = match.group(1).strip()
-        script_type = match.group(2).replace('-body', '').replace('-header', '').strip()
-        script_path = match.group(3).strip()
-
-        # Append the rewrite rule to the stoverride content
-        stoverride_content += f"\ncron:\n{task_local_to_stoverride}\n"
-
-    return stoverride_content
 
 def main():
     # Process files in the 'qx' folder
