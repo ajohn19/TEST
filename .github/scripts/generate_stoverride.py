@@ -34,7 +34,7 @@ def mitm_to_stoverride(js_content):
 def script_to_stoverride(js_content):
     script_content = ''
     # 根据Quantumult X的配置格式来匹配script部分
-    script_matches = re.finditer(r'(?:^|\n)\/\*(?:[\s\S]*?)\*\/\n+(?:^|\n)(.*?)\nscript-(?:response|request)-header\s+(.*?)\n', js_content, re.MULTILINE)
+    script_matches = re.finditer(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)')
     for match in script_matches:
         # 提取匹配的内容
         pattern, script = match.groups()
@@ -91,10 +91,6 @@ def js_to_stoverride(js_content):
     # convert and add [task_local] section
     task_local_stoverride_content = task_local_to_stoverride(js_content)
     stoverride_content += task_local_stoverride_content
-    
-    # Regex pattern to find rewrite_local
-    rewrite_local_pattern = r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)'
-    rewrite_local_matches = re.finditer(rewrite_local_pattern, js_content, re.MULTILINE)
 
 
 def main():
