@@ -119,7 +119,7 @@ def js_to_stoverride(js_content):
         stoverride_content += f"  mitm:\n{mitm_section}\n"
 
     # Extract the script section
-    script_section = script_to_stoverride(js_content)
+    script_section = script_to_stoverride(js_content, project_name, random_number)
     if script_section:
         stoverride_content += f"\n  script:{script_section}\n"
 
@@ -162,7 +162,7 @@ def main():
             file_path = os.path.join(qx_folder_path, file_name)
             with open(file_path, 'r', encoding='utf-8') as file:
                 js_content = file.read()
-                stoverride_content = js_to_stoverride(js_content)
+                stoverride_content = js_to_stoverride(js_content, project_name, random_number)
                 
                 if stoverride_content is not None:
                     # Write stoverride content to 'stash' folder if stoverride_content is not None
