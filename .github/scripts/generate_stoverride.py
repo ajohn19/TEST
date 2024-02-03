@@ -21,10 +21,13 @@ def task_local_to_stoverride(js_content):
 
 def mitm_to_stoverride(js_content):
     mitm_content = ''
+    # Search for [mitm] tag content.
     mitm_match = re.search(r'\[mitm\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
     if mitm_match:
         mitm_block = mitm_match.group(1)
+        # Split mitm_block into individual hostnames.
         mitm_hosts = mitm_block.strip().split(',')
+        # Prepend each hostname with "- " and enclose them in double quotes.
         mitm_content = '\n'.join([f'    - "{host.strip()}"' for host in mitm_hosts if host.strip()])
     return mitm_content
 
@@ -71,7 +74,7 @@ def js_to_stoverride(js_content):
     )
 
     if mitm_content_with_append:
-        stoverride_content += f"  mitm:\n"{mitm_content_with_append}"\n  require-body: true\n  max-size: -1\n  timeout: 60"
+        stoverride_content += f"  mitm:\n"{mitm_content_with_append}"\n"
 
     # convert and add [task_local] section
     task_local_stoverride_content = task_local_to_stoverride(js_content)
