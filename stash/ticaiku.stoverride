@@ -10,6 +10,7 @@ http:
 
   script:  
 - match: ^https:\/\/miniapp\.guniuniu\.com\/api\/mini-app\/user$
+    ticaiku_69
     type: response
     require-body: true
     max-size: -1
@@ -17,7 +18,7 @@ http:
 
 
 script-providers:
-  "ticaiku_40":
+  "ticaiku_69":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/ticaiku.js
     interval: 86400
 

@@ -10,6 +10,7 @@ http:
 
   script:  
 - match: https://api.300624.com/v3/plan/feature-code/auth
+    wanxingmiaoying_69
     type: response
     require-body: true
     max-size: -1
@@ -17,7 +18,7 @@ http:
 
 
 script-providers:
-  "wanxingmiaoying_40":
+  "wanxingmiaoying_69":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/wanxingmiaoying.js
     interval: 86400
 

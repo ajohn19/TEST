@@ -10,24 +10,28 @@ http:
 
   script:  
 - match: ^http[s]?:\/\/mobile\.api\.mgtv\.com\/v[0-9]\/(playlist|video\/album|video\/relative|video\/list).*$
+    mgtv1_69
     type: request
     require-body: true
     max-size: -1
     timeout: 60
   
 - match: https://mobile-stream.api.mgtv.com/v1/video/source?
+    mgtv1_69
     type: request
     require-body: true
     max-size: -1
     timeout: 60
   
 - match: https://nuc.api.mgtv.com/GetUserInfo
+    mgtv1_69
     type: response
     require-body: true
     max-size: -1
     timeout: 60
   
 - match: https://mobile-stream.api.mgtv.com/v1/video/source
+    mgtv1_69
     type: response
     require-body: true
     max-size: -1
@@ -35,7 +39,7 @@ http:
 
 
 script-providers:
-  "mgtv1_40":
+  "mgtv1_69":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/mgtv1.js
     interval: 86400
 

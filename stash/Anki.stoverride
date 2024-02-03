@@ -10,6 +10,7 @@ http:
 
   script:  
 - match: ^https:\/\/api\.ankichinas\.com\/api\/v1\/users\/vipInfo
+    Anki_69
     type: response
     require-body: true
     max-size: -1
@@ -17,7 +18,7 @@ http:
 
 
 script-providers:
-  "Anki_40":
+  "Anki_69":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/Anki.js
     interval: 86400
 

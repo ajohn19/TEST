@@ -10,12 +10,14 @@ http:
 
   script:  
 - match: #^https?:\/\/api\.tumukaoyan\.com\/api\/headimg_list\/GetListByAll
+    微信小程序考研数学欧几里得_69
     type: response
     require-body: true
     max-size: -1
     timeout: 60
   
 - match: ^https?:\/\/api\.tumukaoyan\.com\/api\/wx\/CheckCodeV2?
+    微信小程序考研数学欧几里得_69
     type: response
     require-body: true
     max-size: -1
@@ -23,7 +25,7 @@ http:
 
 
 script-providers:
-  "微信小程序考研数学欧几里得_40":
+  "微信小程序考研数学欧几里得_69":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/kaoyanxcx.js
     interval: 86400
 

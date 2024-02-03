@@ -10,6 +10,7 @@ http:
 
   script:  
 - match: ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$
+    168轻断食_69
     type: response
     require-body: true
     max-size: -1
@@ -17,7 +18,7 @@ http:
 
 
 script-providers:
-  "168轻断食_40":
+  "168轻断食_69":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/168qingduanshi.js
     interval: 86400
 

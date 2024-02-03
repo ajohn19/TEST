@@ -10,6 +10,7 @@ http:
 
   script:  
 - match: ^https:\/\/license\.pdfexpert\.com\/api\/2\.0\/documents\/subscription\/refresh
+    Documents_69
     type: request
     require-body: true
     max-size: -1
@@ -17,7 +18,7 @@ http:
 
 
 script-providers:
-  "Documents_40":
+  "Documents_69":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/Documents.js
     interval: 86400
 

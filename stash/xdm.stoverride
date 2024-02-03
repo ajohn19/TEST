@@ -10,6 +10,7 @@ http:
 
   script:  
 - match: ^https?:\/\/dm\.yeemiao\.com\/common\/newmsg\/getUnReadTotalNum$
+    xdm_69
     type: request
     require-body: true
     max-size: -1
@@ -17,7 +18,7 @@ http:
 
 
 script-providers:
-  "xdm_40":
+  "xdm_69":
     url: https://raw.githubusercontent.com/wf021325/qx/master/task/xdm.js
     interval: 86400
 
