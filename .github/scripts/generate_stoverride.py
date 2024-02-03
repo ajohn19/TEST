@@ -31,26 +31,25 @@ def mitm_to_stoverride(js_content):
     # 返回处理后的MITM字符串
     return mitm_content
 
+
 def script_to_stoverride(js_content):
     script_content = ''
     # 正则表达式匹配 rewrite_local 部分
     rewrite_matches = re.finditer(
-        r'^(.*?)\s*url\s+script-(response|request)-(body|header)\s+(\S+)', 
+        r'^(.*?)(?:\s*url\s+script-(response|request)-(body|header)\s+(.*))$', 
         js_content, 
-        re.MULTILINE)
-
+        re.MULTILINE
+    )
     for match in rewrite_matches:
-        pattern, method, kind, script_path = match.groups()
-        type_string = "http-request" if method == "request" else "http-response"
-        kind_string = "script-" + kind
-
-        # 根据匹配信息构造 Stash 格式的 script 部分
-        script_content += f'  - match: "{pattern}"\n'
-        script_content += f'    type: {type_string}\n'
-        script_content += f'    {kind_string}-path: "{script_path}"\n'
-        script_content += f'      max-size: -1\n'
-        script_content += f'      timeout: 60\n'
-        script_content += f'    timeout: 30\n'
+        pattern, method, kind, path = match.groups()
+        stoverride_method = 'http-request' if method == 'request' else 'http-response'
+        # kind 暂时未使用，实际过程中可能需要根据 'body' 和 'header' 修改脚本路径
+        script_content += f'  - match: "{pattern.strip()}"\n'
+        script_content += f'    type: {stoverride_method}\n'
+        script_content += f'    script-path: "{path.strip()}"\n'
+        script_content += f'    require-body: true\n'
+        script_content += f'    max-size: -1\n'
+        script_content += f'    timeout: 60\n'  
     
     return script_content
 
@@ -88,20 +87,23 @@ def js_to_stoverride(js_content):
         "http:\n\n"
     )
 
-# Process mitm content
+    # Process mitm content
     mitm_section = mitm_to_stoverride(js_content)
     if mitm_section:
         stoverride_content += f"  mitm:\n{mitm_section}\n"
 
-# Extract the script section
+    # Extract the script section
     script_section = script_to_stoverride(js_content)
     if script_section:
         stoverride_content += f"\n  script:{script_section}\n"
 
+    # Process task_local section
+    task_local_section = task_local_to_stoverride(js_content)
+    if task_local_section:
+        stoverride_content += f"\n{task_local_section}\n"
 
-    # convert and add [task_local] section
-    task_local_stoverride_content = task_local_to_stoverride(js_content)
-    stoverride_content += task_local_stoverride_content
+    # Return the final stoverride content
+    return stoverride_content
 
 
 def main():
