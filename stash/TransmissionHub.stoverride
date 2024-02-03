@@ -8,10 +8,16 @@ http:
   mitm:
     - "api.revenuecat.com"
 
-  script:  - match: "https://api.revenuecat.com/v1/(receipts|subscribers)/*"
+  script:  
+- match: "https://api.revenuecat.com/v1/(receipts|subscribers)/*"
     type: http-response
-    script-path: "https://raw.githubusercontent.com/Yu9191/Rewrite/main/TransmissionHub.js"
     require-body: true
     max-size: -1
     timeout: 60
+
+
+script-providers:
+  "TransmissionHub_62":
+    url: undefined
+    interval: 86400
 

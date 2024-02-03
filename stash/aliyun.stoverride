@@ -9,10 +9,16 @@ http:
     - "auth.alipan.com"
     - "auth.aliyundrive.com"
 
-  script:  - match: "^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token"
+  script:  
+- match: "^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token"
     type: http-request
-    script-path: "https://gist.githubusercontent.com/Sliverkiss/33800a98dcd029ba09f8b6fc6f0f5162/raw/aliyun.js"
     require-body: true
     max-size: -1
     timeout: 60
+
+
+script-providers:
+  "aliyun_62":
+    url: undefined
+    interval: 86400
 

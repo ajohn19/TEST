@@ -8,10 +8,16 @@ http:
   mitm:
     - "*.music.163.com"
 
-  script:  - match: "^http[s]?:\/\/.+music.+(player\/url|playlist|entrance|\/eapi\/search\/).*$"
+  script:  
+- match: "^http[s]?:\/\/.+music.+(player\/url|playlist|entrance|\/eapi\/search\/).*$"
     type: http-request
-    script-path: "https://raw.githubusercontent.com/Yu9191/Rewrite/main/wangyy.js"
     require-body: true
     max-size: -1
     timeout: 60
+
+
+script-providers:
+  "wangyy_62":
+    url: undefined
+    interval: 86400
 

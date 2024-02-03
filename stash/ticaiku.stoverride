@@ -8,10 +8,16 @@ http:
   mitm:
     - "miniapp.guniuniu.com"
 
-  script:  - match: "^https:\/\/miniapp\.guniuniu\.com\/api\/mini-app\/user$"
+  script:  
+- match: "^https:\/\/miniapp\.guniuniu\.com\/api\/mini-app\/user$"
     type: http-response
-    script-path: "https://raw.githubusercontent.com/Yu9191/Rewrite/main/ticaiku.js"
     require-body: true
     max-size: -1
     timeout: 60
+
+
+script-providers:
+  "ticaiku_62":
+    url: undefined
+    interval: 86400
 

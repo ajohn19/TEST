@@ -8,16 +8,22 @@ http:
   mitm:
     - "h5.if.qidian.com"
 
-  script:  - match: "https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch"
+  script:  
+- match: "https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch"
     type: http-request
-    script-path: "https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/qidian/qidian.cookie.js"
     require-body: true
     max-size: -1
     timeout: 60
-  - match: "https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/mainPage"
+  
+- match: "https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/mainPage"
     type: http-response
-    script-path: "https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/qidian/qidian.taskId.js"
     require-body: true
     max-size: -1
     timeout: 60
+
+
+script-providers:
+  "qidian.cookie_62":
+    url: undefined
+    interval: 86400
 

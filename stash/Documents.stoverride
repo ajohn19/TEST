@@ -8,10 +8,16 @@ http:
   mitm:
     - "license.pdfexpert.com"
 
-  script:  - match: "^https:\/\/license\.pdfexpert\.com\/api\/2\.0\/documents\/subscription\/refresh"
+  script:  
+- match: "^https:\/\/license\.pdfexpert\.com\/api\/2\.0\/documents\/subscription\/refresh"
     type: http-request
-    script-path: "https://raw.githubusercontent.com/Yu9191/Rewrite/main/Documents.js"
     require-body: true
     max-size: -1
     timeout: 60
+
+
+script-providers:
+  "Documents_62":
+    url: undefined
+    interval: 86400
 

@@ -8,10 +8,16 @@ http:
   mitm:
     - "music-knowledge-api.quthing.com"
 
-  script:  - match: "^https:\/\/music-knowledge-api\.quthing\.com\/vip\/state"
+  script:  
+- match: "^https:\/\/music-knowledge-api\.quthing\.com\/vip\/state"
     type: http-response
-    script-path: "https://raw.githubusercontent.com/Yu9191/Rewrite/main/ylsc.js"
     require-body: true
     max-size: -1
     timeout: 60
+
+
+script-providers:
+  "ylsc_62":
+    url: undefined
+    interval: 86400
 

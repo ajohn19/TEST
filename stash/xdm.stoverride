@@ -8,10 +8,16 @@ http:
   mitm:
     - "dm.yeemiao.com"
 
-  script:  - match: "^https?:\/\/dm\.yeemiao\.com\/common\/newmsg\/getUnReadTotalNum$"
+  script:  
+- match: "^https?:\/\/dm\.yeemiao\.com\/common\/newmsg\/getUnReadTotalNum$"
     type: http-request
-    script-path: "https://raw.githubusercontent.com/wf021325/qx/master/task/xdm.js"
     require-body: true
     max-size: -1
     timeout: 60
+
+
+script-providers:
+  "xdm_62":
+    url: undefined
+    interval: 86400
 

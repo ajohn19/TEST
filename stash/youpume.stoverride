@@ -8,10 +8,16 @@ http:
   mitm:
     - "yopu.co"
 
-  script:  - match: "^https:\/\/yopu\.co\/api\/user\/info"
+  script:  
+- match: "^https:\/\/yopu\.co\/api\/user\/info"
     type: http-response
-    script-path: "https://raw.githubusercontent.com/Yu9191/Rewrite/main/youpume.js"
     require-body: true
     max-size: -1
     timeout: 60
+
+
+script-providers:
+  "有谱么_62":
+    url: undefined
+    interval: 86400
 

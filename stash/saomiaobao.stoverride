@@ -8,16 +8,22 @@ http:
   mitm:
     - "app.yinxiang.com"
 
-  script:  - match: "https://app.yinxiang.com/third/profile/public/restful/public-user-profile?"
+  script:  
+- match: "https://app.yinxiang.com/third/profile/public/restful/public-user-profile?"
     type: http-response
-    script-path: "https://raw.githubusercontent.com/Yu9191/Rewrite/main/saomiaobao.js"
     require-body: true
     max-size: -1
     timeout: 60
-  - match: "https://app.yinxiang.com/third/scanner/scanner/app/userInfo/get"
+  
+- match: "https://app.yinxiang.com/third/scanner/scanner/app/userInfo/get"
     type: http-response
-    script-path: "https://raw.githubusercontent.com/Yu9191/Rewrite/main/saomiaobao2.js"
     require-body: true
     max-size: -1
     timeout: 60
+
+
+script-providers:
+  "saomiaobao_62":
+    url: undefined
+    interval: 86400
 
