@@ -44,16 +44,31 @@ def script_to_stoverride(js_content):
         pattern, method, kind, path = match.groups()
         stoverride_method = 'http-request' if method == 'request' else 'http-response'
         # kind 暂时未使用，实际过程中可能需要根据 'body' 和 'header' 修改脚本路径
-        script_content += f'  - match: "{pattern.strip()}"\n'
+        script_content += f'  \n- match: "{pattern.strip()}"\n'
         script_content += f'    type: {stoverride_method}\n'
-        script_content += f'    script-path: "{path.strip()}"\n'
         script_content += f'    require-body: true\n'
         script_content += f'    max-size: -1\n'
         script_content += f'    timeout: 60\n'  
     
     return script_content
 
+# 添加一个全局变量来储存随机数字
+random_number = random.randint(0, 99)
 
+def script_providers_to_stoverride(project_name, script_path):
+    global random_number  # 使用全局变量以保持数字一致
+    # 用 project_name 和随机数字构造 name
+    name = f"{project_name}_{random_number}"
+    # 使用 script_path 作为 url
+    url = {path.strip()}
+    interval = 86400  # 间隔时间设置为一天
+    script_providers_content = (
+        f'script-providers:\n'
+        f'  "{name}":\n'
+        f'    url: {url}\n'
+        f'    interval: {interval}\n'
+    )
+    return script_providers_content
 
 def js_to_stoverride(js_content):
     # Check for the presence of the [rewrite_local] and [mitm]/[MITM] sections
@@ -96,6 +111,10 @@ def js_to_stoverride(js_content):
     script_section = script_to_stoverride(js_content)
     if script_section:
         stoverride_content += f"\n  script:{script_section}\n"
+
+    # 从之前的代码逻辑中获取 project_name 和 script_path 并加入 script-providers 部分
+    script_providers_section = script_providers_to_stoverride(project_name, script_path)
+    stoverride_content += f"\n{script_providers_section}\n"  
 
     # Process task_local section
     task_local_section = task_local_to_stoverride(js_content)
