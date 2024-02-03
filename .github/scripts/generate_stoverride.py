@@ -47,14 +47,6 @@ def script_to_stoverride(js_content):
         script_content += f'      timeout: 60\n'
     return script_content
 
-# Regex pattern to find rewrite_local
-    rewrite_local_pattern = r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)'
-    rewrite_local_matches = re.finditer(rewrite_local_pattern, js_content, re.MULTILINE)
-
-        # Append the rewrite rule to the stoverride content
-        stoverride_content += f"{project_name} = type=http-{script_type},pattern={pattern},script-path={script_path}\n"
-
-    return stoverride_content
 
 def js_to_stoverride(js_content):
     # Check for the presence of the [rewrite_local] and [mitm]/[MITM] sections
