@@ -9,8 +9,8 @@ http:
     - "yopu.co"
 
   script:  
-- match: ^https:\/\/yopu\.co\/api\/user\/info
-    有谱么_69
+    - match: ^https:\/\/yopu\.co\/api\/user\/info
+    name: 有谱么_97
     type: response
     require-body: true
     max-size: -1
@@ -18,7 +18,7 @@ http:
 
 
 script-providers:
-  "有谱么_69":
+  "有谱么_97":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/youpume.js
     interval: 86400
 

@@ -9,8 +9,8 @@ http:
     - "miniapp.guniuniu.com"
 
   script:  
-- match: ^https:\/\/miniapp\.guniuniu\.com\/api\/mini-app\/user$
-    ticaiku_69
+    - match: ^https:\/\/miniapp\.guniuniu\.com\/api\/mini-app\/user$
+    name: ticaiku_97
     type: response
     require-body: true
     max-size: -1
@@ -18,7 +18,7 @@ http:
 
 
 script-providers:
-  "ticaiku_69":
+  "ticaiku_97":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/ticaiku.js
     interval: 86400
 

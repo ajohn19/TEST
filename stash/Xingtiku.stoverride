@@ -10,22 +10,22 @@ http:
     - "mb.xinghengedu.com"
 
   script:  
-- match: https://mb.xinghengedu.com/api/v5.3.0/getUserByToken.do
-    Xingtiku_69
+    - match: https://mb.xinghengedu.com/api/v5.3.0/getUserByToken.do
+    name: Xingtiku_97
     type: response
     require-body: true
     max-size: -1
     timeout: 60
   
-- match: https://cm15-c110-3.play.bokecc.com/flvs/
-    Xingtiku_69
+    - match: https://cm15-c110-3.play.bokecc.com/flvs/
+    name: Xingtiku_97
     type: request
     require-body: true
     max-size: -1
     timeout: 60
   
-- match: https://cm15-c110-2.play.bokecc.com/flvs/
-    Xingtiku_69
+    - match: https://cm15-c110-2.play.bokecc.com/flvs/
+    name: Xingtiku_97
     type: request
     require-body: true
     max-size: -1
@@ -33,7 +33,7 @@ http:
 
 
 script-providers:
-  "Xingtiku_69":
+  "Xingtiku_97":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/Xingtiku.js
     interval: 86400
 

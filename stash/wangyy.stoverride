@@ -9,8 +9,8 @@ http:
     - "*.music.163.com"
 
   script:  
-- match: ^http[s]?:\/\/.+music.+(player\/url|playlist|entrance|\/eapi\/search\/).*$
-    wangyy_69
+    - match: ^http[s]?:\/\/.+music.+(player\/url|playlist|entrance|\/eapi\/search\/).*$
+    name: wangyy_97
     type: request
     require-body: true
     max-size: -1
@@ -18,7 +18,7 @@ http:
 
 
 script-providers:
-  "wangyy_69":
+  "wangyy_97":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/wangyy.js
     interval: 86400
 

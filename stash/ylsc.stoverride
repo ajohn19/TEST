@@ -9,8 +9,8 @@ http:
     - "music-knowledge-api.quthing.com"
 
   script:  
-- match: ^https:\/\/music-knowledge-api\.quthing\.com\/vip\/state
-    ylsc_69
+    - match: ^https:\/\/music-knowledge-api\.quthing\.com\/vip\/state
+    name: ylsc_97
     type: response
     require-body: true
     max-size: -1
@@ -18,7 +18,7 @@ http:
 
 
 script-providers:
-  "ylsc_69":
+  "ylsc_97":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/ylsc.js
     interval: 86400
 

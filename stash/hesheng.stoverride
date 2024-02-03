@@ -9,8 +9,8 @@ http:
     - "buy.itunes.apple.com"
 
   script:  
-- match: ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$
-    hesheng_69
+    - match: ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$
+    name: hesheng_97
     type: response
     require-body: true
     max-size: -1
@@ -18,7 +18,7 @@ http:
 
 
 script-providers:
-  "hesheng_69":
+  "hesheng_97":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/hesheng.js
     interval: 86400
 

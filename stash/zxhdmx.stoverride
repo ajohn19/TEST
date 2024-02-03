@@ -9,8 +9,8 @@ http:
     - "api.revenuecat.com"
 
   script:  
-- match: ^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$)
-    zxhdmx_69
+    - match: ^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$)
+    name: zxhdmx_97
     type: response
     require-body: true
     max-size: -1
@@ -18,7 +18,7 @@ http:
 
 
 script-providers:
-  "zxhdmx_69":
+  "zxhdmx_97":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/zxhdmx.js
     interval: 86400
 
