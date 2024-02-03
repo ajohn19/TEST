@@ -9,15 +9,15 @@ http:
     - "app.yinxiang.com"
 
   script:  
-    - match: https://app.yinxiang.com/third/profile/public/restful/public-user-profile?
-    name: saomiaobao_97
+  - match: https://app.yinxiang.com/third/profile/public/restful/public-user-profile?
+    name: saomiaobao_22
     type: response
     require-body: true
     max-size: -1
     timeout: 60
   
-    - match: https://app.yinxiang.com/third/scanner/scanner/app/userInfo/get
-    name: saomiaobao_97
+  - match: https://app.yinxiang.com/third/scanner/scanner/app/userInfo/get
+    name: saomiaobao_22
     type: response
     require-body: true
     max-size: -1
@@ -25,7 +25,7 @@ http:
 
 
 script-providers:
-  "saomiaobao_97":
+  "saomiaobao_22":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/saomiaobao.js
     interval: 86400
 

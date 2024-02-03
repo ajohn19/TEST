@@ -9,8 +9,8 @@ http:
     - "license.pdfexpert.com"
 
   script:  
-    - match: ^https:\/\/license\.pdfexpert\.com\/api\/2\.0\/documents\/subscription\/refresh
-    name: Documents_97
+  - match: ^https:\/\/license\.pdfexpert\.com\/api\/2\.0\/documents\/subscription\/refresh
+    name: Documents_22
     type: request
     require-body: true
     max-size: -1
@@ -18,7 +18,7 @@ http:
 
 
 script-providers:
-  "Documents_97":
+  "Documents_22":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/Documents.js
     interval: 86400
 

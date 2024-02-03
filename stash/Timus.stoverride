@@ -9,8 +9,8 @@ http:
     - "api.revenuecat.com"
 
   script:  
-    - match: ^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$)
-    name: Timus_97
+  - match: ^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$)
+    name: Timus_22
     type: response
     require-body: true
     max-size: -1
@@ -18,7 +18,7 @@ http:
 
 
 script-providers:
-  "Timus_97":
+  "Timus_22":
     url: https://raw.githubusercontent.com/czy13724/Quantumult-X/main/scripts/Timus.js
     interval: 86400
 

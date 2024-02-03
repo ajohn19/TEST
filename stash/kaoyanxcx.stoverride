@@ -9,15 +9,15 @@ http:
     - "api.tumukaoyan.com"
 
   script:  
-    - match: #^https?:\/\/api\.tumukaoyan\.com\/api\/headimg_list\/GetListByAll
-    name: 微信小程序考研数学欧几里得_97
+  - match: #^https?:\/\/api\.tumukaoyan\.com\/api\/headimg_list\/GetListByAll
+    name: 微信小程序考研数学欧几里得_22
     type: response
     require-body: true
     max-size: -1
     timeout: 60
   
-    - match: ^https?:\/\/api\.tumukaoyan\.com\/api\/wx\/CheckCodeV2?
-    name: 微信小程序考研数学欧几里得_97
+  - match: ^https?:\/\/api\.tumukaoyan\.com\/api\/wx\/CheckCodeV2?
+    name: 微信小程序考研数学欧几里得_22
     type: response
     require-body: true
     max-size: -1
@@ -25,7 +25,7 @@ http:
 
 
 script-providers:
-  "微信小程序考研数学欧几里得_97":
+  "微信小程序考研数学欧几里得_22":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/kaoyanxcx.js
     interval: 86400
 

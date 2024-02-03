@@ -9,8 +9,8 @@ http:
     - "buy.itunes.apple.com"
 
   script:  
-    - match: ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$
-    name: znzdw_97
+  - match: ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$
+    name: znzdw_22
     type: response
     require-body: true
     max-size: -1
@@ -18,7 +18,7 @@ http:
 
 
 script-providers:
-  "znzdw_97":
+  "znzdw_22":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/znzdw.js
     interval: 86400
 
