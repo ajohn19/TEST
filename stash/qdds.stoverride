@@ -23,7 +23,7 @@ http:
 
 
 script-providers:
-  "qidian.cookie_77":
+  "qidian.cookie_54":
     url: undefined
     interval: 86400
 

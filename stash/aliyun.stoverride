@@ -18,7 +18,7 @@ http:
 
 
 script-providers:
-  "aliyun_77":
+  "aliyun_54":
     url: undefined
     interval: 86400
 

@@ -17,7 +17,7 @@ http:
 
 
 script-providers:
-  "TransmissionHub_77":
+  "TransmissionHub_54":
     url: undefined
     interval: 86400
 
