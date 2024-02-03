@@ -9,7 +9,7 @@ import random
 random_number = random.randint(0, 99)
 
 
-def task_local_to_stoverride(js_content):
+def task_local_to_stoverride(js_content, project_name, random_number):
     task_local_content = ''
     # Check if [task_local] section exists
     task_local_block_match = re.search(r'\[task_local\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
@@ -24,7 +24,7 @@ def task_local_to_stoverride(js_content):
             # Extract the file name from the link to use as the tag
             tag = os.path.splitext(os.path.basename(script_url))[0]
             # Construct the stoverride cron task section
-            task_local_content = f'\n    - name: "{tag}_{random_number}"\n      cron: "{cronexp}"\n      timeout: 60\n'
+            task_local_content = f'cron: \n  script: \n  - name: "{project_name}_{random_number}"\n      cron: "{cronexp}"\n      timeout: 60\n'
     # Return the task_local section content, if any
     return task_local_content
 
@@ -45,8 +45,7 @@ def mitm_to_stoverride(js_content):
     # 返回处理后的MITM字符串
     return mitm_content
 
-
-def script_to_stoverride(js_content):
+def script_to_stoverride(js_content, project_name, random_number):
     script_content = ''
     # 正则表达式匹配 rewrite_local 部分
     rewrite_matches = re.finditer(
@@ -59,7 +58,7 @@ def script_to_stoverride(js_content):
         stoverride_method = 'request' if method == 'request' else 'response'
         # kind 暂时未使用，实际过程中可能需要根据 'body' 和 'header' 修改脚本路径
         script_content += f'  \n- match: {pattern.strip()}\n'
-        script_content += f'    {tag}_{random_number}\n'
+        script_content += f'    {project_name}_{random_number}\n'
         script_content += f'    type: {stoverride_method}\n'
         script_content += f'    require-body: true\n'
         script_content += f'    max-size: -1\n'
