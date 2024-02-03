@@ -10,20 +10,20 @@ http:
 
   script:  
 - match: "^https:\/\/magev6\.if\.qidian\.com"
-    type: http-request
+    type: request
     require-body: true
     max-size: -1
     timeout: 60
   
 - match: "^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v3\/user\/getaccountpage"
-    type: http-response
+    type: response
     require-body: true
     max-size: -1
     timeout: 60
 
 
 script-providers:
-  "起点读书 解锁会员专享_62":
+  "起点读书 解锁会员专享_77":
     url: undefined
     interval: 86400
 

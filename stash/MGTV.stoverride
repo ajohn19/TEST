@@ -10,32 +10,32 @@ http:
 
   script:  
 - match: "^http[s]?:\/\/mobile\.api\.mgtv\.com\/v[0-9]\/(playlist|video\/album|video\/relative|video\/list).*$"
-    type: http-request
+    type: request
     require-body: true
     max-size: -1
     timeout: 60
   
 - match: "https://mobile-stream.api.mgtv.com/v1/video/source?"
-    type: http-request
+    type: request
     require-body: true
     max-size: -1
     timeout: 60
   
 - match: "https://nuc.api.mgtv.com/GetUserInfo"
-    type: http-response
+    type: response
     require-body: true
     max-size: -1
     timeout: 60
   
 - match: "https://mobile-stream.api.mgtv.com/v1/video/source"
-    type: http-response
+    type: response
     require-body: true
     max-size: -1
     timeout: 60
 
 
 script-providers:
-  "mgtv1_62":
+  "mgtv1_77":
     url: undefined
     interval: 86400
 

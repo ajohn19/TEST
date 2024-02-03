@@ -10,14 +10,14 @@ http:
 
   script:  
 - match: "^http[s]?:\/\/.+music.+(player\/url|playlist|entrance|\/eapi\/search\/).*$"
-    type: http-request
+    type: request
     require-body: true
     max-size: -1
     timeout: 60
 
 
 script-providers:
-  "wangyy_62":
+  "wangyy_77":
     url: undefined
     interval: 86400
 

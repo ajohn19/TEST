@@ -10,20 +10,20 @@ http:
 
   script:  
 - match: "https://app.yinxiang.com/third/profile/public/restful/public-user-profile?"
-    type: http-response
+    type: response
     require-body: true
     max-size: -1
     timeout: 60
   
 - match: "https://app.yinxiang.com/third/scanner/scanner/app/userInfo/get"
-    type: http-response
+    type: response
     require-body: true
     max-size: -1
     timeout: 60
 
 
 script-providers:
-  "saomiaobao_62":
+  "saomiaobao_77":
     url: undefined
     interval: 86400
 

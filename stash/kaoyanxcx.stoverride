@@ -10,20 +10,20 @@ http:
 
   script:  
 - match: "#^https?:\/\/api\.tumukaoyan\.com\/api\/headimg_list\/GetListByAll"
-    type: http-response
+    type: response
     require-body: true
     max-size: -1
     timeout: 60
   
 - match: "^https?:\/\/api\.tumukaoyan\.com\/api\/wx\/CheckCodeV2?"
-    type: http-response
+    type: response
     require-body: true
     max-size: -1
     timeout: 60
 
 
 script-providers:
-  "微信小程序考研数学欧几里得_62":
+  "微信小程序考研数学欧几里得_77":
     url: undefined
     interval: 86400
 

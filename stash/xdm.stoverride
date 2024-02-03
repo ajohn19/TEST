@@ -10,14 +10,14 @@ http:
 
   script:  
 - match: "^https?:\/\/dm\.yeemiao\.com\/common\/newmsg\/getUnReadTotalNum$"
-    type: http-request
+    type: request
     require-body: true
     max-size: -1
     timeout: 60
 
 
 script-providers:
-  "xdm_62":
+  "xdm_77":
     url: undefined
     interval: 86400
 

@@ -10,20 +10,20 @@ http:
 
   script:  
 - match: "https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch"
-    type: http-request
+    type: request
     require-body: true
     max-size: -1
     timeout: 60
   
 - match: "https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/mainPage"
-    type: http-response
+    type: response
     require-body: true
     max-size: -1
     timeout: 60
 
 
 script-providers:
-  "qidian.cookie_62":
+  "qidian.cookie_77":
     url: undefined
     interval: 86400
 

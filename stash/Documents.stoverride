@@ -10,14 +10,14 @@ http:
 
   script:  
 - match: "^https:\/\/license\.pdfexpert\.com\/api\/2\.0\/documents\/subscription\/refresh"
-    type: http-request
+    type: request
     require-body: true
     max-size: -1
     timeout: 60
 
 
 script-providers:
-  "Documents_62":
+  "Documents_77":
     url: undefined
     interval: 86400
 

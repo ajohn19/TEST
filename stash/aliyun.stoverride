@@ -11,14 +11,14 @@ http:
 
   script:  
 - match: "^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token"
-    type: http-request
+    type: request
     require-body: true
     max-size: -1
     timeout: 60
 
 
 script-providers:
-  "aliyun_62":
+  "aliyun_77":
     url: undefined
     interval: 86400
 

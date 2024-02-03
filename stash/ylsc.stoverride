@@ -10,14 +10,14 @@ http:
 
   script:  
 - match: "^https:\/\/music-knowledge-api\.quthing\.com\/vip\/state"
-    type: http-response
+    type: response
     require-body: true
     max-size: -1
     timeout: 60
 
 
 script-providers:
-  "ylsc_62":
+  "ylsc_77":
     url: undefined
     interval: 86400
 

@@ -11,26 +11,26 @@ http:
 
   script:  
 - match: "https://mb.xinghengedu.com/api/v5.3.0/getUserByToken.do"
-    type: http-response
+    type: response
     require-body: true
     max-size: -1
     timeout: 60
   
 - match: "https://cm15-c110-3.play.bokecc.com/flvs/"
-    type: http-request
+    type: request
     require-body: true
     max-size: -1
     timeout: 60
   
 - match: "https://cm15-c110-2.play.bokecc.com/flvs/"
-    type: http-request
+    type: request
     require-body: true
     max-size: -1
     timeout: 60
 
 
 script-providers:
-  "Xingtiku_62":
+  "Xingtiku_77":
     url: undefined
     interval: 86400
 

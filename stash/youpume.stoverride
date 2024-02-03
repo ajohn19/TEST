@@ -10,14 +10,14 @@ http:
 
   script:  
 - match: "^https:\/\/yopu\.co\/api\/user\/info"
-    type: http-response
+    type: response
     require-body: true
     max-size: -1
     timeout: 60
 
 
 script-providers:
-  "有谱么_62":
+  "有谱么_77":
     url: undefined
     interval: 86400
 

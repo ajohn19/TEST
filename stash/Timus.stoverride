@@ -10,14 +10,14 @@ http:
 
   script:  
 - match: "^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$)"
-    type: http-response
+    type: response
     require-body: true
     max-size: -1
     timeout: 60
 
 
 script-providers:
-  "Timus_62":
+  "Timus_77":
     url: undefined
     interval: 86400
 
