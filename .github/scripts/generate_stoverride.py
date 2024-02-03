@@ -58,7 +58,6 @@ def js_to_stoverride(js_content):
         project_desc = desc_match.group(1).strip()
 
     mitm_content = mitm_match.group(1).strip() if mitm_match else ''
-    hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
     mitm_content_with_append = (mitm_content)
 
@@ -88,7 +87,7 @@ def js_to_stoverride(js_content):
         script_path = match.group(3).strip()
 
         # Append the rewrite rule to the stoverride content
-        stoverride_content += f"\ncron:\n{stoverride_content}\n"
+        stoverride_content += f"\ncron:\n{task_local_to_stoverride}\n"
 
     return stoverride_content
 
