@@ -17,7 +17,7 @@ http:
 
 
 script-providers:
-  "znzdw_87":
+  "znzdw_94":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/znzdw.js
     interval: 86400
 

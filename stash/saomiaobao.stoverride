@@ -23,7 +23,7 @@ http:
 
 
 script-providers:
-  "saomiaobao_87":
+  "saomiaobao_94":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/saomiaobao.js
     interval: 86400
 

@@ -17,7 +17,7 @@ http:
 
 
 script-providers:
-  "ticaiku_87":
+  "ticaiku_94":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/ticaiku.js
     interval: 86400
 

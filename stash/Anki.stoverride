@@ -17,7 +17,7 @@ http:
 
 
 script-providers:
-  "Anki_87":
+  "Anki_94":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/Anki.js
     interval: 86400
 

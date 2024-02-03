@@ -17,7 +17,7 @@ http:
 
 
 script-providers:
-  "chatpdf_87":
+  "chatpdf_94":
     url: https://raw.githubusercontent.com/czy13724/Quantumult-X/main/scripts/chatpdf.js
     interval: 86400
 

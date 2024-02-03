@@ -17,7 +17,7 @@ http:
 
 
 script-providers:
-  "168轻断食_87":
+  "168轻断食_94":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/168qingduanshi.js
     interval: 86400
 

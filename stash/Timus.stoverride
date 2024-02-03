@@ -17,7 +17,7 @@ http:
 
 
 script-providers:
-  "Timus_87":
+  "Timus_94":
     url: https://raw.githubusercontent.com/czy13724/Quantumult-X/main/scripts/Timus.js
     interval: 86400
 
