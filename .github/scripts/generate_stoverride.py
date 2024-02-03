@@ -112,6 +112,17 @@ def js_to_stoverride(js_content):
     if script_section:
         stoverride_content += f"\n  script:{script_section}\n"
 
+   # Search for the URL pattern
+    url_pattern = re.compile(
+        r'url\s+script-(?:response-body|request-body|response-header|request-header|echo-response|analyze-echo-response)\s+(\S+)',
+        re.IGNORECASE)
+    url_matches = url_pattern.findall(js_content)
+    
+    if not url_matches:
+        raise ValueError("未找到脚本路径。请确保在 js/conf/snippet 文件中包含了至少一个有效的链接.")
+
+    script_path = url_matches[0].strip()
+
      # Extract the script path for use in the script-providers section
     script_path_match = re.search(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)', js_content)
     script_path = script_path_match.group(1) if script_path_match else "undefined"
