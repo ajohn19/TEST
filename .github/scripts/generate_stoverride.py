@@ -4,6 +4,10 @@
 import os
 import re
 
+def insert_append(content):
+    # Insert - after the first '=' sign
+    return re.sub(r'=', '= -', content, count=1)
+
 def task_local_to_stoverride(js_content):
     cron_content = ''
     cron_match = re.search(r'\[task_local\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
@@ -58,6 +62,9 @@ def js_to_stoverride(js_content):
 
     mitm_content_with_append = (mitm_content)
 
+    # Insert - into mitm and hostname content
+    mitm_content_with_append = insert_append(mitm_content)
+
     # Create the final stoverride content string
     stoverride_content = (
         f"name: |-\n  {project_name}\ndesc: |-\n  {project_desc}\n\n"
@@ -81,7 +88,7 @@ def js_to_stoverride(js_content):
         script_path = match.group(3).strip()
 
         # Append the rewrite rule to the stoverride content
-        stoverride_content += f"\ncron:\n{task_local_stoverride_content}\n"
+        stoverride_content += f"\ncron:\n{cron_content}\n"
 
     return stoverride_content
 
