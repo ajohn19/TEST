@@ -9,37 +9,7 @@ http:
 hostname = - app.yinxiang.com
 
 cron:
-name: |-
-  saomiaobao
-desc: |-
-  saomiaobao is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
-
-http:
-
-  mitm:
-hostname = - app.yinxiang.com
-
+<function task_local_to_stoverride at 0x7fa37cdb53a0>
 
 cron:
-name: |-
-  saomiaobao
-desc: |-
-  saomiaobao is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
-
-http:
-
-  mitm:
-hostname = - app.yinxiang.com
-
-cron:
-name: |-
-  saomiaobao
-desc: |-
-  saomiaobao is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
-
-http:
-
-  mitm:
-hostname = - app.yinxiang.com
-
-
+<function task_local_to_stoverride at 0x7fa37cdb53a0>

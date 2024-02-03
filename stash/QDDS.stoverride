@@ -9,37 +9,7 @@ http:
 hostname = - magev6.if.qidian.com
 
 cron:
-name: |-
-  起点读书 解锁会员专享
-desc: |-
-  仅测试QuanX
-
-http:
-
-  mitm:
-hostname = - magev6.if.qidian.com
-
+<function task_local_to_stoverride at 0x7fa37cdb53a0>
 
 cron:
-name: |-
-  起点读书 解锁会员专享
-desc: |-
-  仅测试QuanX
-
-http:
-
-  mitm:
-hostname = - magev6.if.qidian.com
-
-cron:
-name: |-
-  起点读书 解锁会员专享
-desc: |-
-  仅测试QuanX
-
-http:
-
-  mitm:
-hostname = - magev6.if.qidian.com
-
-
+<function task_local_to_stoverride at 0x7fa37cdb53a0>

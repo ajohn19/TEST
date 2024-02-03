@@ -9,13 +9,4 @@ http:
 hostname = - *.music.163.com
 
 cron:
-name: |-
-  wangyy
-desc: |-
-  wangyy is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
-
-http:
-
-  mitm:
-hostname = - *.music.163.com
-
+<function task_local_to_stoverride at 0x7fa37cdb53a0>

@@ -9,13 +9,4 @@ http:
 hostname = - license.pdfexpert.com
 
 cron:
-name: |-
-  Documents
-desc: |-
-  恢复的时候 商店ID和软件处于同一账户下
-
-http:
-
-  mitm:
-hostname = - license.pdfexpert.com
-
+<function task_local_to_stoverride at 0x7fa37cdb53a0>

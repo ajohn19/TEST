@@ -9,13 +9,4 @@ http:
 hostname = - api.revenuecat.com
 
 cron:
-name: |-
-  chatpdf
-desc: |-
-  无
-
-http:
-
-  mitm:
-hostname = - api.revenuecat.com
-
+<function task_local_to_stoverride at 0x7fa37cdb53a0>

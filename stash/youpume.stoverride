@@ -9,13 +9,4 @@ http:
 hostname = - yopu.co
 
 cron:
-name: |-
-  有谱么
-desc: |-
-  清除缓存(卸载重下)再开脚本
-
-http:
-
-  mitm:
-hostname = - yopu.co
-
+<function task_local_to_stoverride at 0x7fa37cdb53a0>
