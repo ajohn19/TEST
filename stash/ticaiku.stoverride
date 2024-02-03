@@ -1,0 +1,17 @@
+name: |-
+  ticaiku
+desc: |-
+  ticaiku is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+    - "miniapp.guniuniu.com"
+
+  script:  - match: "^https:\/\/miniapp\.guniuniu\.com\/api\/mini-app\/user$"
+    type: http-response
+    script-path: "https://raw.githubusercontent.com/Yu9191/Rewrite/main/ticaiku.js"
+    require-body: true
+    max-size: -1
+    timeout: 60
+

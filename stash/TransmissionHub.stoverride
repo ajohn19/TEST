@@ -1,0 +1,17 @@
+name: |-
+  TransmissionHub
+desc: |-
+  TransmissionHub is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+    - "api.revenuecat.com"
+
+  script:  - match: "https://api.revenuecat.com/v1/(receipts|subscribers)/*"
+    type: http-response
+    script-path: "https://raw.githubusercontent.com/Yu9191/Rewrite/main/TransmissionHub.js"
+    require-body: true
+    max-size: -1
+    timeout: 60
+

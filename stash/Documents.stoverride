@@ -1,0 +1,17 @@
+name: |-
+  Documents
+desc: |-
+  恢复的时候 商店ID和软件处于同一账户下
+
+http:
+
+  mitm:
+    - "license.pdfexpert.com"
+
+  script:  - match: "^https:\/\/license\.pdfexpert\.com\/api\/2\.0\/documents\/subscription\/refresh"
+    type: http-request
+    script-path: "https://raw.githubusercontent.com/Yu9191/Rewrite/main/Documents.js"
+    require-body: true
+    max-size: -1
+    timeout: 60
+

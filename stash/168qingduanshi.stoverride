@@ -1,0 +1,17 @@
+name: |-
+  168轻断食
+desc: |-
+  需要先试用才有数据
+
+http:
+
+  mitm:
+    - "buy.itunes.apple.com"
+
+  script:  - match: "^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$"
+    type: http-response
+    script-path: "https://raw.githubusercontent.com/Yu9191/Rewrite/main/168qingduanshi.js"
+    require-body: true
+    max-size: -1
+    timeout: 60
+

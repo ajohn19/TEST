@@ -1,0 +1,17 @@
+name: |-
+  wangyy
+desc: |-
+  wangyy is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+    - "*.music.163.com"
+
+  script:  - match: "^http[s]?:\/\/.+music.+(player\/url|playlist|entrance|\/eapi\/search\/).*$"
+    type: http-request
+    script-path: "https://raw.githubusercontent.com/Yu9191/Rewrite/main/wangyy.js"
+    require-body: true
+    max-size: -1
+    timeout: 60
+

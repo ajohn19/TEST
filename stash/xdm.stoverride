@@ -1,0 +1,17 @@
+name: |-
+  xdm
+desc: |-
+  xdm is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+    - "dm.yeemiao.com"
+
+  script:  - match: "^https?:\/\/dm\.yeemiao\.com\/common\/newmsg\/getUnReadTotalNum$"
+    type: http-request
+    script-path: "https://raw.githubusercontent.com/wf021325/qx/master/task/xdm.js"
+    require-body: true
+    max-size: -1
+    timeout: 60
+
