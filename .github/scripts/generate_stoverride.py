@@ -162,7 +162,7 @@ def main():
             file_path = os.path.join(qx_folder_path, file_name)
             with open(file_path, 'r', encoding='utf-8') as file:
                 js_content = file.read()
-                stoverride_content = js_to_stoverride(js_content, project_name, random_number)
+                stoverride_content = js_to_stoverride(js_content)
                 
                 if stoverride_content is not None:
                     # Write stoverride content to 'stash' folder if stoverride_content is not None
