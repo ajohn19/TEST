@@ -5,15 +5,17 @@ desc: |-
 
 http:
 
+  mitm:
+    - "*.mgtv.com"
 
 cron:
-<function task_local_to_stoverride at 0x7f5f061b53a0>
+<function task_local_to_stoverride at 0x7f6a9e6753a0>
 
 cron:
-<function task_local_to_stoverride at 0x7f5f061b53a0>
+<function task_local_to_stoverride at 0x7f6a9e6753a0>
 
 cron:
-<function task_local_to_stoverride at 0x7f5f061b53a0>
+<function task_local_to_stoverride at 0x7f6a9e6753a0>
 
 cron:
-<function task_local_to_stoverride at 0x7f5f061b53a0>
+<function task_local_to_stoverride at 0x7f6a9e6753a0>

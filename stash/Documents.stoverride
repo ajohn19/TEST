@@ -5,6 +5,8 @@ desc: |-
 
 http:
 
+  mitm:
+    - "license.pdfexpert.com"
 
 cron:
-<function task_local_to_stoverride at 0x7f5f061b53a0>
+<function task_local_to_stoverride at 0x7f6a9e6753a0>

@@ -5,12 +5,15 @@ desc: |-
 
 http:
 
+  mitm:
+    - "cm15-c110-3.play.bokecc.com"
+    - "mb.xinghengedu.com"
 
 cron:
-<function task_local_to_stoverride at 0x7f5f061b53a0>
+<function task_local_to_stoverride at 0x7f6a9e6753a0>
 
 cron:
-<function task_local_to_stoverride at 0x7f5f061b53a0>
+<function task_local_to_stoverride at 0x7f6a9e6753a0>
 
 cron:
-<function task_local_to_stoverride at 0x7f5f061b53a0>
+<function task_local_to_stoverride at 0x7f6a9e6753a0>
