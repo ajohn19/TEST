@@ -24,7 +24,7 @@ def task_local_to_stoverride(js_content):
             # Extract the file name from the link to use as the tag
             tag = os.path.splitext(os.path.basename(script_url))[0]
             # Construct the stoverride cron task section
-            task_local_content = f'\n    - name: "{project_name}_{random_number}"\n      cron: "{cronexp}"\n      timeout: 60\n'
+            task_local_content = f'\n    - name: "{tag}_{random_number}"\n      cron: "{cronexp}"\n      timeout: 60\n'
     # Return the task_local section content, if any
     return task_local_content
 
@@ -58,7 +58,7 @@ def script_to_stoverride(js_content):
         pattern, method, kind, path = match.groups()
         stoverride_method = 'request' if method == 'request' else 'response'
         # kind 暂时未使用，实际过程中可能需要根据 'body' 和 'header' 修改脚本路径
-        script_content += f'  \n- match: "{pattern.strip()}"\n'
+        script_content += f'  \n- match: {pattern.strip()}\n'
         script_content += f'    type: {stoverride_method}\n'
         script_content += f'    require-body: true\n'
         script_content += f'    max-size: -1\n'
