@@ -21,11 +21,18 @@ def task_local_to_stoverride(js_content):
 
 def mitm_to_stoverride(js_content):
     mitm_content = ''
-    mitm_match = re.search(r'\[mitm\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
+    # 查找[Mitm]或[Mitm]标签内容
+    mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.IGNORECASE)
+    # 如果找到，则进一步处理
     if mitm_match:
         mitm_block = mitm_match.group(1)
+        # 移除"hostname ="和空白字符
+        mitm_block = re.sub(r'hostname\s*=\s*', '', mitm_block)
+        # 分割主机名
         mitm_hosts = mitm_block.strip().split(',')
+        # 为每个主机名添加"- "前缀，使其符合stoverride格式
         mitm_content = '\n'.join([f'    - "{host.strip()}"' for host in mitm_hosts if host.strip()])
+    # 返回处理后的MITM字符串
     return mitm_content
 
 def js_to_stoverride(js_content):
@@ -38,10 +45,7 @@ def js_to_stoverride(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
-    mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.IGNORECASE)
-    hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.IGNORECASE)
 
-    
     # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
         url_pattern = r'url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
@@ -56,13 +60,6 @@ def js_to_stoverride(js_content):
     else:
         project_name = name_match.group(1).strip()
         project_desc = desc_match.group(1).strip()
-
-    mitm_content = mitm_match.group(1).strip() if mitm_match else ''
-
-    mitm_content_with_append = (mitm_content)
-
-    # Insert - into mitm and hostname content
-    mitm_content_with_append = insert_append(mitm_content)
 
     # Create the final stoverride content string
     stoverride_content = (
