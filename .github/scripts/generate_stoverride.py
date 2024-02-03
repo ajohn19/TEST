@@ -33,15 +33,16 @@ def mitm_to_stoverride(js_content):
 
 def script_to_stoverride(js_content):
     script_content = ''
-    # 根据Quantumult X的配置格式来匹配script部分
+    # 这个正则表达式匹配Quantumult X配置文件中的[rewrite_local]部分
     script_matches = re.finditer(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)')
     for match in script_matches:
-        # 提取匹配的内容
-        pattern, script = match.groups()
-        # 根据实际的脚本配置需求调整此处匹配的信息和格式
-        script_content += f'    - match: "{pattern.strip(1)}"\n'
-        script_content += f'      type: match.group(2).replace('-body', '').replace('-header', '').strip()
-        script_content += f'      script-path: {script.strip(3)}\n'
+        # 提取正则匹配的内容
+        pattern, script_type, script_path = match.groups()
+        # 根据script_type确定是request还是response类型的脚本
+        stoverride_type = 'http-request' if script_type == 'request' else 'http-response'
+        script_content += f'    - match: "{pattern.strip()}"\n'
+        script_content += f'      type: {stoverride_type}\n'
+        script_content += f'      script-path: {script_path.strip()}\n'
         script_content += f'      require-body: true\n'
         script_content += f'      max-size: -1\n'
         script_content += f'      timeout: 60\n'
