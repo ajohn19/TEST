@@ -138,7 +138,7 @@ def js_to_stoverride(js_content):
     stoverride_content += f"\n{script_providers_section}\n"
 
     # Process task_local section
-    task_local_section = task_local_to_stoverride(js_content)
+    task_local_section = task_local_to_stoverride(js_content, project_name, random_number)
     if task_local_section:
         stoverride_content += f"\n{task_local_section}\n"
 
