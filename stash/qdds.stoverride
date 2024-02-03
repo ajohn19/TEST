@@ -9,13 +9,13 @@ http:
     - "h5.if.qidian.com"
 
   script:  
-- match: "https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch"
+- match: https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/finishWatch
     type: request
     require-body: true
     max-size: -1
     timeout: 60
   
-- match: "https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/mainPage"
+- match: https\:\/\/h5\.if\.qidian\.com\/argus\/api\/v1\/video\/adv\/mainPage
     type: response
     require-body: true
     max-size: -1
@@ -23,7 +23,7 @@ http:
 
 
 script-providers:
-  "qidian.cookie_94":
+  "qidian.cookie_40":
     url: https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/qidian/qidian.cookie.js
     interval: 86400
 

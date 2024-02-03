@@ -9,7 +9,7 @@ http:
     - "api.revenuecat.com"
 
   script:  
-- match: "https://api.revenuecat.com/v1/(receipts|subscribers)/*"
+- match: https://api.revenuecat.com/v1/(receipts|subscribers)/*
     type: response
     require-body: true
     max-size: -1
@@ -17,7 +17,7 @@ http:
 
 
 script-providers:
-  "TransmissionHub_94":
+  "TransmissionHub_40":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/TransmissionHub.js
     interval: 86400
 

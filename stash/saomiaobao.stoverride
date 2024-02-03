@@ -9,13 +9,13 @@ http:
     - "app.yinxiang.com"
 
   script:  
-- match: "https://app.yinxiang.com/third/profile/public/restful/public-user-profile?"
+- match: https://app.yinxiang.com/third/profile/public/restful/public-user-profile?
     type: response
     require-body: true
     max-size: -1
     timeout: 60
   
-- match: "https://app.yinxiang.com/third/scanner/scanner/app/userInfo/get"
+- match: https://app.yinxiang.com/third/scanner/scanner/app/userInfo/get
     type: response
     require-body: true
     max-size: -1
@@ -23,7 +23,7 @@ http:
 
 
 script-providers:
-  "saomiaobao_94":
+  "saomiaobao_40":
     url: https://raw.githubusercontent.com/Yu9191/Rewrite/main/saomiaobao.js
     interval: 86400
 
