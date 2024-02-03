@@ -6,16 +6,184 @@ desc: |-
 http:
 
   mitm:
-hostname = *.mgtv.com
+hostname = - *.mgtv.com
 
 cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
 
 
 cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
+
+cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
+
 
 
 cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
+
+cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
 
 
 cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
+
+cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
+
+
+
+
+cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
+
+cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
+
+
+cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
+
+cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
+
+
+
+cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
+
+cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
+
+
+cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
+
+cron:
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.mgtv.com
+
+
+
 

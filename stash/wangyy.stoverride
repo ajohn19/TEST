@@ -6,7 +6,16 @@ desc: |-
 http:
 
   mitm:
-hostname = *.music.163.com
+hostname = - *.music.163.com
 
 cron:
+name: |-
+  wangyy
+desc: |-
+  wangyy is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - *.music.163.com
 

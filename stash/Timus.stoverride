@@ -6,7 +6,16 @@ desc: |-
 http:
 
   mitm:
-hostname = api.revenuecat.com
+hostname = - api.revenuecat.com
 
 cron:
+name: |-
+  Timus
+desc: |-
+  无
+
+http:
+
+  mitm:
+hostname = - api.revenuecat.com
 

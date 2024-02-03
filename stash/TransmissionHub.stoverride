@@ -6,7 +6,16 @@ desc: |-
 http:
 
   mitm:
-hostname = api.revenuecat.com
+hostname = - api.revenuecat.com
 
 cron:
+name: |-
+  TransmissionHub
+desc: |-
+  TransmissionHub is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - api.revenuecat.com
 

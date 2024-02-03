@@ -6,7 +6,16 @@ desc: |-
 http:
 
   mitm:
-hostname = auth.alipan.com,auth.aliyundrive.com
+hostname = - auth.alipan.com,auth.aliyundrive.com
 
 cron:
+name: |-
+  aliyun
+desc: |-
+  aliyun is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - auth.alipan.com,auth.aliyundrive.com
 

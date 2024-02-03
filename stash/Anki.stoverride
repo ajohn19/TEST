@@ -6,7 +6,16 @@ desc: |-
 http:
 
   mitm:
-hostname = api.ankichinas.com
+hostname = - api.ankichinas.com
 
 cron:
+name: |-
+  Anki
+desc: |-
+  Anki is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - api.ankichinas.com
 

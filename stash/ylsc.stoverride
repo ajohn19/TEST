@@ -6,7 +6,16 @@ desc: |-
 http:
 
   mitm:
-hostname = music-knowledge-api.quthing.com
+hostname = - music-knowledge-api.quthing.com
 
 cron:
+name: |-
+  ylsc
+desc: |-
+  ylsc is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = - music-knowledge-api.quthing.com
 
