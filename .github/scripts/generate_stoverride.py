@@ -34,7 +34,10 @@ def mitm_to_stoverride(js_content):
 def script_to_stoverride(js_content):
     script_content = ''
     # 这个正则表达式匹配Quantumult X配置文件中的[rewrite_local]部分
-    script_matches = re.finditer(r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)')
+    script_matches = re.finditer(
+        r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)', 
+        js_content, 
+        re.MULTILINE)
     for match in script_matches:
         # 提取正则匹配的内容
         pattern, script_type, script_path = match.groups()
