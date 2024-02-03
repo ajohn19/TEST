@@ -1,0 +1,15 @@
+name: |-
+  saomiaobao
+desc: |-
+  saomiaobao is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = app.yinxiang.com
+
+cron:
+
+
+cron:
+

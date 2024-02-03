@@ -1,0 +1,12 @@
+name: |-
+  felotranslator
+desc: |-
+  felotranslator is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = translator.felo.me
+
+cron:
+

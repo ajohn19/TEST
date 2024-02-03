@@ -1,0 +1,12 @@
+name: |-
+  wanxingmiaoying
+desc: |-
+  wanxingmiaoying is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = api.300624.com
+
+cron:
+

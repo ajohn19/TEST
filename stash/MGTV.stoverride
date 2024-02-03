@@ -1,0 +1,21 @@
+name: |-
+  mgtv1
+desc: |-
+  mgtv1 is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = *.mgtv.com
+
+cron:
+
+
+cron:
+
+
+cron:
+
+
+cron:
+

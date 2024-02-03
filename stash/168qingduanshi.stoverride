@@ -1,0 +1,12 @@
+name: |-
+  168轻断食
+desc: |-
+  需要先试用才有数据
+
+http:
+
+  mitm:
+hostname = buy.itunes.apple.com
+
+cron:
+

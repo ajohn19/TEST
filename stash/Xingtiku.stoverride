@@ -1,0 +1,18 @@
+name: |-
+  Xingtiku
+desc: |-
+  Xingtiku is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = cm15-c110-3.play.bokecc.com,  mb.xinghengedu.com
+
+cron:
+
+
+cron:
+
+
+cron:
+

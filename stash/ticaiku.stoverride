@@ -1,0 +1,12 @@
+name: |-
+  ticaiku
+desc: |-
+  ticaiku is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = miniapp.guniuniu.com
+
+cron:
+

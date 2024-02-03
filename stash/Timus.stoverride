@@ -1,0 +1,12 @@
+name: |-
+  Timus
+desc: |-
+  无
+
+http:
+
+  mitm:
+hostname = api.revenuecat.com
+
+cron:
+

@@ -1,0 +1,12 @@
+name: |-
+  有谱么
+desc: |-
+  清除缓存(卸载重下)再开脚本
+
+http:
+
+  mitm:
+hostname = yopu.co
+
+cron:
+

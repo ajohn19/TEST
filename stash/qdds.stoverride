@@ -1,0 +1,15 @@
+name: |-
+  qidian.cookie
+desc: |-
+  qidian.cookie is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub.
+
+http:
+
+  mitm:
+hostname = h5.if.qidian.com
+
+cron:
+
+
+cron:
+
