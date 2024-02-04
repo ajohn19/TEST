@@ -7,6 +7,9 @@ GITHUB_USERNAME = 'ajohn19'
 REPO_NAME = 'TEST'
 FOLDER_NAME = 'qx'
 
+# GitHub API URL
+GITHUB_API = 'https://api.github.com'
+
 # Headers for authorization using the default GITHUB_TOKEN provided by GitHub Actions
 headers = {
     'Authorization': f'token {os.getenv("GITHUB_TOKEN")}',
