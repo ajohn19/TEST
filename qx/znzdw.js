@@ -1,3 +1,9 @@
+
+// qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/znzdw.js
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/znzdw.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/znzdw.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/znzdw.stoverride
+
 /*
  * 项目名称: znzdw
  * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/znzdw.js
