@@ -40,6 +40,17 @@ def update_file(file_path, b64_encoded_content, sha):
     else:
         print(f"Error updating file: {response.status_code}, Response: {response.json()}")
 
+# Generate the custom header
+def generate_custom_header(file_name, file_extension):
+    # Custom header format
+    header_format = """
+// Quantumult X引用地址： https://raw.githubusercontent.com/{username}/{repo}/main/{folder}/{file}{ext}
+// Surge/Shadowrocket 模块地址： https://raw.githubusercontent.com/{username}/{repo}/main/surge/{file}.sgmodule
+// Loon 插件地址： https://raw.githubusercontent.com/{username}/{repo}/main/loon/{file}.plugin
+// Stash 覆写地址： https://raw.githubusercontent.com/{username}/{repo}/main/stash/{file}.stoverride
+"""
+    return header_format.format(username=GITHUB_USERNAME, repo=REPO_NAME, folder=FOLDER_NAME, file=file_name, ext=file_extension)
+
 # Check if the file already contains any of the key comments to be replaced
 def contains_key_comments(file_content):
     key_comments = [
