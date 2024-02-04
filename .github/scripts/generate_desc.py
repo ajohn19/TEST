@@ -55,10 +55,10 @@ for file in files:
             
             # Custom header
             custom_header = f"""
-// qx引用地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/{FOLDER_NAME}/{file_name}{file_extension}
-// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/surge/{file_name}.sgmodule
-// loon 插件地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/loon/{file_name}.plugin
-// stash 覆写地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/stash/{file_name}.stoverride
+// qx引用地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/{FOLDER_NAME}/{file_name}{file_extension}
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/surge/{file_name}.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/loon/{file_name}.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/stash/{file_name}.stoverride
 """
 
             # Combine custom header with existing content
