@@ -1,3 +1,9 @@
+
+// qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/MGTV.js
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/MGTV.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/MGTV.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/MGTV.stoverride
+
 /*
  * 项目名称: MGTV
  * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/MGTV.js
