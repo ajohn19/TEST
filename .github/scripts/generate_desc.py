@@ -8,7 +8,7 @@ def generate_comment(file_name, base_url, folder_name):
     file_extension = os.path.splitext(file_name)[1]
     
     urls = {
-        'qx': base_url + '/qx/' + file_name,
+        'qx': base_url + '/qx/' + file_base_name + '.js',
         'surge': base_url + '/surge/' + file_base_name + '.sgmodule',
         'loon': base_url + '/loon/' + file_base_name + '.plugin',
         'stash': base_url + '/stash/' + file_base_name + '.stoverride',
