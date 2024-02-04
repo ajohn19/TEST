@@ -1,0 +1,6 @@
+#!name=cerealscreen
+#!desc=Generated from cerealscreen
+[MITM]
+hostname = youxifanyizhushou.com
+[Script]
+http-response https:\/\/youxifanyizhushou\.com\/ios\/api\/,script-path=cerealscreen.js, tag=cerealscreen
