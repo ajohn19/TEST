@@ -1,4 +1,10 @@
 
+// qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/wangyy.js
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/wangyy.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/wangyy.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/wangyy.stoverride
+
+
 // qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/qx/wangyy.js
 // surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/surge/wangyy.sgmodule
 // loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/loon/wangyy.plugin
