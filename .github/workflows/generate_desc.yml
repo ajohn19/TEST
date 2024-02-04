@@ -27,7 +27,7 @@ jobs:
     - name: Run script
       run: python .github/scripts/generate_desc.py
       env:
-        GITHUB_TOKEN: ${{ secrets.DESCPAT }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Check for changes
       id: check_changes
