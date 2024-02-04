@@ -1,3 +1,9 @@
+
+// qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/wanxingmiaoying.js
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/wanxingmiaoying.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/wanxingmiaoying.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/wanxingmiaoying.stoverride
+
 /*
  * 项目名称: wanxingmiaoying
  * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/wanxingmiaoying.js
