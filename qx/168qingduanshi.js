@@ -1,4 +1,10 @@
 
+// qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/168qingduanshi.js
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/168qingduanshi.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/168qingduanshi.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/168qingduanshi.stoverride
+
+
 // qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/qx/168qingduanshi.js
 // surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/surge/168qingduanshi.sgmodule
 // loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/loon/168qingduanshi.plugin
