@@ -32,8 +32,11 @@ jobs:
     - name: Check for changes
       id: check_changes
       run: |
-        git status
-        git diff-index --quiet HEAD || echo "::set-output name=changes_exist::true"
+        if git diff --quiet; then 
+          echo "No changes in the commit."
+        else 
+          echo "::set-output name=changes_exist::true"
+        fi
     
     - name: Commit and push if changes exist
       if: steps.check_changes.outputs.changes_exist == 'true'
@@ -41,5 +44,5 @@ jobs:
         git config user.name "${{ github.actor }}"
         git config user.email "${{ github.actor }}@users.noreply.github.com"
         git add -A
-        git commit -m "Automated comments update for files" -a || exit 0 
-        git push origin HEAD:main --force
+        git commit -m "Automated comments update for files"
+        git push origin HEAD:main
