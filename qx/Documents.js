@@ -1,4 +1,10 @@
 
+// qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/Documents.js
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/Documents.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/Documents.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/Documents.stoverride
+
+
 // qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/qx/Documents.js
 // surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/surge/Documents.sgmodule
 // loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/loon/Documents.plugin
