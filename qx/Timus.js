@@ -1,4 +1,10 @@
 
+// qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/Timus.js
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/Timus.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/Timus.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/Timus.stoverride
+
+
 // qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/qx/Timus.js
 // surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/surge/Timus.sgmodule
 // loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/loon/Timus.plugin
