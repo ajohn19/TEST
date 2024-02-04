@@ -28,6 +28,10 @@ def insert_comment_at_beginning(content, filename, base_url):
     # Insert the new comment block at the beginning of the content
     return new_comment_block + '\n' + content
 
+    def main():
+    # Base URL of the repository files
+    base_url = 'https://raw.githubusercontent.com/ajohn19/TEST/main'
+
     # Call the function to insert the comment at the beginning
     updated_content = insert_comment_at_beginning(original_content, filename, base_url)
     print(updated_content)
