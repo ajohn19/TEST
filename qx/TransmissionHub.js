@@ -1,4 +1,10 @@
 
+// Quantumult X引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/TransmissionHub.js
+// Surge/Shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/TransmissionHub.sgmodule
+// Loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/TransmissionHub.plugin
+// Stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/TransmissionHub.stoverride
+
+
 // qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/TransmissionHub.js
 // surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/TransmissionHub.sgmodule
 // loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/TransmissionHub.plugin
