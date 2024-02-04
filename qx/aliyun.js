@@ -1,4 +1,10 @@
 
+// qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/qx/aliyun.js
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/surge/aliyun.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/loon/aliyun.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/stash/aliyun.stoverride
+
+
 // qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/aliyun.js
 // surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/aliyun.sgmodule
 // loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/aliyun.plugin
