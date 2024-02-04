@@ -1,3 +1,9 @@
+
+// Quantumult X引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/2iTunes.js
+// Surge/Shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/2iTunes.sgmodule
+// Loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/2iTunes.plugin
+// Stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/2iTunes.stoverride
+
 /*
   变量解释：
   sjbla 为 带有到期时间数据
