@@ -1,17 +1,10 @@
 /*
-项目名称： chatpdf
-项目作者： Levi
-下载地址： https://apps.apple.com/app/id6457365457
-使用说明： 无 
-使用声明： 仅供个人参考学习交流，勿用于其它用途
-
-[rewrite_local]
-^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$) url script-response-body https://raw.githubusercontent.com/czy13724/Quantumult-X/main/scripts/chatpdf.js
-
-[mitm]
-hostname = api.revenuecat.com
-*/
-
+ * 项目名称: chatpdf.js
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/chatpdf.js
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/chatpdf.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/chatpdf.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/chatpdf.stoverride
+ */
 var Levi = JSON.parse($response.body);
 Levi= {
   "request_date_ms" : 1706074455134,
@@ -309,3 +302,4 @@ $done({body : JSON.stringify(Levi)});
 // Adding a dummy stoverride change to trigger git commit
 
 // Adding a dummy stoverride change to trigger git commit
+er git commit

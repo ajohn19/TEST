@@ -1,22 +1,10 @@
-/*************************************
-
-项目名称：乐理手册
-软件版本：2.2.0
-下载地址：https://is.gd/dPoh2n
-脚本作者：安妮
-使用声明：⚠️仅供参考，🈲️转载与售卖！
-
-**************************************
-
-[rewrite_local]
-^https:\/\/music-knowledge-api\.quthing\.com\/vip\/state url script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/main/ylsc.js
-
-[mitm]
-hostname = music-knowledge-api.quthing.com
-
-*************************************/
-
-
+/*
+ * 项目名称: ylsc.js
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/ylsc.js
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/ylsc.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/ylsc.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/ylsc.stoverride
+ */
 var body = JSON.parse($response.body);
 
 body.data.vipType = 7,
@@ -122,5 +110,8 @@ $done({ body: JSON.stringify(body) });
 // Adding a dummy stoverride change to trigger git commit
 
 // Adding a dummy stoverride change to trigger git commit
+
+// Adding a dummy stoverride change to trigger git commit
+y stoverride change to trigger git commit
 
 // Adding a dummy stoverride change to trigger git commit

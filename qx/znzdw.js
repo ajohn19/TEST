@@ -1,21 +1,10 @@
-/*************************************
-
-项目名称：指南针定位
-软件版本：1.2.8
-下载地址：https://is.gd/mokiYM
-使用声明：⚠️仅供参考，🈲️转载与售卖！
-
-**************************************
-
-[rewrite_local]
-^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ url script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/main/znzdw.js
-
-[mitm]
-hostname = buy.itunes.apple.com
-
-*************************************/
-
-
+/*
+ * 项目名称: znzdw.js
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/znzdw.js
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/znzdw.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/znzdw.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/znzdw.stoverride
+ */
 var anni = {};
 var anni01 = JSON.parse(typeof $response != "undefined" && $response.body || null);
 var headers = {};
@@ -170,5 +159,8 @@ $done({ body: JSON.stringify(anni) });
 // Adding a dummy stoverride change to trigger git commit
 
 // Adding a dummy stoverride change to trigger git commit
+
+// Adding a dummy stoverride change to trigger git commit
+it
 
 // Adding a dummy stoverride change to trigger git commit

@@ -1,21 +1,10 @@
-/*************************************
-
-项目名称：合声
-软件版本：2.7.7
-下载地址：https://is.gd/4TZXEo
-使用声明：⚠️仅供参考，🈲️转载与售卖！
-
-**************************************
-
-[rewrite_local]
-^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ url script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/main/hesheng.js
-
-[mitm]
-hostname = buy.itunes.apple.com
-
-*************************************/
-
-
+/*
+ * 项目名称: hesheng.js
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hesheng.js
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/hesheng.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/hesheng.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/hesheng.stoverride
+ */
 var anni = {};
 var anni01 = JSON.parse(typeof $response != "undefined" && $response.body || null);
 var headers = {};
@@ -172,3 +161,4 @@ $done({ body: JSON.stringify(anni) });
 // Adding a dummy stoverride change to trigger git commit
 
 // Adding a dummy stoverride change to trigger git commit
+ummy stoverride change to trigger git commit

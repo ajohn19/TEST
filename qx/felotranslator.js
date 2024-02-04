@@ -1,11 +1,10 @@
 /*
-[rewrite_local]
-https://translator.felo.me/api/plan/current url script-response-body https://raw.githubusercontent.com/czy13724/TEST/main/javascript/felotranslator.js
-
-[mitm]
-hostname = translator.felo.me
-*/
-
+ * 项目名称: felotranslator.js
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/felotranslator.js
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/felotranslator.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/felotranslator.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/felotranslator.stoverride
+ */
 let obj = JSON.parse($response.body);
     
    

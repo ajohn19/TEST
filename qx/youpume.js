@@ -1,19 +1,10 @@
 /*
-
-项目名称：有谱么
-下载地址：https://t.cn/A60Vxtkh
-项目作者：@ios151
-免责声明：学习制作,未经作者允许请勿转载售卖
-使用说明：清除缓存(卸载重下)再开脚本
-
-
-[rewrite_local]
-^https:\/\/yopu\.co\/api\/user\/info url script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/main/youpume.js
-
-[MITM]
-hostname = yopu.co
-
-*/
+ * 项目名称: youpume.js
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/youpume.js
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/youpume.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/youpume.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/youpume.stoverride
+ */
 var L1={
   "\x61\x64\x73\x44\x69\x73\x61\x62\x6c\x65\x64\x54\x69\x6c\x6c":101966821994000,
   "\x64\x69\x73\x70\x6c\x61\x79\x4e\x61\x6d\x65":"baby",

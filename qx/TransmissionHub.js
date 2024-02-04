@@ -1,24 +1,10 @@
-/******************************
-
-脚本名称: Transmission Hub
-下载地址：商店
-脚本作者：ios151
-更新时间：2023年9月29日 20:45
-问题反馈：TG
-使用声明：⚠️此脚本仅供学习与交流，请勿转载与贩卖！⚠️⚠️⚠️
-
-***************************
-
-[rewrite_local]
-
-https://api.revenuecat.com/v1/(receipts|subscribers)/* url script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/main/TransmissionHub.js
-
-[mitm] 
-
-hostname = api.revenuecat.com
-
-*******************************/
-
+/*
+ * 项目名称: TransmissionHub.js
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/TransmissionHub.js
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/TransmissionHub.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/TransmissionHub.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/TransmissionHub.stoverride
+ */
 var objc = JSON.parse($response.body);
 
     objc = {
@@ -160,5 +146,8 @@ $done({body : JSON.stringify(objc)});
 // Adding a dummy stoverride change to trigger git commit
 
 // Adding a dummy stoverride change to trigger git commit
+
+// Adding a dummy stoverride change to trigger git commit
+ trigger git commit
 
 // Adding a dummy stoverride change to trigger git commit

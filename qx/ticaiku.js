@@ -1,28 +1,11 @@
-/**
-
-脚本名称: #小程序://题材库/7lJ9vMf43M3tnZd
-
-解锁会员
-
-
-
-[rewrite_local]
-
-
-^https:\/\/miniapp\.guniuniu\.com\/api\/mini-app\/user$ url script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/main/ticaiku.js
-
-[mitm] 
-
-hostname = miniapp.guniuniu.com
-
-
-
-*/
-
-
-
-
-    let obj = JSON.parse($response.body);
+/*
+ * 项目名称: ticaiku.js
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/ticaiku.js
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/ticaiku.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/ticaiku.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/ticaiku.stoverride
+ */
+let obj = JSON.parse($response.body);
     
     // 不能删
     obj.data.nickName = "我是叼毛安妮";  

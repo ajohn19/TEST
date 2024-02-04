@@ -1,21 +1,10 @@
-/*************************************
-
-项目名称：Anki记忆卡
-软件版本：1.12.1 Time：2023.8.16
-下载地址：https://is.gd/ogshV8
-使用声明：⚠️仅供参考，🈲️转载与售卖！
-
-**************************************
-
-[rewrite_local]
-^https:\/\/api\.ankichinas\.com\/api\/v1\/users\/vipInfo url script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/main/Anki.js
-
-[mitm]
-hostname = api.ankichinas.com
-
-*************************************/
-
-
+/*
+ * 项目名称: Anki.js
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/Anki.js
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/Anki.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/Anki.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/Anki.stoverride
+ */
 var body = JSON.parse($response.body);
 
 body.data.is_vip = true;
@@ -308,5 +297,8 @@ $done({ body: JSON.stringify(body) });
 // Adding a dummy stoverride change to trigger git commit
 
 // Adding a dummy stoverride change to trigger git commit
+
+// Adding a dummy stoverride change to trigger git commit
+nge to trigger git commit
 
 // Adding a dummy stoverride change to trigger git commit

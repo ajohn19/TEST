@@ -1,21 +1,10 @@
 /*
-
-项目名称：168轻断食
-下载地址：商店
-脚本作者：ios151
-使用说明：需要先试用才有数据 
-使用声明：仅供参考，禁止转载与售卖！
-
-
-
-[rewrite_local]
-^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ url script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/main/168qingduanshi.js
-
-
-[mitm]
-hostname = buy.itunes.apple.com
-
-*/
+ * 项目名称: 168qingduanshi.js
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/168qingduanshi.js
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/168qingduanshi.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/168qingduanshi.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/168qingduanshi.stoverride
+ */
 var ios151 = JSON.parse($response.body);
 
 ios151.receipt.bundle_id = "com.leapfitness.fasting";

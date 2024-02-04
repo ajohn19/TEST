@@ -1,21 +1,10 @@
-/*************************************
-
-项目名称：真心话大冒险
-软件版本：1.7
-下载地址：https://is.gd/VRhPkZ
-使用声明：⚠️仅供参考，🈲️转载与售卖！
-
-**************************************
-
-[rewrite_local]
-^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$) url script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/main/zxhdmx.js
-
-[mitm] 
-hostname = api.revenuecat.com
-
-************************************/
-
-
+/*
+ * 项目名称: zxhdmx.js
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/zxhdmx.js
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/zxhdmx.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/zxhdmx.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/zxhdmx.stoverride
+ */
 const anni = {};
 const anni1 = JSON.parse(typeof $response != "undefined" && $response.body || null);
 
@@ -139,5 +128,8 @@ $done(anni);
 // Adding a dummy stoverride change to trigger git commit
 
 // Adding a dummy stoverride change to trigger git commit
+
+// Adding a dummy stoverride change to trigger git commit
+igger git commit
 
 // Adding a dummy stoverride change to trigger git commit
