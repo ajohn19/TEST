@@ -1,4 +1,5 @@
 
+
 // Quantumult X引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/cerealscreen.js
 // Surge/Shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/cerealscreen.sgmodule
 // Loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/cerealscreen.plugin
