@@ -10,15 +10,15 @@ FOLDER_NAME = 'qx'
 # GitHub API URL
 GITHUB_API = 'https://api.github.com'
 
-# Headers for authorization using the default GITHUB_TOKEN provided by GitHub Actions
+# Headers for using the default GITHUB_TOKEN provided by GitHub Actions
 headers = {
     'Authorization': f'token {os.getenv("GITHUB_TOKEN")}',
     'Accept': 'application/vnd.github.v3+json'
 }
 
 def get_file_list(folder_name):
-    repo_contents_url = f"{GITHUB_API}/repos/{GITHUB_USERNAME}/{REPO_NAME}/contents/{folder_name}"
-    response = requests.get(repo_contents_url, headers=headers)
+    contents_url = f"{GITHUB_API}/repos/{GITHUB_USERNAME}/{REPO_NAME}/contents/{folder_name}"
+    response = requests.get(contents_url, headers=headers)
     if response.status_code == 200:
         return response.json()
     else:
@@ -37,30 +37,30 @@ def update_file(file_path, b64_encoded_content, sha):
     if response.status_code == 200:
         print(f"File updated successfully: {file_path}")
     else:
-        print(f"Error updating file: {response.status_code}")
+        print(f"Error updating file: {response.status_code}, Response: {response.json()}")
 
 # Fetch the list of files
 files = get_file_list(FOLDER_NAME)
 
 for file in files:
-    if file['name'].endswith(('.js', '.conf', '.snippet')):
-        file_name = file['name']
+    file_name, file_extension = os.path.splitext(file['name'])
+    if file_extension in ('.js', '.conf', '.snippet'):
         download_url = file['download_url']
         file_sha = file['sha']
         
         # Download the existing file content
         file_content_response = requests.get(download_url)
         if file_content_response.status_code == 200:
-            # Original file content
             file_content = file_content_response.content.decode('utf-8')
             
             # Custom header
             custom_header = f"""
-// qx引用地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/{FOLDER_NAME}/{file_name}
-// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/surge/{file_name.replace('.js', '.sgmodule')}
-// loon 插件地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/loon/{file_name.replace('.js', '.plugin')}
-// stash 覆写地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/stash/{file_name.replace('.js', '.stoverride')}
+// qx引用地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/{FOLDER_NAME}/{file_name}{file_extension}
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/surge/{file_name}.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/loon/{file_name}.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/stash/{file_name}.stoverride
 """
+
             # Combine custom header with existing content
             new_file_content = custom_header + '\n' + file_content
 
