@@ -1,4 +1,10 @@
 
+// qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/qx/kaoyanxcx.js
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/surge/kaoyanxcx.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/loon/kaoyanxcx.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/stash/kaoyanxcx.stoverride
+
+
 // qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/kaoyanxcx.js
 // surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/kaoyanxcx.sgmodule
 // loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/kaoyanxcx.plugin
