@@ -1,10 +1,3 @@
-/*
- * 项目名称: QDDS.sgmodule
- * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/QDDS.sgmodule
- * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/QDDS.sgmodule
- * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/QDDS.plugin
- * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/QDDS.stoverride
- */
 #!name=起点读书 解锁会员专享
 #!desc=仅测试QuanX
 [MITM]

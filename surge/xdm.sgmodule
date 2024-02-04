@@ -1,10 +1,3 @@
-/*
- * 项目名称: xdm.sgmodule
- * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/xdm.sgmodule
- * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/xdm.sgmodule
- * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/xdm.plugin
- * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/xdm.stoverride
- */
 #!name=xdm
 #!desc=Generated from xdm
 [MITM]
