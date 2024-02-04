@@ -1,68 +1,52 @@
 import os
 import re
 
-def extract_usage_content(content, start_label='使用说明', end_label='*/'):
-    # Use non-greedy regex to capture all text between the start and end labels
-    usage_pattern = rf'{start_label}:(.*?){end_label}'
-    usage_match = re.search(usage_pattern, content, re.DOTALL)
-    if usage_match:
-        # Return the match, stripping any leading or trailing whitespace
-        return usage_match.group(1).strip()
-    return None
+def replace_urls_and_project_name(content, base_url, file_name, project_name):
+    # 更新注释块中的链接和项目名称
+    content = re.sub(r'\* Quantumult X 链接:.*', f'* Quantumult X 链接: {base_url}/qx/{file_name}', content)
+    content = re.sub(r'\* Surge 模块链接:.*', f'* Surge 模块链接: {base_url}/surge/{project_name}.sgmodule', content)
+    content = re.sub(r'\* Loon 插件链接:.*', f'* Loon 插件链接: {base_url}/loon/{project_name}.plugin', content)
+    content = re.sub(r'\* Stash 覆写链接:.*', f'* Stash 覆写链接: {base_url}/stash/{project_name}.stoverride', content)
+    content = re.sub(r'\* 项目名称:.*', f'* 项目名称: {project_name}', content)
 
-def generate_comment(project_name, file_name, base_url, usage_content=None):
-    qx_url = f'{base_url}/qx/{file_name}'
+    return content
 
-    # Generate the new comment block
-    comment_lines = [
-        '/*',
-        f' * 项目名称: {project_name}',
-        f' * Quantumult X 链接: {qx_url}',
-        ' * Surge 模块链接: N/A',  
-        ' * Loon 插件链接: N/A',  
-        ' * Stash 覆写链接: N/A',
-    ]
+def extract_and_update_comment_block(old_comment, base_url, file_name):
+    # 从旧注释中提取项目名称
+    project_name_match = re.search(r'\* 项目名称: (.+?)\s*\*', old_comment)
+    if project_name_match:
+        project_name = project_name_match.group(1).strip()
+    else:
+        project_name = '未命名项目'
 
-    # Add usage instructions if available
-    if usage_content:
-        comment_lines.append(' * 使用说明:')
-        usage_lines = usage_content.split('\n')
-        comment_lines.extend([f' * {line.strip()}' for line in usage_lines])
-
-    comment_lines.append(' */\n')
-    return '\n'.join(comment_lines)
+    # 替换链接并返回完整的新注释块
+    return replace_urls_and_project_name(old_comment, base_url, file_name, project_name)
 
 def update_file_comment(file_path, base_url):
     with open(file_path, 'r+', encoding='utf-8') as file:
         content = file.read()
+        # 匹配并提取旧的注释块
+        old_comment_pattern = r'/\*[\s\S]*?\*/'
+        old_comment_match = re.search(old_comment_pattern, content)
+        if old_comment_match:
+            new_comment_block = extract_and_update_comment_block(old_comment_match.group(0), base_url, os.path.basename(file_path))
+            # 新的注释块替换旧的注释块
+            updated_content = content.replace(old_comment_match.group(0), new_comment_block)
+            file.seek(0)
+            file.write(updated_content)
+            file.truncate()
+        else:
+            print(f"No existing comment block found in {file_path}")
 
-        # Extract the project name and usage content from the original comments
-        project_name = extract_usage_content(content, '项目名称', '使用说明')
-        usage_content = extract_usage_content(content, '使用说明', '*/')
-
-        if not project_name:
-            print(f"Project name not found in {file_path}")
-            return
-
-        # Generate the new comment
-        new_comment = generate_comment(project_name, os.path.basename(file_path), base_url, usage_content)
-
-        # Replace the old comment block with the new one
-        # This regex matches the entire old comment block
-        new_content = re.sub(r'/\*.*?\*/', new_comment, content, count=1, flags=re.DOTALL)
-
-        # Write the updated content back to the file
-        file.seek(0)
-        file.write(new_content)
-        file.truncate()
-
-def process_qx_folder(base_url):
-    qx_folder = 'qx'
-    qx_path = os.path.join(os.getcwd(), qx_folder)
-    for file_name in os.listdir(qx_path):
+def process_qx_folder(qx_folder, base_url):
+    for file_name in os.listdir(qx_folder):
         if file_name.endswith(('.js', '.conf', '.snippet')):
-            file_path = os.path.join(qx_path, file_name)
+            file_path = os.path.join(qx_folder, file_name)
             update_file_comment(file_path, base_url)
 
-base_url = 'https://raw.githubusercontent.com/ajohn19/TEST/main'  # Replace with your repository details
-process_qx_folder(base_url)
+# 设置为您的仓库路径
+base_url = 'https://raw.githubusercontent.com/ajohn19/TEST/main'
+# 设置为具体的 qx 文件夹路径
+qx_folder = 'TEST/qx'
+
+process_qx_folder(qx_folder, base_url)
