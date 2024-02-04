@@ -39,33 +39,49 @@ def update_file(file_path, b64_encoded_content, sha):
     else:
         print(f"Error updating file: {response.status_code}, Response: {response.json()}")
 
+# Check if the file already contains any of the key comments to be replaced
+def contains_key_comments(file_content):
+    key_comments = [
+        "// Quantumult X引用地址",
+        "// Surge/Shadowrocket 模块地址",
+        "// Loon 插件地址",
+        "// Stash 覆写地址"
+    ]
+    for comment in key_comments:
+        if comment in file_content:
+            return True
+    return False
+
 # Fetch the list of files
 files = get_file_list(FOLDER_NAME)
 
+# Regular expression pattern for replacing old custom headers
+pattern = re.compile(r'(// Quantumult X引用地址.*?// Stash 覆写地址.*?)\n', re.DOTALL)
+
 for file in files:
     file_name, file_extension = os.path.splitext(file['name'])
-    if file_extension in ('.js', '.conf', '.snippet'):
+    
+    if file_extension in ('.js', '.conf', '.snippet'):  
         download_url = file['download_url']
         file_sha = file['sha']
         
         # Download the existing file content
         file_content_response = requests.get(download_url)
+        
         if file_content_response.status_code == 200:
             file_content = file_content_response.content.decode('utf-8')
-            
-            # Custom header
-            custom_header = f"""
-// qx引用地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/{FOLDER_NAME}/{file_name}{file_extension}
-// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/surge/{file_name}.sgmodule
-// loon 插件地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/loon/{file_name}.plugin
-// stash 覆写地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/stash/{file_name}.stoverride
-"""
+            custom_header = generate_custom_header(file_name, file_extension)
 
-            # Combine custom header with existing content
-            new_file_content = custom_header + '\n' + file_content
+            # Check if the file contains the key comments
+            if contains_key_comments(file_content):
+                # Replace the existing custom header with the new one
+                updated_file_content = pattern.sub(custom_header, file_content, count=1)
+            else:
+                # Prepend the custom header if key comments do not exist
+                updated_file_content = custom_header + '\n' + file_content
 
-            # Encode the new file content in base64
-            b64_encoded_content = base64.b64encode(new_file_content.encode('utf-8')).decode('utf-8')
+            # Encode the updated file content in base64
+            b64_encoded_content = base64.b64encode(updated_file_content.encode('utf-8')).decode('utf-8')
 
             # Update the file on GitHub
             update_file(file['path'], b64_encoded_content, file_sha)
