@@ -1,3 +1,9 @@
+
+// qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/chatpdf.js
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/chatpdf.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/chatpdf.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/chatpdf.stoverride
+
 /*
  * 项目名称: chatpdf
  * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/chatpdf.js
