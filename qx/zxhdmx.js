@@ -1,4 +1,10 @@
 
+// qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/zxhdmx.js
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/zxhdmx.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/zxhdmx.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/zxhdmx.stoverride
+
+
 // qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/qx/zxhdmx.js
 // surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/surge/zxhdmx.sgmodule
 // loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/loon/zxhdmx.plugin
