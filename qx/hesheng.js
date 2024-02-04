@@ -1,3 +1,9 @@
+
+// qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hesheng.js
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/hesheng.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/hesheng.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/hesheng.stoverride
+
 /*
  * 项目名称: hesheng
  * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hesheng.js
