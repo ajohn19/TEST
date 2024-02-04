@@ -1,3 +1,10 @@
+/*
+ * 文件名: zxhdmx.plugin
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/zxhdmx.plugin
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/zxhdmx.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/zxhdmx.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/zxhdmx.stoverride
+ */
 #!name=zxhdmx
 #!desc=Generated from zxhdmx
 [MITM]

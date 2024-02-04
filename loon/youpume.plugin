@@ -1,3 +1,10 @@
+/*
+ * 文件名: youpume.plugin
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/youpume.plugin
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/youpume.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/youpume.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/youpume.stoverride
+ */
 #!name=有谱么
 #!desc=清除缓存(卸载重下)再开脚本
 [MITM]

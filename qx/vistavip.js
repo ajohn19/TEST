@@ -1,3 +1,10 @@
+/*
+ * 文件名: vistavip.js
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/vistavip.js
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/vistavip.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/vistavip.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/vistavip.stoverride
+ */
 var body = $response.body;
 
 // 将 "isVip":\d 替换为 "isVip": 1

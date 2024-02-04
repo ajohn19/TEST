@@ -1,3 +1,10 @@
+/*
+ * 文件名: kaoyanxcx.sgmodule
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/kaoyanxcx.sgmodule
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/kaoyanxcx.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/kaoyanxcx.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/kaoyanxcx.stoverride
+ */
 #!name=微信小程序考研数学欧几里得
 #!desc=脚本作者ios15 9.22更新，感谢@苍井灰灰 AES源代码
 [MITM]

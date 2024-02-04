@@ -1,3 +1,10 @@
+/*
+ * 文件名: felotranslator.stoverride
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/felotranslator.stoverride
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/felotranslator.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/felotranslator.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/felotranslator.stoverride
+ */
 name: |-
   felotranslator
 desc: |-

@@ -1,3 +1,10 @@
+/*
+ * 文件名: Documents.stoverride
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/Documents.stoverride
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/Documents.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/Documents.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/Documents.stoverride
+ */
 name: |-
   Documents
 desc: |-

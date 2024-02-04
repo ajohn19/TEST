@@ -1,3 +1,10 @@
+/*
+ * 文件名: qdds.plugin
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/qdds.plugin
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/qdds.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/qdds.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/qdds.stoverride
+ */
 #!name=qidian.cookie
 #!desc=Generated from qidian.cookie
 [MITM]

@@ -1,3 +1,10 @@
+/*
+ * 文件名: MGTV.sgmodule
+ * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/MGTV.sgmodule
+ * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/MGTV.sgmodule
+ * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/MGTV.plugin
+ * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/MGTV.stoverride
+ */
 #!name=mgtv1
 #!desc=Generated from mgtv1
 [MITM]
