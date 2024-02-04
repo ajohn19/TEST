@@ -1,9 +1,14 @@
 /*
- * 项目名称: ticaiku.js
+ * 项目名称: ticaiku
  * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/ticaiku.js
  * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/ticaiku.sgmodule
  * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/ticaiku.plugin
  * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/ticaiku.stoverride
+ * 
+ * 
+ * 
+ * 
+ * 
  */
 let obj = JSON.parse($response.body);
     

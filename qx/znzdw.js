@@ -1,9 +1,14 @@
 /*
- * 项目名称: znzdw.js
+ * 项目名称: znzdw
  * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/znzdw.js
  * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/znzdw.sgmodule
  * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/znzdw.plugin
  * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/znzdw.stoverride
+ * 
+ * 
+ * 
+ * 
+ * 
  */
 var anni = {};
 var anni01 = JSON.parse(typeof $response != "undefined" && $response.body || null);

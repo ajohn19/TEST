@@ -1,9 +1,14 @@
 /*
- * 项目名称: wanxingmiaoying.js
+ * 项目名称: wanxingmiaoying
  * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/wanxingmiaoying.js
  * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/wanxingmiaoying.sgmodule
  * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/wanxingmiaoying.plugin
  * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/wanxingmiaoying.stoverride
+ * 
+ * 
+ * 
+ * 
+ * 
  */
 /*
 

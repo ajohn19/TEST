@@ -1,9 +1,14 @@
 /*
- * 项目名称: hesheng.js
+ * 项目名称: hesheng
  * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hesheng.js
  * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/hesheng.sgmodule
  * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/hesheng.plugin
  * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/hesheng.stoverride
+ * 
+ * 
+ * 
+ * 
+ * 
  */
 var anni = {};
 var anni01 = JSON.parse(typeof $response != "undefined" && $response.body || null);

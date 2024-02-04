@@ -1,9 +1,14 @@
 /*
- * 项目名称: felotranslator.js
+ * 项目名称: felotranslator
  * Quantumult X 链接: https://raw.githubusercontent.com/ajohn19/TEST/main/qx/felotranslator.js
  * Surge 模块链接: https://raw.githubusercontent.com/ajohn19/TEST/main/surge/felotranslator.sgmodule
  * Loon 插件链接: https://raw.githubusercontent.com/ajohn19/TEST/main/loon/felotranslator.plugin
  * Stash 覆写链接: https://raw.githubusercontent.com/ajohn19/TEST/main/stash/felotranslator.stoverride
+ * 
+ * 
+ * 
+ * 
+ * 
  */
 let obj = JSON.parse($response.body);
     
