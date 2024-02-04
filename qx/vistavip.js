@@ -1,4 +1,10 @@
 
+// qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/qx/vistavip.js
+// surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/surge/vistavip.sgmodule
+// loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/loon/vistavip.plugin
+// stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/stash/vistavip.stoverride
+
+
 // qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/vistavip.js
 // surge/shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/vistavip.sgmodule
 // loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/vistavip.plugin
