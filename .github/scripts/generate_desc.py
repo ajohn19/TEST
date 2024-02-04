@@ -25,12 +25,12 @@ def get_file_list(folder_name):
         print(f"Error fetching repo contents: {response.status_code}")
         return None
 
-def update_file(file_path, file_content, sha):
+def update_file(file_path, b64_encoded_content, sha):
     update_url = f"{GITHUB_API}/repos/{GITHUB_USERNAME}/{REPO_NAME}/contents/{file_path}"
     message = f"Add custom header to {file_path}"
     data = {
         'message': message,
-        'content': file_content,
+        'content': b64_encoded_content,
         'sha': sha
     }
     response = requests.put(update_url, headers=headers, json=data)
@@ -51,9 +51,10 @@ for file in files:
         # Download the existing file content
         file_content_response = requests.get(download_url)
         if file_content_response.status_code == 200:
+            # Original file content
             file_content = file_content_response.content.decode('utf-8')
             
-            # Your custom header
+            # Custom header
             custom_header = f"""
 // qx引用地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/{FOLDER_NAME}/{file_name}
 // surge/shadowrocket 模块地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/surge/{file_name.replace('.js', '.sgmodule')}
@@ -61,9 +62,12 @@ for file in files:
 // stash 覆写地址： https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/stash/{file_name.replace('.js', '.stoverride')}
 """
             # Combine custom header with existing content
-            new_file_content = custom_header + file_content
+            new_file_content = custom_header + '\n' + file_content
 
-            # Update the file on Github
-            update_file(file['path'], new_file_content.encode('utf-8').encode('base64'), file_sha)
+            # Encode the new file content in base64
+            b64_encoded_content = base64.b64encode(new_file_content.encode('utf-8')).decode('utf-8')
+
+            # Update the file on GitHub
+            update_file(file['path'], b64_encoded_content, file_sha)
         else:
             print(f"Failed to download file content: {file_content_response.status_code}")
