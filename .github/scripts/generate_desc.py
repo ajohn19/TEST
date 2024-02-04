@@ -1,20 +1,17 @@
 import os
 import requests
 
-# Replace with your personal access token
-GITHUB_TOKEN = 'DESCPAT'
-
-# GitHub API URL
-GITHUB_API = 'https://api.github.com'
+import requests
+import base64
 
 # Repository details
 GITHUB_USERNAME = 'ajohn19'
 REPO_NAME = 'TEST'
 FOLDER_NAME = 'qx'
 
-# Headers for authorization
+# Headers for authorization using the default GITHUB_TOKEN provided by GitHub Actions
 headers = {
-    'Authorization': f'token {GITHUB_TOKEN}',
+    'Authorization': f'token {os.getenv("GITHUB_TOKEN")}',
     'Accept': 'application/vnd.github.v3+json'
 }
 
