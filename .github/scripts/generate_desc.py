@@ -1,6 +1,3 @@
-import os
-import requests
-
 import requests
 import base64
 
