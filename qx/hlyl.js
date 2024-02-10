@@ -29,7 +29,7 @@
 ------------------ Surge 配置 -----------------
 
 [Script]
-活力伊利获取token = type=http-request,pattern=https:\/\/msmarket\.msx\.digitalyili\.com\/gateway\/api\/,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hlyl.js
+活力伊利获取token = type=http-request,pattern=https:\/\/msmarket\.msx\.digitalyili\.com\/gateway\/api\/member\/sign\/config,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hlyl.js
 
 活力伊利小程序签到 = type=cron,cronexp=1 9 * * *,timeout=60,script-path=https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hlyl.js,script-update-interval=0
 
