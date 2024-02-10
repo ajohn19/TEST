@@ -119,7 +119,7 @@ class UserInfo {
     async signin() {
         try {
             const options = {
-                url: `https://zhls.qq.com/api/report?token=bifbdbfb7e1a6b4a93`,
+                url: `https://msmarket.msx.digitalyili.com/gateway/api/member/sign/config`,
                 headers: this.headers,
             };
             //post方法
