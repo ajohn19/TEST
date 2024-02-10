@@ -1,3 +1,9 @@
+
+// Quantumult X引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hlyl.js
+// Surge/Shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/hlyl.sgmodule
+// Loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/hlyl.plugin
+// Stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/hlyl.stoverride
+
 /**************************************
 脚本名称：活力伊利 签到
 脚本作者：@ Levi
