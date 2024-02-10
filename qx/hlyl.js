@@ -88,10 +88,10 @@ class UserInfo {
         this.ckStatus = true
         this.headers = {
             "app": "hlyl",
-            "appchannel": "xiaomi",
-            "appversion": "3.0.3",
-            "Access-Token": this.token,
-            "Host": "msmarket.msx.digitalyili.com",
+            "appchannel": "yili",
+            "appversion": "1.6.373",
+            "access-token": this.token,
+            "Host": "digitaldmo.yili.com",
             "User-Agent": "Mozilla/5.0 (iPad; CPU OS 16_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.47(0x18002f28) NetType/WIFI Language/zh_CN"
         }
     }
