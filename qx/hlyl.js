@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 // Quantumult X引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hlyl.js
 // Surge/Shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/hlyl.sgmodule
 // Loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/hlyl.plugin
@@ -32,7 +22,7 @@
 ------------------ Surge 配置 -----------------
 
 [Script]
-活力伊利获取token = type=http-request,pattern=https:\/\/msmarket\.msx\.digitalyili\.com\/gateway\/api\/member\/,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hlyl.js
+活力伊利获取token = type=http-request,pattern=https:\/\/msmarket\.msx\.digitalyili\.com\/gateway\/api\/member\/level\/info,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hlyl.js
 
 活力伊利小程序签到 = type=cron,cronexp=1 9 * * *,timeout=60,script-path=https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hlyl.js,script-update-interval=0
 
@@ -71,8 +61,8 @@ async function main() {
     await getNotice()
     console.log('\n================== 任务 ==================\n');
     for (let user of userList) {
-        console.log(`🔷账号${user.index} >> Start work`)
-        console.log(`随机延迟${user.getRandomTime()}ms`);
+        console.log(`🐷账号${user.index} >> Start work`)
+        console.log(`🐷随机延迟${user.getRandomTime()}ms`);
         //执行签到
         await user.signin();
         if (user.ckStatus) {
