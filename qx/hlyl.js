@@ -28,12 +28,12 @@
 ------------------ Surge 配置 -----------------
 
 [Script]
-活力伊利获取token = type=http-request,pattern=https:\/\/digitaldmo\.yili\.com\/sa\?project=yilixcx,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hlyl.js
+活力伊利获取token = type=http-request,pattern=https:\/\/msmarket\.msx\.digitalyili\.com\/gateway\/api\/,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hlyl.js
 
 活力伊利小程序签到 = type=cron,cronexp=1 9 * * *,timeout=60,script-path=https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hlyl.js,script-update-interval=0
 
 [MITM]
-hostname = digitaldmo.yili.com
+hostname = msmarket.msx.digitalyili.com
 ====================================
 ⚠️【免责声明】
 ------------------------------------------
@@ -92,7 +92,7 @@ class UserInfo {
             "appchannel": "yili",
             "appversion": "1.6.373",
             "access-token": this.token,
-            "Host": "digitaldmo.yili.com",
+            "Host": "msmarket.msx.digitalyili.com",
             "User-Agent": "Mozilla/5.0 (iPad; CPU OS 16_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.47(0x18002f28) NetType/WIFI Language/zh_CN"
         }
     }
@@ -160,7 +160,7 @@ async function getCookie() {
         const tokenValue = headers[`access-token`];
         if (tokenValue) {
             $.setdata(tokenValue, ckName);
-            $.msg($.name, "", "获取签到Cookie成功🎉");
+            $.msg($.name, "", "🎉获取签到Cookie成功");
         } else {
             $.msg($.name, "", "❌获取签到Cookie失败");
         }
