@@ -29,7 +29,7 @@
 活力伊利小程序签到 = type=cron,cronexp=1 9 * * *,timeout=60,script-path=https://raw.githubusercontent.com/ajohn19/TEST/main/qx/hlyl.js,script-update-interval=0
 
 [MITM]
-hostname = zhls.qq.com
+hostname = msmarket.msx.digitalyili.com
 ====================================
 ⚠️【免责声明】
 ------------------------------------------
