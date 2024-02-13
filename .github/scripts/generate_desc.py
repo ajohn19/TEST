@@ -48,7 +48,7 @@ def generate_custom_header(file_name, file_extension):
 // Surge/Shadowrocket 模块地址： https://raw.githubusercontent.com/{username}/{repo}/main/surge/{file}.sgmodule
 // Loon 插件地址： https://raw.githubusercontent.com/{username}/{repo}/main/loon/{file}.plugin
 // Stash 覆写地址： https://raw.githubusercontent.com/{username}/{repo}/main/stash/{file}.stoverride
-"""
+""".strip('\n')
     return header_format.format(username=GITHUB_USERNAME, repo=REPO_NAME, folder=FOLDER_NAME, file=file_name, ext=file_extension)
 
 # Check if the file already contains any of the key comments to be replaced
@@ -84,13 +84,17 @@ for file in files:
             file_content = file_content_response.content.decode('utf-8')
             custom_header = generate_custom_header(file_name, file_extension)
 
-            # Check if the file contains the key comments
-            if contains_key_comments(file_content):
-                # Replace the existing custom header with the new one
-                updated_file_content = pattern.sub(custom_header, file_content, count=1)
-            else:
-                # Prepend the custom header if key comments do not exist
-                updated_file_content = custom_header + '\n' + file_content
+        # Remove any existing leading newlines
+        file_content = file_content.lstrip('\n')
+        custom_header = generate_custom_header(file_name, file_extension)
+
+        # Check if the file contains the key comments
+        if contains_key_comments(file_content):
+            # Replace the existing custom header with the new one
+            updated_file_content = pattern.sub(custom_header + '\n\n', file_content, count=1)
+        else:
+            # Add the custom header followed by exactly two newlines, then the original file content
+            updated_file_content = custom_header + '\n\n' + file_content
 
             # Encode the updated file content in base64
             b64_encoded_content = base64.b64encode(updated_file_content.encode('utf-8')).decode('utf-8')
