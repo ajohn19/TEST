@@ -1,12 +1,12 @@
 name: Generate stoverride
 
 on:
-  push:
-    paths:
-      - 'qx/**' # Trigger on changes in qx folder
-  pull_request:
-    paths:
-      - 'Stash/**' # Trigger on changes in Stash folder
+  #push:
+   # paths:
+    #  - 'qx/**' # Trigger on changes in qx folder
+  #pull_request:
+   # paths:
+    #  - 'Stash/**' # Trigger on changes in Stash folder
   workflow_dispatch:
 
 jobs:
