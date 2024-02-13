@@ -92,7 +92,7 @@ for file in files:
                 # Use sub() method to replace all matched key comments with an empty string
                 file_content = re.sub(pattern, '', file_content)
                 # Concatenate the custom header with the cleaned file content
-                updated_file_content = custom_header + '\n\n' + file_content
+                updated_file_content = custom_header + '\n' + file_content
             else:
                 # Prepend the custom header if key comments do not exist
                 updated_file_content = custom_header + '\n\n' + file_content
