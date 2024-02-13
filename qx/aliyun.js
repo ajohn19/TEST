@@ -6,10 +6,6 @@
 脚本名称：阿里云盘任务 感谢zqzess、lowking、leiyiyan、mounuo提供的巨大帮助
 作者：@Sliverkiss
 更新日期：2024-01-24 13:13:57
-// Quantumult X引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/aliyun.js
-// Surge/Shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/aliyun.sgmodule
-// Loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/aliyun.plugin
-// Stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/aliyun.stoverride
 
 2024.01.24
 - 优化时空间任务逻辑，运行一次可完成任务，需要间隔一小时以上再运行一次领取所有奖励，建议每天定时2到3次
