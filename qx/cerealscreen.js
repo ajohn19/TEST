@@ -18,6 +18,7 @@
 
 
 
+
 [rewrite_local]
 https:\/\/youxifanyizhushou\.com\/ios\/api\/ url script-response-body cerealscreen.js
 
