@@ -1,12 +1,12 @@
 name: Generate sgmodule
 
 on:
-  push:
-    paths:
-      - 'qx/**' # Trigger on changes in qx folder
-  pull_request:
-    paths:
-      - 'surge/**' # Trigger on changes in surge folder
+  #push:
+   # paths:
+    #  - 'qx/**' # Trigger on changes in qx folder
+  #pull_request:
+   # paths:
+    #  - 'surge/**' # Trigger on changes in surge folder
   workflow_dispatch:
 
 jobs:
