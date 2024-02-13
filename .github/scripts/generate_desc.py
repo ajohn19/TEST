@@ -63,14 +63,6 @@ files = get_file_list(FOLDER_NAME)
 # Regular expression pattern for replacing old custom headers
 pattern = re.compile(r'(// Quantumult X引用地址.*?// Stash 覆写地址.*?)\n', re.DOTALL)
 
-# ...省略了其他的代码部分...
-
-def contains_key_comments(file_content):
-    key_comments_pattern = re.compile(r"// Quantumult X引用地址.*?// Stash 覆写地址.*?\n", re.DOTALL)
-    matches = key_comments_pattern.findall(file_content)
-    return matches
-
-# ...省略了其他的代码部分...
 
 for file in files:
     file_name, file_extension = os.path.splitext(file['name'])
