@@ -1,24 +1,25 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Quantumult X引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/felotranslator.js
 // Surge/Shadowrocket 模块地址： https://raw.githubusercontent.com/ajohn19/TEST/main/surge/felotranslator.sgmodule
 // Loon 插件地址： https://raw.githubusercontent.com/ajohn19/TEST/main/loon/felotranslator.plugin
 // Stash 覆写地址： https://raw.githubusercontent.com/ajohn19/TEST/main/stash/felotranslator.stoverride
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // qx引用地址： https://raw.githubusercontent.com/ajohn19/TEST/main/qx/felotranslator.js
