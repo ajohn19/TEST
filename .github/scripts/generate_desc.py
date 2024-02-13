@@ -84,16 +84,12 @@ for file in files:
             file_content = file_content_response.content.decode('utf-8')
             custom_header = generate_custom_header(file_name, file_extension)
 
-        # Remove any existing leading newlines
-        file_content = file_content.lstrip('\n')
-        custom_header = generate_custom_header(file_name, file_extension)
-
-        # Check if the file contains the key comments
-        if contains_key_comments(file_content):
-            # Replace the existing custom header with the new one
-            updated_file_content = pattern.sub(custom_header + '\n\n', file_content, count=1)
-        else:
-            # Add the custom header followed by exactly two newlines, then the original file content
+            # Check if the custom header is already present in the content
+            if pattern.search(file_content):
+                # Remove the old custom header
+                file_content = pattern.sub('', file_content, count=1)
+            
+            # Prepare the updated file content
             updated_file_content = custom_header + '\n\n' + file_content
 
             # Encode the updated file content in base64
