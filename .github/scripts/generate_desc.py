@@ -53,16 +53,9 @@ def generate_custom_header(file_name, file_extension):
 
 # Check if the file already contains any of the key comments to be replaced
 def contains_key_comments(file_content):
-    key_comments = [
-        "// Quantumult X引用地址",
-        "// Surge/Shadowrocket 模块地址",
-        "// Loon 插件地址",
-        "// Stash 覆写地址"
-    ]
-    for comment in key_comments:
-        if comment in file_content:
-            return True
-    return False
+    key_comments_pattern = re.compile(r"// Quantumult X引用地址.*?// Stash 覆写地址.*?\n", re.DOTALL)
+    matches = key_comments_pattern.findall(file_content)
+    return matches
 
 # Fetch the list of files
 files = get_file_list(FOLDER_NAME)
@@ -70,27 +63,39 @@ files = get_file_list(FOLDER_NAME)
 # Regular expression pattern for replacing old custom headers
 pattern = re.compile(r'(// Quantumult X引用地址.*?// Stash 覆写地址.*?)\n', re.DOTALL)
 
+# ...省略了其他的代码部分...
+
+def contains_key_comments(file_content):
+    key_comments_pattern = re.compile(r"// Quantumult X引用地址.*?// Stash 覆写地址.*?\n", re.DOTALL)
+    matches = key_comments_pattern.findall(file_content)
+    return matches
+
+# ...省略了其他的代码部分...
+
 for file in files:
     file_name, file_extension = os.path.splitext(file['name'])
     
-    if file_extension in ('.js', '.conf', '.snippet'):  
+    if file_extension in ('.js', '.conf', '.snippet'):
         download_url = file['download_url']
         file_sha = file['sha']
-        
+
         # Download the existing file content
         file_content_response = requests.get(download_url)
-        
+
         if file_content_response.status_code == 200:
             file_content = file_content_response.content.decode('utf-8')
             custom_header = generate_custom_header(file_name, file_extension)
 
-            # Check if the custom header is already present in the content
-            if pattern.search(file_content):
-                # Remove the old custom header
-                file_content = pattern.sub('', file_content, count=1)
-            
-            # Prepare the updated file content
-            updated_file_content = custom_header + '\n\n' + file_content
+            # Check if the file contains the key comments and remove them
+            matches = contains_key_comments(file_content)
+            if matches:
+                # Use sub() method to replace all matched key comments with an empty string
+                file_content = re.sub(pattern, '', file_content)
+                # Concatenate the custom header with the cleaned file content
+                updated_file_content = custom_header + '\n\n' + file_content
+            else:
+                # Prepend the custom header if key comments do not exist
+                updated_file_content = custom_header + '\n\n' + file_content
 
             # Encode the updated file content in base64
             b64_encoded_content = base64.b64encode(updated_file_content.encode('utf-8')).decode('utf-8')
