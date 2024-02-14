@@ -151,13 +151,14 @@ def process_directory(directory):
                     file_path = os.path.join(root, file_name)
                     update_file_commit_count(file_path)
 
-def main():
-    # Assuming the script is placed at the root of the TEST repository
-    # Change the directory path here if necessary
-    quantumult_x_directory = '.'
-    process_directory(quantumult_x_directory)
-    subprocess.run(['git', 'add', '.'], check=True)
-    subprocess.run(['git', 'commit', '-m', 'Update commit counts'], check=True)
+
+    status_result = subprocess.run(['git', 'status', '--porcelain'], capture_output=True, text=True)
+    changes = status_result.stdout.strip()
+    if changes:
+        subprocess.run(['git', 'add', '.'], check=True)
+        subprocess.run(['git', 'commit', '-m', 'Update commit counts'], check=True)
+    else:
+        print('No changes to commit.')
 
 if __name__ == '__main__':
     main()
