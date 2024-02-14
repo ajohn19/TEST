@@ -1,5 +1,6 @@
 import os
 import re
+import subprocess
 
 def insert_append(content):
     # Insert %APPEND% after the first '=' sign
@@ -117,12 +118,46 @@ def main():
 
                 print(f"Generated {sgmodule_file_path}")
 
-                # Since we're simulating a git operation, we'll do this for all file types
-                with open(file_path, 'a', encoding='utf-8') as file:
-                    file.write("\n// Adding a dummy change to trigger git commit\n")
 
-                os.system(f'git add {file_path}')
-                os.system('git commit -m "Trigger update"')
+# Define regular expressions that match comments
+commit_pattern = re.compile(r'// Adding a dummy sgmodule commit\((\d+)\)')
 
-if __name__ == "__main__":
+# Extract the maximum count value from the content
+def extract_max_count(content):
+    counts = commit_pattern.findall(content)
+    max_count = max(map(int, counts)) if counts else 0
+    return max_count
+
+# Update the comment count in the file
+def update_file_commit_count(file_path):
+    with open(file_path, 'r+', encoding='utf-8') as file:
+        content = file.read()
+        max_count = extract_max_count(content)
+        content = re.sub(commit_pattern, '', content)
+        new_count = max_count + 1
+        new_commit_comment = f'// Adding a dummy sgmodule commit({new_count})\n'
+        content = content.rstrip() + '\n' + new_commit_comment
+        file.seek(0)
+        file.write(content)
+        file.truncate()
+
+# Process only 'qxjs' directory in the TEST repository
+def process_directory(directory):
+    scripts_directory = os.path.join(directory, 'qxjs')
+    if os.path.isdir(scripts_directory):
+        for root, dirs, files in os.walk(scripts_directory):
+            for file_name in files:
+                if file_name.endswith(('.js', '.conf', '.snippet')):
+                    file_path = os.path.join(root, file_name)
+                    update_file_commit_count(file_path)
+
+def main():
+    # Assuming the script is placed at the root of the TEST repository
+    # Change the directory path here if necessary
+    quantumult_x_directory = '.'
+    process_directory(quantumult_x_directory)
+    subprocess.run(['git', 'add', '.'], check=True)
+    subprocess.run(['git', 'commit', '-m', 'Update commit counts'], check=True)
+
+if __name__ == '__main__':
     main()
