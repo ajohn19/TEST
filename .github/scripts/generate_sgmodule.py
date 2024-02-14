@@ -141,9 +141,9 @@ def update_file_commit_count(file_path):
         file.write(content)
         file.truncate()
 
-# Process only 'qxjs' directory in the TEST repository
+# Process only 'qx' directory in the TEST repository
 def process_directory(directory):
-    scripts_directory = os.path.join(directory, 'qxjs')
+    scripts_directory = os.path.join(directory, 'qx')
     if os.path.isdir(scripts_directory):
         for root, dirs, files in os.walk(scripts_directory):
             for file_name in files:
