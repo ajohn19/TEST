@@ -17,11 +17,13 @@ headers = {
     'Accept': 'application/vnd.github.v3+json'
 }
 
+
 def get_file_list(folder_name):
     contents_url = f"{GITHUB_API}/repos/{GITHUB_USERNAME}/{REPO_NAME}/contents/{folder_name}"
     response = requests.get(contents_url, headers=headers)
     if response.status_code == 200:
-        return response.json()
+        # Filter out only the files within the target folder
+        return [file for file in response.json() if file['path'].startswith(f"{folder_name}/")]
     else:
         print(f"Error fetching repo contents: {response.status_code}")
         return None
