@@ -1,3 +1,5 @@
+# author:Levi
+
 import os
 import re
 import subprocess
@@ -21,7 +23,7 @@ def task_local_to_sgmodule(js_content):
             # Extract the file name from the link to use as the tag
             tag = os.path.splitext(os.path.basename(script_url))[0]
             # Construct the SGModule cron task section
-            task_local_content = f"{tag} = type=cron, cronexp=\"{cronexp}\", script-path={script_url}\n"
+            task_local_content = f"{tag} = type=cron, cronexp=\"{cronexp}\", script-path={script_url}, timeout=60, wake-system=1\n"
     # Return the task_local section content, if any
     return task_local_content
 
@@ -45,9 +47,9 @@ def js_to_sgmodule(js_content):
         if last_part_match:
             project_name = os.path.splitext(os.path.basename(last_part_match.group(1).strip()))[0]
         else:
-            raise ValueError("Invalid JS file format")
+            raise ValueError("文件内容匹配错误，请按照要求修改，详情请按照levifree.tech文章内容修改")
 
-        project_desc = f"Generated from {project_name}"
+        project_desc = f"{project_name} is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub."
 
     else:
         project_name = name_match.group(1).strip()
@@ -62,6 +64,17 @@ def js_to_sgmodule(js_content):
     # Generate sgmodule content
     sgmodule_content = f"""#!name={project_name}
 #!desc={project_desc}
+#!====================================
+#!⚠️【免责声明】
+#!------------------------------------------
+#!1、此脚本仅用于学习研究，不保证其合法性、准确性、有效性，请根据情况自行判断，本人对此不承担任何保证责任。
+#!2、由于此脚本仅用于学习研究，您必须在下载后 24 小时内将所有内容从您的计算机或手机或任何存储设备中完全删除，若违反规定引起任何事件本人对此均不负责。
+#!3、请勿将此脚本用于任何商业或非法目的，若违反规定请自行对此负责。
+#!4、此脚本涉及应用与本人无关，本人对因此引起的任何隐私泄漏或其他后果不承担任何责任。
+#!5、本人对任何脚本引发的问题概不负责，包括但不限于由脚本错误引起的任何损失和损害。
+#!6、如果任何单位或个人认为此脚本可能涉嫌侵犯其权利，应及时通知并提供身份证明，所有权证明，我们将在收到认证文件确认后删除此脚本。
+#!7、所有直接或间接使用、查看此脚本的人均应该仔细阅读此声明。本人保留随时更改或补充此声明的权利。一旦您使用或复制了此脚本，即视为您已接受此免责声明。
+
 [MITM]
 {mitm_content_with_append}
 [Script]
@@ -81,7 +94,7 @@ def js_to_sgmodule(js_content):
         script_path = match.group(3).strip()
 
         # Append the rewrite rule to the SGModule content
-        sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},script-path={script_path}\n"
+        sgmodule_content += f"{project_name} = type=http-{script_type}, pattern={pattern}, script-path={script_path}, requires-body=true, max-size=-1, timeout=60\n"
 
     return sgmodule_content
 
@@ -106,10 +119,10 @@ def main():
                 
                 if sgmodule_content is None:
                     # Skip files without the required sections
-                    print(f"Skipping {file_name} due to missing required sections.")
+                    print(f"跳过 {file_name} 由于文件缺失匹配内容，请仔细检查.")
                     continue
 
-                # Write sgmodule content to surge folder
+                # Write sgmodule content to 'surge' folder
                 surge_folder_path = 'surge'
                 os.makedirs(surge_folder_path, exist_ok=True)
                 sgmodule_file_path = os.path.join(surge_folder_path, f"{os.path.splitext(file_name)[0]}.sgmodule")
@@ -118,47 +131,50 @@ def main():
 
                 print(f"Generated {sgmodule_file_path}")
 
-
 # Define regular expressions that match comments
 commit_pattern = re.compile(r'// Adding a dummy sgmodule commit\((\d+)\)')
 
-# Extract the maximum count value from the content
 def extract_max_count(content):
     counts = commit_pattern.findall(content)
     max_count = max(map(int, counts)) if counts else 0
     return max_count
 
-# Update the comment count in the file
 def update_file_commit_count(file_path):
     with open(file_path, 'r+', encoding='utf-8') as file:
         content = file.read()
+
         max_count = extract_max_count(content)
+
         content = re.sub(commit_pattern, '', content)
+
         new_count = max_count + 1
         new_commit_comment = f'// Adding a dummy sgmodule commit({new_count})\n'
+
         content = content.rstrip() + '\n' + new_commit_comment
+
         file.seek(0)
         file.write(content)
         file.truncate()
 
-# Process only 'qx' directory in the TEST repository
-def process_directory(directory):
-    scripts_directory = os.path.join(directory, 'qx')
-    if os.path.isdir(scripts_directory):
-        for root, dirs, files in os.walk(scripts_directory):
-            for file_name in files:
-                if file_name.endswith(('.js', '.conf', '.snippet')):
-                    file_path = os.path.join(root, file_name)
-                    update_file_commit_count(file_path)
-
-
-    status_result = subprocess.run(['git', 'status', '--porcelain'], capture_output=True, text=True)
-    changes = status_result.stdout.strip()
-    if changes:
-        subprocess.run(['git', 'add', '.'], check=True)
-        subprocess.run(['git', 'commit', '-m', 'Update commit counts'], check=True)
+def process_scripts_directory(directory):
+    scripts_dir_path = os.path.join(directory, 'qx')
+    if os.path.exists(scripts_dir_path) and os.path.isdir(scripts_dir_path):
+        for file_name in os.listdir(scripts_dir_path):
+            if file_name.endswith(('.js', '.conf', '.snippet')):
+                file_path = os.path.join(scripts_dir_path, file_name)
+                update_file_commit_count(file_path)
     else:
-        print('No changes to commit.')
+        print("'qx' directory does not exist.")
 
-if __name__ == '__main__':
+
+def main():
+    # Call the function to process files in 'scripts' directory
+    process_scripts_directory('.')
+
+    # Add all changes to git
+    subprocess.run(['git', 'add', '.'])
+    # Commit these changes
+    subprocess.run(['git', 'commit', '-m', 'Update commit counts'])
+
+if __name__ == "__main__":
     main()
