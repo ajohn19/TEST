@@ -1,6 +1,0 @@
-#!name=cerealscreen
-#!desc=Generated from cerealscreen
-[MITM]
-hostname = %APPEND% youxifanyizhushou.com
-[Script]
-cerealscreen = type=http-response,pattern=https:\/\/youxifanyizhushou\.com\/ios\/api\/,script-path=cerealscreen.js

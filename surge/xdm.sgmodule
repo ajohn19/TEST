@@ -1,6 +1,0 @@
-#!name=xdm
-#!desc=Generated from xdm
-[MITM]
-hostname = %APPEND% dm.yeemiao.com
-[Script]
-xdm = type=http-request,pattern=^https?:\/\/dm\.yeemiao\.com\/common\/newmsg\/getUnReadTotalNum$,script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/xdm.js
