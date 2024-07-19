@@ -38,11 +38,6 @@ def generate_task_json():
     headers = {"Authorization": f"token {github_token}"}
     api_url = f"https://api.github.com/users/{github_username}/gists"
 
-    if response.status_code != 200:
-    print(f"Failed to retrieve Gist list. Status code: {response.status_code}")
-    print("Response Headers:", response.headers)
-    print("Response Text:", response.text)
-
 
     response = requests.get(api_url, headers=headers)
 
