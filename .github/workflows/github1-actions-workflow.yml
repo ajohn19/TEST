@@ -28,7 +28,7 @@ jobs:
 
     - name: Run task collection script
       env:
-        GITHUB_TOKEN: ${{ secrets.GISTID }}
+        GISTID: ${{ secrets.GISTID }}
       run: python .github/scripts/gist_task1_generator.py
 
     - name: Commit and push if changed
