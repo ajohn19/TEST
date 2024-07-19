@@ -34,7 +34,7 @@ def find_matching_js_and_conf(gist_files):
 
 def generate_task_json():
     github_username = "ajohn19"
-    github_token = os.getenv("GITHUB_TOKEN")
+    github_token = os.getenv("GISTID")
     headers = {"Authorization": f"token {github_token}"}
     api_url = f"https://api.github.com/users/{github_username}/gists"
 
