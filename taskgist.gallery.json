@@ -1,0 +1,22 @@
+{
+    "name": "Levi任务合集订阅",
+    "description": "如有侵权请联系@PMLevibot删除。tg机器人：https://t.me/PMLevibot",
+    "task": [
+        {
+            "config": "20 14 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/9d607966b721abde8931ddd052181fae905db503/1.js, tag=1, enabled=false",
+            "addons": "https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/9d07aa0df55c353e18eea6f1b401946b5dad7bce/1%E8%8E%B7%E5%8F%96ck.conf, tag=1获取ck"
+        },
+        {
+            "config": "41 12 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/d1d06ad36a5841e8c06a90bd29707290d979cc2b/11.js, tag=11, enabled=false"
+        },
+        {
+            "config": "56 8 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/d8263ee9860594d2806b0dfd1bfd17528b0ba2a4/3.js, tag=3, enabled=false"
+        },
+        {
+            "config": "35 13 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/9d607966b721abde8931ddd052181fae905db503/5.js, tag=5, enabled=false"
+        },
+        {
+            "config": "9 23 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/999e14246637eb29c65ff12f7275edba4708c62d/7.js, tag=7, enabled=false"
+        }
+    ]
+}
