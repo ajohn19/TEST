@@ -7,7 +7,7 @@ import re
 GITHUB_USERNAME = "ajohn19"
 ICON_REPO_NAME = "TEST"
 ICON_REPO_BRANCH = "main"
-RAW_REPO_BASE_URL = f"https://raw.githubusercontent.com/{GITHUB_USERNAME}/{ICON_REPO_NAME}/icons/{ICON_REPO_BRANCH}/"
+RAW_REPO_BASE_URL = f"https://raw.githubusercontent.com/{GITHUB_USERNAME}/{ICON_REPO_NAME}/{ICON_REPO_BRANCH}/icons/"
 
 def generate_random_cron():
     minute = random.randint(0, 59)
