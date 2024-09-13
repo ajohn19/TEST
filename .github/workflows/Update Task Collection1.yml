@@ -31,6 +31,12 @@ jobs:
         GISTID: ${{ secrets.GISTID }}
       run: python .github/scripts/gist.py
 
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: plugin-artifacts
+        path: ${{ github.workspace }}      
+
     - name: Commit and push if changed
       run: |
         git config --global user.name 'GitHub Action'
