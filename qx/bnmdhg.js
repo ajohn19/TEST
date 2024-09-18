@@ -1,10 +1,10 @@
 /* ------------------------------------------
  * @name 巴奴毛肚火锅
- * @version 1.0.1
+ * @version 1.0.2
  * @description 巴奴毛肚火锅小程序自动签到
  * @author Perplexity AI
  * @date 2024.09.18
- * ------------------------------------------
+ * ------------------------------------------ 
 
 脚本声明：
 1. 本脚本仅用于学习研究，禁止用于商业用途
@@ -20,7 +20,7 @@
 4. 填入变量 bnmdhg_data 中，多账号用 & 分隔
 
 [rewrite_local]
-^https:\/\/cloud\.banu\.cn\/api\/city\/frequent-store url script-request-header https://raw.githubusercontent.com/ajohn19/TEST/refs/heads/main/qx/bnmdhg.js
+^https:\/\/cloud\.banu\.cn\/api\/city\/frequent-store url script-request-header https://raw.githubusercontent.com/your_username/your_repo/main/bnmdhg.js
 
 [MITM]
 hostname = cloud.banu.cn
@@ -63,6 +63,9 @@ const host = 'cloud.banu.cn';
                 
                 await signInfo();
                 await $.wait(2000);
+
+                await collectTask();
+                await $.wait(2000);
             }
             await SendMsg(msg);
         }
@@ -100,6 +103,9 @@ async function getUserInfo() {
                 if (err) {
                     $.log(`getUserInfo API请求失败，请检查网路重试`)
                 } else {
+                    if (debug) {
+                        $.log(`\n\n【getUserInfo】${data}`);
+                    }
                     let result = JSON.parse(data);
                     if (result.code == 200) {
                         $.log(`获取用户信息成功`);
@@ -128,6 +134,9 @@ async function signInfo() {
                 if (err) {
                     $.log(`signInfo API请求失败，请检查网路重试`)
                 } else {
+                    if (debug) {
+                        $.log(`\n\n【signInfo】${data}`);
+                    }
                     let result = JSON.parse(data);
                     if (result.code == 200) {
                         let { is_sign_in, days } = result.data;
@@ -150,18 +159,90 @@ async function signIn() {
         let url = {
             url: `https://${host}/api/sign-in`,
             headers: getHeaders(),
-            body: JSON.stringify(encryptBody({ member_id: member_id }))
+            body: JSON.stringify({ member_id: member_id })
         }
         $.post(url, async (err, resp, data) => {
             try {
                 if (err) {
                     $.log(`signIn API请求失败，请检查网路重试`)
                 } else {
+                    if (debug) {
+                        $.log(`\n\n【signIn】${data}`);
+                    }
                     let result = JSON.parse(data);
                     if (result.code == 200) {
                         $.log(`签到成功`);
                     } else {
                         $.log(`签到失败: ${result.message}`);
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve();
+            }
+        })
+    })
+}
+
+async function collectTask() {
+    return new Promise((resolve) => {
+        let url = {
+            url: `https://${host}/api/favorites`,
+            headers: getHeaders(),
+            body: JSON.stringify({
+                "targetType": "sku",
+                "targetId": "225",
+                "favorited": 1
+            })
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+                if (err) {
+                    $.log(`collectTask API请求失败，请检查网路重试`)
+                } else {
+                    if (debug) {
+                        $.log(`\n\n【collectTask】${data}`);
+                    }
+                    let result = JSON.parse(data);
+                    if (result.favorited === true) {
+                        $.log(`收藏任务完成`);
+                        await receiveReward();
+                    } else {
+                        $.log(`收藏任务失败: ${result.message}`);
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve();
+            }
+        })
+    })
+}
+
+async function receiveReward() {
+    return new Promise((resolve) => {
+        let url = {
+            url: `https://${host}/api/missions/5/rewards`,
+            headers: getHeaders(),
+            body: JSON.stringify({
+                "id": 5
+            })
+        }
+        $.post(url, async (err, resp, data) => {
+            try {
+                if (err) {
+                    $.log(`receiveReward API请求失败，请检查网路重试`)
+                } else {
+                    if (debug) {
+                        $.log(`\n\n【receiveReward】${data}`);
+                    }
+                    let result = JSON.parse(data);
+                    if (result.rewardValue > 0) {
+                        $.log(`领取奖励成功，获得${result.rewardValue}积分`);
+                    } else {
+                        $.log(`领取奖励失败: ${result.message}`);
                     }
                 }
             } catch (e) {
@@ -186,9 +267,12 @@ function getHeaders() {
     }
 }
 
-function encryptBody(opts = {}) {
-    // 加密逻辑，需要根据实际情况实现
-    return opts;
+function randomString(length, chars) {
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
 }
 
 async function Envs() {
@@ -233,14 +317,6 @@ async function SendMsg(message) {
     } else {
         $.log(message)
     }
-}
-
-function randomString(length, chars) {
-    let result = '';
-    for (let i = 0; i < length; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return result;
 }
 
 // prettier-ignore
