@@ -1,10 +1,10 @@
-/* ------------------------------------------ 
+/* ------------------------------------------
  * @name 巴奴毛肚火锅
  * @version 1.0.1
  * @description 巴奴毛肚火锅小程序自动签到
  * @author Perplexity AI
  * @date 2024.09.18
- * ------------------------------------------ 
+ * ------------------------------------------
 
 脚本声明：
 1. 本脚本仅用于学习研究，禁止用于商业用途
@@ -17,7 +17,8 @@
 1. 微信小程序搜索"巴奴毛肚火锅"
 2. 登录账号
 3. 抓取 cloud.banu.cn 域名下的 member_id 字段
-4. 填入变量 bnmdhgCookie 中，多账号用 & 分隔
+4. 填入变量 bnmdhg_data 中，多账号用 & 分隔
+
 [rewrite_local]
 ^https:\/\/cloud\.banu\.cn\/api\/city\/frequent-store url script-request-header https://raw.githubusercontent.com/your_username/your_repo/main/bnmdhg.js
 
@@ -25,32 +26,6 @@
 hostname = cloud.banu.cn
 
 cron: 15 10,15 * * *
-
-*/
-
-/*
-巴奴毛肚火锅 小程序自动签到
-
-脚本声明：
-1. 本脚本仅用于学习研究，禁止用于商业用途
-2. 脚本不保证准确性、可靠性、完整性和及时性
-3. 使用本脚本造成的任何损失与作者无关
-4. 如果任何单位或个人认为该脚本可能涉嫌侵犯其权利，应及时通知并提供身份证明、所有权证明，我们将在收到认证文件确认后删除
-5. 请勿将本脚本用于任何商业或非法目的，否则后果自负
-
-使用方法：
-1. 添加重写规则和MITM主机名
-2. 微信小程序搜索"巴奴毛肚火锅"并登录账号
-3. 自动获取cookie,或手动填入变量 bnmdhgCookie 中，多账号用 & 分隔
-
-重写规则：
-[rewrite_local]
-^https:\/\/cloud\.banu\.cn\/api\/city\/frequent-store url script-request-header https://raw.githubusercontent.com/your_username/your_repo/main/bnmdhg.js
-
-[MITM]
-hostname = cloud.banu.cn
-
-cron "15 10,15 * * *" script-path=https://raw.githubusercontent.com/your_username/your_repo/main/bnmdhg.js, tag=巴奴毛肚火锅签到
 */
 
 const $ = new Env('巴奴毛肚火锅');
@@ -58,8 +33,8 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 const Notify = 1; //0为关闭通知，1为打开通知,默认为1
 const debug = 0; //0为关闭调试，1为打开调试,默认为0
 
-let bnmdhgCookie = ($.isNode() ? process.env.bnmdhgCookie : $.getdata('bnmdhgCookie')) || "";
-let bnmdhgCookieArr = [];
+let bnmdhg_data = ($.isNode() ? process.env.bnmdhg_data : $.getdata('bnmdhg_data')) || "";
+let bnmdhg_dataArr = [];
 let msg = '';
 let userList = [];
 
@@ -76,12 +51,12 @@ const host = 'cloud.banu.cn';
                 new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 +
                 8 * 60 * 60 * 1000).toLocaleString()} \n=============================================\n`);
 
-            $.log(`\n=================== 共找到 ${bnmdhgCookieArr.length} 个账号 ===================`)
+            $.log(`\n=================== 共找到 ${bnmdhg_dataArr.length} 个账号 ===================`)
 
-            for (let index = 0; index < bnmdhgCookieArr.length; index++) {
+            for (let index = 0; index < bnmdhg_dataArr.length; index++) {
                 let num = index + 1
                 $.log(`\n========= 开始【第 ${num} 个账号】=========\n`)
-                member_id = bnmdhgCookieArr[index];
+                member_id = bnmdhg_dataArr[index];
                 
                 await getUserInfo();
                 await $.wait(2000);
@@ -99,18 +74,19 @@ const host = 'cloud.banu.cn';
 async function GetRewrite() {
     if ($request.url.indexOf("frequent-store") > -1) {
         const ck = $request.url.match(/member_id=([^&]+)/)[1];
-        if (bnmdhgCookie) {
-            if (bnmdhgCookie.indexOf(ck) == -1) {
-                bnmdhgCookie = bnmdhgCookie + "@" + ck;
-                $.setdata(bnmdhgCookie, "bnmdhgCookie");
-                let List = bnmdhgCookie.split("@");
-                $.msg(`【${$.name}】` + ` 获取第${List.length}个 ck 成功: ${ck} ,不用请自行关闭重写!`);
+        if (bnmdhg_data) {
+            if (bnmdhg_data.indexOf(ck) == -1) {
+                bnmdhg_data = bnmdhg_data + "&" + ck;
+                $.setdata(bnmdhg_data, "bnmdhg_data");
+                let List = bnmdhg_data.split("&");
+                $.msg(`【${$.name}】` + ` 获取第${List.length}个 ck 成功: ${ck}`);
             }
         } else {
-            $.setdata(ck, "bnmdhgCookie");
-            $.msg(`【${$.name}】` + ` 获取第1个 ck 成功: ${ck} ,不用请自行关闭重写!`);
+            $.setdata(ck, "bnmdhg_data");
+            $.msg(`【${$.name}】` + ` 获取第1个 ck 成功: ${ck}`);
         }
     }
+    $.done();
 }
 
 async function getUserInfo() {
@@ -140,6 +116,7 @@ async function getUserInfo() {
         })
     })
 }
+
 async function signInfo() {
     return new Promise((resolve) => {
         let url = {
@@ -198,7 +175,7 @@ async function signIn() {
 
 function getHeaders() {
     return {
-        'uuid': $.randomString(16, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
+        'uuid': randomString(16, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
         'tenancy_id': 'banu',
         'version': '6.2.6',
         'platform_version_name': 'iPhone 13 mini',
@@ -215,20 +192,20 @@ function encryptBody(opts = {}) {
 }
 
 async function Envs() {
-    if (bnmdhgCookie) {
-        if (bnmdhgCookie.indexOf("@") != -1) {
-            bnmdhgCookie.split("@").forEach((item) => {
-                bnmdhgCookieArr.push(item);
+    if (bnmdhg_data) {
+        if (bnmdhg_data.indexOf("&") != -1) {
+            bnmdhg_data.split("&").forEach((item) => {
+                bnmdhg_dataArr.push(item);
             });
-        } else if (bnmdhgCookie.indexOf("\n") != -1) {
-            bnmdhgCookie.split("\n").forEach((item) => {
-                bnmdhgCookieArr.push(item);
+        } else if (bnmdhg_data.indexOf("\n") != -1) {
+            bnmdhg_data.split("\n").forEach((item) => {
+                bnmdhg_dataArr.push(item);
             });
         } else {
-            bnmdhgCookieArr.push(bnmdhgCookie);
+            bnmdhg_dataArr.push(bnmdhg_data);
         }
     } else {
-        $.log(`\n 【${$.name}】：未填写变量 bnmdhgCookie`)
+        $.log(`\n 【${$.name}】：未填写变量 bnmdhg_data`)
         return;
     }
 
@@ -256,6 +233,14 @@ async function SendMsg(message) {
     } else {
         $.log(message)
     }
+}
+
+function randomString(length, chars) {
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
 }
 
 // prettier-ignore
