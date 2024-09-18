@@ -28,6 +28,31 @@ cron: 15 10,15 * * *
 
 */
 
+/*
+巴奴毛肚火锅 小程序自动签到
+
+脚本声明：
+1. 本脚本仅用于学习研究，禁止用于商业用途
+2. 脚本不保证准确性、可靠性、完整性和及时性
+3. 使用本脚本造成的任何损失与作者无关
+4. 如果任何单位或个人认为该脚本可能涉嫌侵犯其权利，应及时通知并提供身份证明、所有权证明，我们将在收到认证文件确认后删除
+5. 请勿将本脚本用于任何商业或非法目的，否则后果自负
+
+使用方法：
+1. 添加重写规则和MITM主机名
+2. 微信小程序搜索"巴奴毛肚火锅"并登录账号
+3. 自动获取cookie,或手动填入变量 bnmdhgCookie 中，多账号用 & 分隔
+
+重写规则：
+[rewrite_local]
+^https:\/\/cloud\.banu\.cn\/api\/city\/frequent-store url script-request-header https://raw.githubusercontent.com/your_username/your_repo/main/bnmdhg.js
+
+[MITM]
+hostname = cloud.banu.cn
+
+cron "15 10,15 * * *" script-path=https://raw.githubusercontent.com/your_username/your_repo/main/bnmdhg.js, tag=巴奴毛肚火锅签到
+*/
+
 const $ = new Env('巴奴毛肚火锅');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const Notify = 1; //0为关闭通知，1为打开通知,默认为1
@@ -42,7 +67,7 @@ const host = 'cloud.banu.cn';
 
 !(async () => {
     if (typeof $request !== "undefined") {
-        await GetRewrite();
+        GetRewrite();
     } else {
         if (!(await Envs()))
             return;
@@ -71,21 +96,22 @@ const host = 'cloud.banu.cn';
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
 
-async function GetRewrite() {
-    if ($request.url.indexOf("frequent-store") > -1) {
+function GetRewrite() {
+    if ($request && $request.url.indexOf("frequent-store") > -1) {
         const ck = $request.url.match(/member_id=([^&]+)/)[1];
         if (bnmdhgCookie) {
             if (bnmdhgCookie.indexOf(ck) == -1) {
-                bnmdhgCookie = bnmdhgCookie + "@" + ck;
+                bnmdhgCookie = bnmdhgCookie + "&" + ck;
                 $.setdata(bnmdhgCookie, "bnmdhgCookie");
-                let List = bnmdhgCookie.split("@");
-                $.msg(`【${$.name}】` + ` 获取第${List.length}个 ck 成功: ${ck} ,不用请自行关闭重写!`);
+                let List = bnmdhgCookie.split("&");
+                $.msg(`【${$.name}】`, ``, `获取第${List.length}个 ck 成功: ${ck}`);
             }
         } else {
             $.setdata(ck, "bnmdhgCookie");
-            $.msg(`【${$.name}】` + ` 获取第1个 ck 成功: ${ck} ,不用请自行关闭重写!`);
+            $.msg(`【${$.name}】`, ``, `获取第1个 ck 成功: ${ck}`);
         }
     }
+    $.done();
 }
 
 async function getUserInfo() {
