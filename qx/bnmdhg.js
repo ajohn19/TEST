@@ -20,7 +20,7 @@
 4. 填入变量 bnmdhg_data 中，多账号用 & 分隔
 
 [rewrite_local]
-^https:\/\/cloud\.banu\.cn\/api\/city\/frequent-store url script-request-header https://raw.githubusercontent.com/your_username/your_repo/main/bnmdhg.js
+^https:\/\/cloud\.banu\.cn\/api\/city\/frequent-store url script-request-header https://raw.githubusercontent.com/ajohn19/TEST/refs/heads/main/qx/bnmdhg.js
 
 [MITM]
 hostname = cloud.banu.cn
