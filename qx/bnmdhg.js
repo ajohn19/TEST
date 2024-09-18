@@ -18,6 +18,11 @@
 2. 登录账号
 3. 抓取 cloud.banu.cn 域名下的 member_id 字段
 4. 填入变量 bnmdhgCookie 中，多账号用 & 分隔
+[rewrite_local]
+^https:\/\/cloud\.banu\.cn\/api\/city\/frequent-store url script-request-header https://raw.githubusercontent.com/your_username/your_repo/main/bnmdhg.js
+
+[MITM]
+hostname = cloud.banu.cn
 
 cron: 15 10,15 * * *
 
