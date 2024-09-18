@@ -3,23 +3,23 @@
     "description": "如有侵权请联系@PMLevibot删除。tg机器人：https://t.me/PMLevibot",
     "task": [
         {
-            "config": "16 12 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/d8263ee9860594d2806b0dfd1bfd17528b0ba2a4/3.js, tag=3, enabled=false"
+            "config": "52 21 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/d8263ee9860594d2806b0dfd1bfd17528b0ba2a4/3.js, tag=3, enabled=false"
         },
         {
-            "config": "47 23 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/9d607966b721abde8931ddd052181fae905db503/5.js, tag=5, enabled=false"
+            "config": "55 3 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/9d607966b721abde8931ddd052181fae905db503/5.js, tag=5, enabled=false"
         },
         {
-            "config": "40 20 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/999e14246637eb29c65ff12f7275edba4708c62d/7.js, tag=7, enabled=false",
+            "config": "45 18 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/999e14246637eb29c65ff12f7275edba4708c62d/7.js, tag=7, enabled=false",
             "addons": "https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/e77a96349c09f79b6c061a73e03ad91346a0a196/7%E8%8E%B7%E5%8F%96ck.conf, tag=7获取ck"
         },
         {
-            "config": "37 23 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/9d07aa0df55c353e18eea6f1b401946b5dad7bce/AdBlock.js, tag=AdBlock, enabled=false"
+            "config": "20 11 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/9d07aa0df55c353e18eea6f1b401946b5dad7bce/AdBlock.js, tag=AdBlock, enabled=false"
         },
         {
-            "config": "43 7 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/d1d06ad36a5841e8c06a90bd29707290d979cc2b/Apple.js, tag=Apple, enabled=false"
+            "config": "33 4 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/d1d06ad36a5841e8c06a90bd29707290d979cc2b/Apple.js, tag=Apple, enabled=false"
         },
         {
-            "config": "14 23 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/9d607966b721abde8931ddd052181fae905db503/duleisi.js, tag=duleisi, enabled=false"
+            "config": "52 17 * * * https://gist.githubusercontent.com/ajohn19/1cbfb85083f5df92f534a3bf931aa548/raw/9d607966b721abde8931ddd052181fae905db503/duleisi.js, tag=duleisi, enabled=false"
         }
     ]
 }
